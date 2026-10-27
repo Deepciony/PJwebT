@@ -1,5 +1,57 @@
 import { useQuery } from '@tanstack/react-query';
-import { InfoChip, PageHeader, Panel, Section, StatBox } from '../components/ui';
+import { useState } from 'react';
+import project from 'virtual:project-files';
+import { Input, InfoChip, PageHeader, Panel, Section, StatBox } from '../components/ui';
+import { dateTimeTh } from '../lib/format';
+
+// Every file in the repo and what it is for, read from the files themselves at build / dev time.
+function ProjectFiles() {
+  const [q, setQ] = useState('');
+  const files = project.files.filter((f) => !q || `${f.path} ${f.about}`.toLowerCase().includes(q.toLowerCase()));
+  const groups = new Map<string, typeof files>();
+  for (const f of files) {
+    const parts = f.path.split('/');
+    const folder = parts.length > 1 ? parts.slice(0, -1).join('/') + '/' : '(โฟลเดอร์หลัก)';
+    groups.set(folder, [...(groups.get(folder) ?? []), f]);
+  }
+  const lines = project.files.reduce((n, f) => n + f.lines, 0);
+  return (
+    <div className="space-y-4">
+      <div className="flex flex-wrap items-end gap-3">
+        <StatBox label="ไฟล์" value={project.files.length} unit="ไฟล์" />
+        <StatBox label="โค้ดและข้อความ" value={lines.toLocaleString('th-TH')} unit="บรรทัด" />
+        <StatBox label="โฟลเดอร์" value={new Set(project.files.map((f) => f.path.split('/').slice(0, -1).join('/'))).size} unit="โฟลเดอร์" />
+        <div className="w-full sm:ml-auto sm:w-72">
+          <Input type="search" placeholder="ค้นหาไฟล์หรือคำอธิบาย" value={q} onChange={(e) => setQ(e.target.value)} aria-label="ค้นหาไฟล์" />
+        </div>
+      </div>
+      <p className="text-sm text-muted">อ่านจากไฟล์จริงล่าสุดเมื่อ {dateTimeTh(project.generatedAt)} · คำอธิบายมาจาก comment บรรทัดแรกของแต่ละไฟล์</p>
+      <div className="space-y-2">
+        {[...groups].map(([folder, list]) => (
+          <details key={folder} open={Boolean(q)} className="group rounded-xl border-2 border-line bg-surface">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-2.5 font-mono text-sm font-semibold">
+              <span>📁 {folder}</span>
+              <span className="text-xs font-normal text-muted">
+                {list.length} ไฟล์ <span className="inline-block transition group-open:rotate-90">›</span>
+              </span>
+            </summary>
+            <table className="w-full text-sm">
+              <tbody>
+                {list.map((f) => (
+                  <tr key={f.path} className="border-t border-line/50 align-top">
+                    <td className="w-64 px-4 py-1.5 font-mono font-semibold break-all">{f.path.split('/').pop() || f.path}</td>
+                    <td className="px-2 py-1.5 text-muted">{f.about || '-'}</td>
+                    <td className="num px-4 py-1.5 text-right whitespace-nowrap text-muted">{f.lines ? `${f.lines} บรรทัด` : ''}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </details>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 // What SportHub is built with and how it works, for the presentation and anyone curious.
 // Endpoint counts are read live from /openapi.json; the schema below mirrors apps/api/db/migrations.
@@ -425,6 +477,7 @@ export default function About() {
     ['#tables', 'ตารางทั้งหมด'],
     ['#how', 'ระบบทำงานยังไง'],
     ['#files', 'โครงสร้างไฟล์'],
+    ['#allfiles', 'ไฟล์ทั้งหมด'],
     ['#api', 'API'],
   ];
 
@@ -575,6 +628,10 @@ export default function About() {
 
       <Section id="files" kicker="Project" title="โครงสร้างไฟล์" sub="โฟลเดอร์สำคัญในโปรเจกต์">
         <pre className="overflow-x-auto rounded-xl border-2 border-line bg-sunken p-5 font-mono text-sm leading-7">{tree}</pre>
+      </Section>
+
+      <Section id="allfiles" kicker="Files" title="ไฟล์ทั้งหมดในโปรเจกต์" sub="ทุกไฟล์ใน repo แยกตามโฟลเดอร์ บอกว่าแต่ละไฟล์ใช้ทำอะไร อัปเดตตามไฟล์จริงทุกครั้งที่รันหรือ build เว็บ">
+        <ProjectFiles />
       </Section>
 
       <Section id="api" kicker="API" title="REST API" sub="นับจากเอกสาร OpenAPI ของเซิร์ฟเวอร์ตอนนี้ แต่ละ endpoint มีคำอธิบาย parameter ผลลัพธ์ และตัวอย่างการเรียกจริง">
