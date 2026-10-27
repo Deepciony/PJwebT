@@ -56,7 +56,7 @@ function Clock() {
 
 function greeting() {
   const h = Number(new Intl.DateTimeFormat('en-GB', { hour: 'numeric', hourCycle: 'h23', timeZone: 'Asia/Bangkok' }).format(new Date()));
-  return h < 5 || h >= 18 ? '☾ สวัสดีตอนค่ำ' : h < 12 ? '☀ สวัสดีตอนเช้า' : '☀ สวัสดีตอนบ่าย';
+  return h < 5 || h >= 18 ? '☾ สวัสดีตอนเย็น : ' : h < 12 ? '☀ สวัสดีตอนเช้า : ' : '☀ สวัสดีตอนบ่าย : ';
 }
 
 function Icon({ className = '', children }: { className?: string; children: ReactNode }) {
@@ -167,7 +167,7 @@ export function Layout() {
             </Link>
             <div className="min-w-0 shrink-0 leading-tight">
               <Link to="/" className="font-display text-xl font-extrabold tracking-wide uppercase">
-                SportHub
+                Arena Hub
               </Link>
               <p className="truncate text-xs text-muted">
                 {greeting()}
