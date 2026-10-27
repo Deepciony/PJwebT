@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
+import { projectFiles } from './project-files';
 
 // The API listens on PORT from the repo .env (default 3000); follow it so both can move off a busy port.
 const envFile = new URL('../../.env', import.meta.url);
@@ -12,7 +13,7 @@ const apiPort = process.env.PORT ?? (existsSync(envFile) ? readFileSync(envFile,
 const api = { target: `http://127.0.0.1:${apiPort}`, changeOrigin: false };
 
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [react(), tailwindcss(), projectFiles()],
   server: {
     port: 5173,
     proxy: { '/api': api, '/uploads': api, '/docs': api, '/openapi.json': api },

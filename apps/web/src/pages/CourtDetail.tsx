@@ -140,8 +140,9 @@ export default function CourtDetail() {
 
   return (
     <div className="space-y-5">
-      <Link to="/courts" className="text-sm text-muted hover:text-ink">
-        ← สนามทั้งหมด
+      <Link to="/courts" className="group inline-flex items-center gap-2 rounded-full border-2 border-line bg-sunken py-1 pr-4 pl-1 text-sm font-semibold transition hover:-translate-y-0.5 hover:border-line-hi">
+        <span className="grid size-6 place-items-center rounded-full bg-violet text-white transition group-hover:-translate-x-0.5" aria-hidden>←</span>
+        สนามทั้งหมด
       </Link>
       <PageHeader title={c.name} sub={`${c.sportIcon} ${c.sportName} · เลือกวันและเวลาที่แผงด้านขวา แล้วกดช่องสีเขียวเพื่อเพิ่มลงตะกร้า`}>
         {me?.role === 'admin' && <LinkButton to={`/admin/catalog?edit=court-${c.id}`}>แก้ไขสนาม</LinkButton>}

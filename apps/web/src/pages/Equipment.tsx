@@ -99,8 +99,9 @@ export function EquipmentDetail() {
 
   return (
     <div className="space-y-5">
-      <Link to="/equipment" className="text-sm text-muted hover:text-ink">
-        ← อุปกรณ์ทั้งหมด
+      <Link to="/equipment" className="group inline-flex items-center gap-2 rounded-full border-2 border-line bg-sunken py-1 pr-4 pl-1 text-sm font-semibold transition hover:-translate-y-0.5 hover:border-line-hi">
+        <span className="grid size-6 place-items-center rounded-full bg-violet text-white transition group-hover:-translate-x-0.5" aria-hidden>←</span>
+        อุปกรณ์ทั้งหมด
       </Link>
       <PageHeader title={e.name} sub={`${e.sportIcon} ${e.sportName} · เลือกวัน เวลา และจำนวนที่แผงด้านขวา`} />
     <div className="grid grid-cols-[minmax(0,1fr)] gap-6 lg:grid-cols-[minmax(0,1fr)_24rem]">

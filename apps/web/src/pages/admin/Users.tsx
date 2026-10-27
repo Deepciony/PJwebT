@@ -191,7 +191,8 @@ export function UserDetail() {
   const u = user.data;
   return (
     <div className="space-y-5">
-      <Link to="/admin/users" className="text-sm text-muted hover:text-ink">
+      <Link to="/admin/users" className="group inline-flex items-center gap-2 rounded-full border-2 border-line bg-sunken py-1 pr-4 pl-1 text-sm font-semibold transition hover:-translate-y-0.5 hover:border-line-hi">
+        <span className="grid size-6 place-items-center rounded-full bg-violet text-white transition group-hover:-translate-x-0.5" aria-hidden>←</span>
         สมาชิกทั้งหมด
       </Link>
       <Panel className="flex flex-wrap items-center gap-5 p-5">
