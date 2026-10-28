@@ -138,7 +138,7 @@ if (existsSync(join(env.webDist, 'index.html'))) {
   );
   // client-side routes (/courts/3, /admin, ...) all boot the same index.html
   app.use((req, res, next) => {
-    if (req.method !== 'GET' || req.path.startsWith('/uploads/') || !req.accepts('html')) return next();
+    if ((req.method !== 'GET' && req.method !== 'HEAD') || req.path.startsWith('/uploads/') || !req.accepts('html')) return next();
     res.set('Cache-Control', 'no-cache').sendFile('index.html', { root: env.webDist });
   });
 }
