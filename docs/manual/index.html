@@ -3,141 +3,156 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>คู่มือการใช้งาน SportHub</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600&family=Chakra+Petch:wght@500;600;700&display=swap" rel="stylesheet" />
+    <title>คู่มือการใช้งาน Arena Hub</title>
     <style>
-      /* แก้ชื่อ-รหัสนิสิตในตารางหน้าปก แล้วสั่งพิมพ์ (Ctrl+P, ขนาด A4, เปิด "Background graphics") */
+      /* รูปแบบรายงาน: A4 ขอบบน/ซ้าย 1.5 นิ้ว ขวา/ล่าง 1 นิ้ว ฟอนต์ Sarabun เลขหน้ามุมขวาบน (ไม่แสดงที่หน้าปก)
+         สร้าง PDF ด้วยสคริปต์ pdf (เติมเลขหน้าในสารบัญ) หรือพิมพ์เอง Ctrl+P ขนาด A4 */
       @page {
         size: A4;
-        margin: 16mm 15mm 18mm;
-        @bottom-center {
-          content: counter(page) " / " counter(pages);
-          font: 8pt sans-serif;
-          color: #5b6b63;
+        margin: 38mm 25mm 25mm 38mm;
+        @top-right {
+          content: counter(page);
+          font: 16pt "Angsana New", serif;
+          vertical-align: bottom;
+          padding-bottom: 10mm;
         }
       }
       @page :first {
-        @bottom-center {
+        margin: 38mm 25mm 25mm;
+        @top-right {
           content: none;
         }
       }
       :root {
-        --ink: #13291f;
-        --muted: #5b6b63;
-        --line: #d3dcd4;
-        --turf: #1e7b4b;
-        --mark: #f5c518;
-        --sunken: #eef2ec;
+        --ink: #000;
+        --muted: #333;
+        --rule: #000;
+        --soft: #f0f0f0;
       }
       * {
         box-sizing: border-box;
       }
       body {
         margin: 0 auto;
-        max-width: 180mm;
-        padding: 0 16px;
+        max-width: 147mm;
         color: var(--ink);
         background: #fff;
-        font: 11pt/1.65 "Anuphan", "Leelawadee UI", sans-serif;
+        font: 16pt/normal "Angsana New", "AngsanaUPC", serif;
       }
       h1,
       h2,
       h3 {
-        font-family: "Chakra Petch", "Anuphan", sans-serif;
+        font-weight: 700;
         /* Thai tone marks sit above the line box; tighter leading lets them spill onto the previous printed page */
-        line-height: 1.55;
+        line-height: normal;
       }
       h2 {
         break-before: page;
+        padding-top: 1.5mm;
         font-size: 20pt;
-        margin: 0 0 6mm;
-        padding-bottom: 2mm;
-        border-bottom: 3px solid var(--mark);
+        text-align: center;
+        margin: 0 0 8mm;
       }
       h3 {
-        font-size: 13.5pt;
-        margin: 7mm 0 2mm;
+        font-size: 18pt;
+        padding-top: 1.5mm;
+        margin: 6mm 0 2mm;
         break-after: avoid;
       }
       p,
       li {
         margin: 0 0 2mm;
       }
+      body > p {
+        text-indent: 12.5mm;
+      }
       ol,
       ul {
-        padding-left: 6mm;
+        padding-left: 8mm;
       }
       code {
-        font-size: 9pt;
-        background: var(--sunken);
-        padding: 0.5px 4px;
-        border-radius: 3px;
+        font: 1em "Angsana New", serif;
+        background: var(--soft);
+        padding: 0 3px;
       }
       pre {
-        background: var(--sunken);
+        border: 1px solid #999;
         padding: 3mm 4mm;
-        border-radius: 6px;
-        font-size: 8.5pt;
+        font-size: 14pt;
         white-space: pre-wrap;
         break-inside: avoid;
       }
       pre code {
         background: none;
         padding: 0;
+        font-size: 14pt;
       }
       figure {
-        margin: 3mm 0 5mm;
+        margin: 4mm 0 5mm;
         break-inside: avoid;
       }
       figure img {
+        display: block;
         width: 100%;
-        border: 1px solid var(--line);
-        border-radius: 6px;
-      }
-      body {
-        counter-reset: fig;
-      }
-      figure {
-        counter-increment: fig;
-      }
-      figcaption::before {
-        content: "รูปที่ " counter(fig) " ";
+        border: 1px solid #999;
       }
       figcaption {
-        font-size: 9pt;
-        color: var(--muted);
-        margin-top: 1mm;
+        font-size: 16pt;
+        text-align: center;
+        margin-top: 2mm;
+      }
+      .tcap {
+        text-indent: 0;
+        margin: 4mm 0 1mm;
+        break-after: avoid;
+      }
+      h2.chapter span {
+        display: block;
+      }
+      .signed {
+        text-indent: 0;
+      }
+      .refs p {
+        text-indent: -12.5mm;
+        padding-left: 12.5mm;
+        margin-bottom: 3mm;
+        overflow-wrap: anywhere;
       }
       table {
         width: 100%;
         border-collapse: collapse;
-        font-size: 9.5pt;
+        font-size: 14pt;
         margin: 2mm 0 5mm;
       }
       th,
       td {
-        border-bottom: 1px solid var(--line);
-        padding: 1.6mm 2mm;
+        border: 1px solid var(--rule);
+        padding: 1.2mm 2mm;
         text-align: left;
         vertical-align: top;
       }
       th {
-        background: var(--sunken);
-        font-weight: 600;
+        background: var(--soft);
+        font-weight: 700;
+        text-align: center;
       }
       tr {
         break-inside: avoid;
       }
       td.m {
-        font-family: "Chakra Petch", sans-serif;
-        font-weight: 600;
+        font-weight: 700;
         white-space: nowrap;
       }
+      /* the endpoint list: paths wrap at their slashes (<wbr>) */
+      table.endpoints {
+        font-size: 14pt;
+      }
+      table.endpoints code {
+        font-size: 14pt;
+        overflow-wrap: anywhere;
+      }
       .note {
-        border-left: 4px solid var(--turf);
-        background: #f3f8f4;
+        border: 1px solid var(--rule);
         padding: 2.5mm 4mm;
         margin: 3mm 0;
         break-inside: avoid;
@@ -145,68 +160,91 @@
 
       /* cover */
       .cover {
-        height: 255mm;
+        height: 234mm;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        padding-top: 20mm;
-      }
-      .cover .brand {
-        display: flex;
         align-items: center;
-        gap: 4mm;
-        font: 700 26pt "Chakra Petch", sans-serif;
+        text-align: center;
+      }
+      .cover p {
+        margin: 0;
+        text-indent: 0;
+      }
+      .cover .emblem {
+        width: 38mm;
+        height: auto;
       }
       .cover h1 {
-        font-size: 30pt;
-        margin: 12mm 0 3mm;
+        font-size: 20pt;
+        margin: 8mm 0 0;
       }
-      .cover .sub {
-        font-size: 15pt;
-        color: var(--muted);
-        margin: 0;
+      .cover .block {
+        font-size: 18pt;
+        font-weight: 700;
       }
-      .cover .court {
-        height: 60mm;
-        margin: 10mm 0;
-        border-radius: 10px;
-        background: var(--turf);
-        position: relative;
-        overflow: hidden;
+      .cover .label {
+        font-weight: 700;
+        margin-bottom: 2mm;
       }
-      .cover .court svg {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
+      .cover table.members {
+        width: auto;
+        margin: 0 auto;
+        font-size: 18pt;
       }
-      .cover table td {
-        height: 11mm;
-        vertical-align: bottom;
-      }
-      .fill {
-        color: var(--muted);
+      .cover table.members td {
+        border: 0;
+        padding: 0 5mm;
       }
 
-      /* table of contents */
-      .toc {
-        list-style: none;
-        padding: 0;
-        font-size: 12pt;
+      /* preface */
+      .signed {
+        text-align: right;
+        margin-top: 10mm;
       }
-      .toc li {
-        padding: 1.5mm 0;
-        border-bottom: 1px dotted var(--line);
-      }
+
+      /* table of contents: page numbers are written by the PDF script */
+      .toc,
       .toc ol {
         list-style: none;
-        padding-left: 8mm;
-        font-size: 10.5pt;
-        color: var(--muted);
+        padding: 0;
+        margin: 0;
       }
-      .toc ol li {
-        border: 0;
-        padding: 0.6mm 0;
+      .toc .head {
+        display: flex;
+        justify-content: flex-end;
+        font-weight: 700;
+        margin-bottom: 2mm;
+      }
+      .toc li {
+        margin: 0;
+      }
+      .toc li > a {
+        display: flex;
+        gap: 2mm;
+        color: inherit;
+        text-decoration: none;
+        padding: 0.2mm 0;
+        line-height: 1.15;
+      }
+      .toc li > a::after {
+        content: "";
+        order: 1;
+        flex: 1;
+        border-bottom: 1.5px dotted #000;
+        margin-bottom: 2.2mm;
+      }
+      .toc .pg {
+        order: 2;
+        min-width: 8mm;
+        text-align: right;
+      }
+      .toc > li > a {
+        font-weight: 700;
+        margin-top: 1.2mm;
+      }
+      .toc ol {
+        padding-left: 8mm;
       }
 
       .arch {
@@ -215,41 +253,39 @@
         align-items: center;
         gap: 2mm;
         margin: 4mm 0;
-        font-size: 9.5pt;
+        font-size: 14pt;
         break-inside: avoid;
       }
       .arch div.box {
         border: 1.5px solid var(--ink);
-        border-radius: 8px;
         padding: 3mm;
         text-align: center;
       }
       .arch b {
         display: block;
-        font-family: "Chakra Petch", sans-serif;
-        font-size: 11pt;
+        font-size: 16pt;
       }
       .arch span.arrow {
         text-align: center;
         color: var(--muted);
-        font-size: 8.5pt;
+        font-size: 13pt;
       }
       .flow {
         display: flex;
         flex-wrap: wrap;
         gap: 2mm;
         align-items: center;
-        font-size: 9.5pt;
+        font-size: 14pt;
         margin: 3mm 0;
       }
       .flow span.s {
-        border: 1.5px solid var(--turf);
+        border: 1.5px solid var(--ink);
         border-radius: 999px;
-        padding: 1mm 3mm;
+        padding: 0.5mm 3mm;
       }
       @media screen {
         body {
-          padding-bottom: 40px;
+          padding: 0 16px 40px;
         }
         h2 {
           margin-top: 18mm;
@@ -260,102 +296,166 @@
   <body>
     <section class="cover">
       <div>
-        <div class="brand">
-          <svg viewBox="0 0 32 32" width="56" height="56" aria-hidden="true">
-            <rect width="32" height="32" rx="7" fill="#1e7b4b" />
-            <rect x="6" y="8" width="20" height="16" fill="none" stroke="#fff" stroke-width="2" />
-            <path d="M16 8v16" stroke="#f5c518" stroke-width="2" />
-          </svg>
-          SportHub
-        </div>
-        <h1>ระบบจองสนามกีฬาและยืมอุปกรณ์ออนไลน์</h1>
-        <p class="sub">คู่มือการใช้งานระบบ</p>
-        <div class="court" aria-hidden="true">
-          <svg viewBox="0 0 300 100" preserveAspectRatio="none">
-            <g fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="1.5">
-              <rect x="10" y="8" width="280" height="84" />
-              <path d="M150 8v84M10 30h40v40H10M290 30h-40v40h40" />
-              <circle cx="150" cy="50" r="16" />
-            </g>
-            <path d="M150 4v92" stroke="#f5c518" stroke-width="2.5" />
-          </svg>
-        </div>
+        <img class="emblem" src="img/ku-logo.png" alt="ตรามหาวิทยาลัยเกษตรศาสตร์" />
+        <h1>คู่มือการใช้งานระบบ<br />ระบบจองสนามกีฬาและยืมอุปกรณ์ออนไลน์<br />Arena Hub</h1>
       </div>
-      <div>
-        <p><b>รายวิชา</b> <span class="fill">....................................................................................</span></p>
-        <table>
-          <thead>
-            <tr>
-              <th style="width: 12%">ลำดับ</th>
-              <th>ชื่อ-นามสกุล</th>
-              <th style="width: 30%">รหัสนิสิต</th>
-            </tr>
-          </thead>
+      <div class="block">
+        <p class="label">จัดทำโดย</p>
+        <table class="members">
           <tbody>
-            <tr><td>1</td><td></td><td></td></tr>
-            <tr><td>2</td><td></td><td></td></tr>
-            <tr><td>3</td><td></td><td></td></tr>
-            <tr><td>4</td><td></td><td></td></tr>
+            <tr><td>นายกิตติศักดิ์ เผ่าพันธุ์</td><td>รหัสนิสิต 6730200430</td></tr>
+            <tr><td>นายเชษฐา ฐานะวัน</td><td>รหัสนิสิต 6730200472</td></tr>
+            <tr><td>นายวีรวัฒน์ บุญหว่าน</td><td>รหัสนิสิต 6730200332</td></tr>
+            <tr><td>นายวรัญญู คำบุตร</td><td>รหัสนิสิต 6730200715</td></tr>
           </tbody>
         </table>
-        <p><b>ภาคเรียน/ปีการศึกษา</b> <span class="fill">..............................................</span></p>
+      </div>
+      <div class="block">
+        <p class="label">เสนอ</p>
+        <p>อาจารย์โรจฤทธิ์ สว่างแจ้ง</p>
+      </div>
+      <div class="block">
+        <p>รายงานนี้เป็นส่วนหนึ่งของรายวิชา</p>
+        <p>Web Technology and Web Services</p>
+        <p>ภาคเรียนที่ 1 ปีการศึกษา 2569</p>
+        <p>มหาวิทยาลัยเกษตรศาสตร์ วิทยาเขตศรีราชา</p>
       </div>
     </section>
 
+    <h2 id="preface">คำนำ</h2>
+    <p>คู่มือฉบับนี้เป็นส่วนหนึ่งของรายวิชา Web Technology and Web Services ภาคเรียนที่ 1 ปีการศึกษา 2569 จัดทำขึ้นเพื่ออธิบายการใช้งานระบบ Arena Hub ระบบจองสนามกีฬาและยืมอุปกรณ์ออนไลน์ที่คณะผู้จัดทำพัฒนาขึ้นตามข้อกำหนดของโครงงาน ระบบประกอบด้วยหน้าเว็บที่ติดต่อกับเซิร์ฟเวอร์ผ่าน REST API เซิร์ฟเวอร์ที่พัฒนาด้วย Node.js และ Express.js ฐานข้อมูล PostgreSQL และเอกสาร API แบบออนไลน์</p>
+    <p>เนื้อหาในคู่มือครอบคลุมภาพรวมของระบบ วิธีเริ่มต้นใช้งาน ขั้นตอนการใช้งานสำหรับสมาชิกและผู้ดูแลระบบ กฎการทำงานของระบบ เอกสาร API รวมถึงวิธีติดตั้งและทดสอบระบบ พร้อมภาพหน้าจอประกอบทุกขั้นตอน</p>
+    <p>คณะผู้จัดทำหวังว่าคู่มือฉบับนี้จะเป็นประโยชน์แก่ผู้อ่าน หากมีข้อผิดพลาดประการใด คณะผู้จัดทำขออภัยมา ณ ที่นี้</p>
+    <p class="signed">คณะผู้จัดทำ</p>
+
     <h2>สารบัญ</h2>
     <ol class="toc">
-      <li>1. ภาพรวมระบบ</li>
-      <li>2. เริ่มต้นใช้งาน</li>
-      <li>
-        3. คู่มือสำหรับสมาชิก
+      <li class="head">หน้า</li>
+      <li class="front"><a href="#preface"><span>คำนำ</span><span class="pg"></span></a></li>
+      <li class="front"><a href="#lot"><span>สารบัญตาราง</span><span class="pg"></span></a></li>
+      <li class="front"><a href="#lof"><span>สารบัญรูป</span><span class="pg"></span></a></li>
+      <li><a href="#s1"><span>บทที่ 1 ภาพรวมระบบ</span><span class="pg"></span></a>
         <ol>
-          <li>3.1 สมัครสมาชิกและเข้าสู่ระบบ</li>
-          <li>3.2 ดูตารางสนามว่างและเลือกเวลา</li>
-          <li>3.3 ยืมอุปกรณ์</li>
-          <li>3.4 ตะกร้าและการยืนยันการจอง</li>
-          <li>3.5 ชำระเงินด้วย PromptPay และแนบสลิป</li>
-          <li>3.6 ตั๋วเช็คอินและกล่องข้อความ</li>
-          <li>3.7 ประวัติการจองและการยกเลิก</li>
-          <li>3.8 รีวิวสนาม</li>
-          <li>3.9 แก้ไขข้อมูลส่วนตัวและรูปโปรไฟล์</li>
+          <li><a href="#s1-1"><span>1.1 ผู้ใช้งาน</span><span class="pg"></span></a></li>
+          <li><a href="#s1-2"><span>1.2 ความครบถ้วนตามข้อกำหนดของโครงงาน</span><span class="pg"></span></a></li>
+          <li><a href="#s1-3"><span>1.3 ความสามารถเพิ่มเติม</span><span class="pg"></span></a></li>
+          <li><a href="#s1-4"><span>1.4 สถาปัตยกรรมและเทคโนโลยี</span><span class="pg"></span></a></li>
         </ol>
       </li>
-      <li>
-        4. คู่มือสำหรับผู้ดูแลระบบ
+      <li><a href="#s2"><span>บทที่ 2 เริ่มต้นใช้งาน</span><span class="pg"></span></a>
         <ol>
-          <li>4.1 ภาพรวมและสถิติ</li>
-          <li>4.2 ตรวจสลิป</li>
-          <li>4.3 เช็คอินหน้าสนามและรับคืนอุปกรณ์</li>
-          <li>4.4 การจองทั้งหมด</li>
-          <li>4.5 จัดการข้อมูล: สนาม อุปกรณ์ ประเภทกีฬา และรีวิว</li>
-          <li>4.6 คูปองส่วนลด</li>
-          <li>4.7 จัดการสมาชิก</li>
-          <li>4.8 อีเมลของระบบ</li>
-          <li>4.9 ระบบหลังบ้านและค่าตั้งระบบ</li>
-          <li>4.10 API ในหน้าผู้ดูแลระบบ</li>
-          <li>4.11 ข้อมูลระบบ</li>
+          <li><a href="#s2-1"><span>2.1 บัญชีทดลอง</span><span class="pg"></span></a></li>
+          <li><a href="#s2-2"><span>2.2 ขั้นตอนของการจอง</span><span class="pg"></span></a></li>
         </ol>
       </li>
-      <li>5. กฎการทำงานของระบบ</li>
-      <li>6. API Document</li>
-      <li>7. การติดตั้งและทดสอบระบบ</li>
+      <li><a href="#s3"><span>บทที่ 3 คู่มือสำหรับสมาชิก</span><span class="pg"></span></a>
+        <ol>
+          <li><a href="#s3-1"><span>3.1 สมัครสมาชิกและเข้าสู่ระบบ</span><span class="pg"></span></a></li>
+          <li><a href="#s3-2"><span>3.2 ดูตารางสนามว่างและเลือกเวลา</span><span class="pg"></span></a></li>
+          <li><a href="#s3-3"><span>3.3 ยืมอุปกรณ์</span><span class="pg"></span></a></li>
+          <li><a href="#s3-4"><span>3.4 ตะกร้าและการยืนยันการจอง</span><span class="pg"></span></a></li>
+          <li><a href="#s3-5"><span>3.5 ชำระเงินด้วย PromptPay และแนบสลิป</span><span class="pg"></span></a></li>
+          <li><a href="#s3-6"><span>3.6 ตั๋วเช็คอินและกล่องข้อความ</span><span class="pg"></span></a></li>
+          <li><a href="#s3-7"><span>3.7 ประวัติการจองและการยกเลิก</span><span class="pg"></span></a></li>
+          <li><a href="#s3-8"><span>3.8 รีวิวสนาม</span><span class="pg"></span></a></li>
+          <li><a href="#s3-9"><span>3.9 แก้ไขข้อมูลส่วนตัวและรูปโปรไฟล์</span><span class="pg"></span></a></li>
+        </ol>
+      </li>
+      <li><a href="#s4"><span>บทที่ 4 คู่มือสำหรับผู้ดูแลระบบ</span><span class="pg"></span></a>
+        <ol>
+          <li><a href="#s4-1"><span>4.1 ภาพรวมและสถิติ</span><span class="pg"></span></a></li>
+          <li><a href="#s4-2"><span>4.2 ตรวจสลิป</span><span class="pg"></span></a></li>
+          <li><a href="#s4-3"><span>4.3 เช็คอินหน้าสนามและรับคืนอุปกรณ์</span><span class="pg"></span></a></li>
+          <li><a href="#s4-4"><span>4.4 การจองทั้งหมด</span><span class="pg"></span></a></li>
+          <li><a href="#s4-5"><span>4.5 จัดการข้อมูล: สนาม อุปกรณ์ ประเภทกีฬา และรีวิว</span><span class="pg"></span></a></li>
+          <li><a href="#s4-6"><span>4.6 คูปองส่วนลด</span><span class="pg"></span></a></li>
+          <li><a href="#s4-7"><span>4.7 จัดการสมาชิก</span><span class="pg"></span></a></li>
+          <li><a href="#s4-8"><span>4.8 อีเมลของระบบ</span><span class="pg"></span></a></li>
+          <li><a href="#s4-9"><span>4.9 ระบบหลังบ้านและค่าตั้งระบบ</span><span class="pg"></span></a></li>
+          <li><a href="#s4-10"><span>4.10 API ในหน้าผู้ดูแลระบบ</span><span class="pg"></span></a></li>
+          <li><a href="#s4-11"><span>4.11 ข้อมูลระบบ</span><span class="pg"></span></a></li>
+        </ol>
+      </li>
+      <li><a href="#s5"><span>บทที่ 5 กฎการทำงานของระบบ</span><span class="pg"></span></a></li>
+      <li><a href="#s6"><span>บทที่ 6 API Document</span><span class="pg"></span></a>
+        <ol>
+          <li><a href="#s6-1"><span>6.1 ตัวอย่างการเรียกใช้</span><span class="pg"></span></a></li>
+          <li><a href="#s6-2"><span>6.2 รายการ endpoint ทั้งหมด</span><span class="pg"></span></a></li>
+        </ol>
+      </li>
+      <li><a href="#s7"><span>บทที่ 7 การติดตั้งและทดสอบระบบ</span><span class="pg"></span></a>
+        <ol>
+          <li><a href="#s7-1"><span>7.1 สิ่งที่ต้องมี</span><span class="pg"></span></a></li>
+          <li><a href="#s7-2"><span>7.2 ติดตั้งและรัน</span><span class="pg"></span></a></li>
+          <li><a href="#s7-3"><span>7.3 ทดสอบ</span><span class="pg"></span></a></li>
+          <li><a href="#s7-4"><span>7.4 Production</span><span class="pg"></span></a></li>
+        </ol>
+      </li>
+      <li class="front"><a href="#refs"><span>บรรณานุกรม</span><span class="pg"></span></a></li>
     </ol>
 
-    <h2>1. ภาพรวมระบบ</h2>
+    <h2 id="lot">สารบัญตาราง</h2>
+    <ol class="toc list">
+      <li class="head">หน้า</li>
+      <li><a href="#t1-1"><span>ตารางที่ 1.1 การเทียบข้อกำหนดของโครงงานกับความสามารถของระบบ</span><span class="pg"></span></a></li>
+      <li><a href="#t2-1"><span>ตารางที่ 2.1 ที่อยู่ของส่วนต่างๆ ของระบบ</span><span class="pg"></span></a></li>
+      <li><a href="#t2-2"><span>ตารางที่ 2.2 บัญชีทดลองสำหรับเข้าสู่ระบบ</span><span class="pg"></span></a></li>
+      <li><a href="#t5-1"><span>ตารางที่ 5.1 กฎการทำงานของระบบ</span><span class="pg"></span></a></li>
+      <li><a href="#t6-1"><span>ตารางที่ 6.1 รายการ endpoint ทั้งหมดของ REST API</span><span class="pg"></span></a></li>
+    </ol>
+
+    <h2 id="lof">สารบัญรูป</h2>
+    <ol class="toc list">
+      <li class="head">หน้า</li>
+      <li><a href="#f3-1"><span>รูปที่ 3.1 หน้าสมัครสมาชิก</span><span class="pg"></span></a></li>
+      <li><a href="#f3-2"><span>รูปที่ 3.2 หน้าแรกแนะนำระบบ</span><span class="pg"></span></a></li>
+      <li><a href="#f3-3"><span>รูปที่ 3.3 ตารางสนามว่างของทุกสนาม</span><span class="pg"></span></a></li>
+      <li><a href="#f3-4"><span>รูปที่ 3.4 ช่องที่เลือกเปลี่ยนเป็นสีเหลือง และมีแจ้งเตือนพร้อมปุ่มไปที่ตะกร้า</span><span class="pg"></span></a></li>
+      <li><a href="#f3-5"><span>รูปที่ 3.5 หน้ารายละเอียดสนาม ราคาช่วง peak และช่วงเวลาที่จองได้</span><span class="pg"></span></a></li>
+      <li><a href="#f3-6"><span>รูปที่ 3.6 รายการอุปกรณ์</span><span class="pg"></span></a></li>
+      <li><a href="#f3-7"><span>รูปที่ 3.7 เลือกช่วงเวลาและจำนวนที่จะยืม</span><span class="pg"></span></a></li>
+      <li><a href="#f3-8"><span>รูปที่ 3.8 ตะกร้าการจองที่ใช้คูปองส่วนลด</span><span class="pg"></span></a></li>
+      <li><a href="#f3-9"><span>รูปที่ 3.9 QR PromptPay และช่องแนบสลิป</span><span class="pg"></span></a></li>
+      <li><a href="#f3-10"><span>รูปที่ 3.10 รอเจ้าหน้าที่ตรวจสลิป</span><span class="pg"></span></a></li>
+      <li><a href="#f3-11"><span>รูปที่ 3.11 ตั๋วเช็คอิน</span><span class="pg"></span></a></li>
+      <li><a href="#f3-12"><span>รูปที่ 3.12 กล่องข้อความบนเว็บ: อีเมลชำระเงินสำเร็จพร้อม QR</span><span class="pg"></span></a></li>
+      <li><a href="#f3-13"><span>รูปที่ 3.13 การจองของฉัน</span><span class="pg"></span></a></li>
+      <li><a href="#f3-14"><span>รูปที่ 3.14 รีวิวสนามหลังใช้บริการ</span><span class="pg"></span></a></li>
+      <li><a href="#f3-15"><span>รูปที่ 3.15 ข้อมูลส่วนตัว</span><span class="pg"></span></a></li>
+      <li><a href="#f4-1"><span>รูปที่ 4.1 แดชบอร์ดผู้ดูแลระบบ</span><span class="pg"></span></a></li>
+      <li><a href="#f4-2"><span>รูปที่ 4.2 ตรวจสลิป</span><span class="pg"></span></a></li>
+      <li><a href="#f4-3"><span>รูปที่ 4.3 เช็คอินด้วยเลขที่การจอง</span><span class="pg"></span></a></li>
+      <li><a href="#f4-4"><span>รูปที่ 4.4 บันทึกการคืนอุปกรณ์</span><span class="pg"></span></a></li>
+      <li><a href="#f4-5"><span>รูปที่ 4.5 การจองทั้งหมด</span><span class="pg"></span></a></li>
+      <li><a href="#f4-6"><span>รูปที่ 4.6 รายการสนาม</span><span class="pg"></span></a></li>
+      <li><a href="#f4-7"><span>รูปที่ 4.7 แก้ไขข้อมูลสนาม</span><span class="pg"></span></a></li>
+      <li><a href="#f4-8"><span>รูปที่ 4.8 ตรวจสอบและลบรีวิว</span><span class="pg"></span></a></li>
+      <li><a href="#f4-9"><span>รูปที่ 4.9 หน้าคูปองส่วนลด</span><span class="pg"></span></a></li>
+      <li><a href="#f4-10"><span>รูปที่ 4.10 รายละเอียดการใช้คูปอง: ใครใช้ การจองไหน และลดไปเท่าไร</span><span class="pg"></span></a></li>
+      <li><a href="#f4-11"><span>รูปที่ 4.11 รายชื่อสมาชิก</span><span class="pg"></span></a></li>
+      <li><a href="#f4-12"><span>รูปที่ 4.12 ประวัติการจองของสมาชิก 1 คน</span><span class="pg"></span></a></li>
+      <li><a href="#f4-13"><span>รูปที่ 4.13 อีเมลทั้งหมดที่ระบบส่ง</span><span class="pg"></span></a></li>
+      <li><a href="#f4-14"><span>รูปที่ 4.14 ค่าตั้งระบบและสถานะระบบหลังบ้าน</span><span class="pg"></span></a></li>
+      <li><a href="#f4-15"><span>รูปที่ 4.15 เอกสาร API ในหน้าผู้ดูแลระบบ</span><span class="pg"></span></a></li>
+      <li><a href="#f6-1"><span>รูปที่ 6.1 รายละเอียด endpoint ยืนยันการจอง พร้อมตัวอย่างการเรียกและผลลัพธ์</span><span class="pg"></span></a></li>
+    </ol>
+
+    <h2 id="s1" class="chapter"><span>บทที่ 1</span>ภาพรวมระบบ</h2>
     <p>
-      SportHub คือเว็บแอปพลิเคชันสำหรับสนามกีฬาที่มีกีฬาหลายประเภท (ข้อมูลตัวอย่างมี 19 ประเภท เช่น ฟุตบอล แบดมินตัน บาสเกตบอล เทนนิส ว่ายน้ำ มวยไทย สนุกเกอร์ โบว์ลิ่ง กอล์ฟ และปีนผา) ผู้ใช้ดูช่วงเวลาว่างของทุกสนามได้แบบเรียลไทม์ จองสนามเป็นรายชั่วโมง ยืมอุปกรณ์ไปพร้อมกัน
+      Arena Hub คือเว็บแอปพลิเคชันสำหรับสนามกีฬาที่มีกีฬาหลายประเภท (ข้อมูลตัวอย่างมี 19 ประเภท เช่น ฟุตบอล แบดมินตัน บาสเกตบอล เทนนิส ว่ายน้ำ มวยไทย สนุกเกอร์ โบว์ลิ่ง กอล์ฟ และปีนผา) ผู้ใช้ดูช่วงเวลาว่างของทุกสนามได้แบบเรียลไทม์ จองสนามเป็นรายชั่วโมง ยืมอุปกรณ์ไปพร้อมกัน
       ชำระเงินด้วย PromptPay แล้วใช้ QR เช็คอินที่หน้าสนาม ส่วนเจ้าหน้าที่ใช้ระบบเดียวกันตรวจสลิป เช็คอิน รับคืนอุปกรณ์ จัดการข้อมูล และดูสถิติ
     </p>
-    <h3>ผู้ใช้งาน</h3>
+    <h3 id="s1-1">1.1 ผู้ใช้งาน</h3>
     <ul>
       <li><b>บุคคลทั่วไป</b> ดูตารางว่าง รายละเอียดสนาม อุปกรณ์ และรีวิวได้โดยไม่ต้องเข้าสู่ระบบ</li>
       <li><b>สมาชิก (member)</b> จองสนาม ยืมอุปกรณ์ ชำระเงิน ดูประวัติ ยกเลิก รีวิว และแก้ไขข้อมูลส่วนตัว</li>
       <li><b>ผู้ดูแลระบบ (admin)</b> ทำได้ทุกอย่างของสมาชิก และจัดการสนาม อุปกรณ์ สมาชิก การชำระเงิน การเช็คอิน และดูสถิติ</li>
     </ul>
-    <h3>ความครบถ้วนตามข้อกำหนดของโครงงาน</h3>
+    <h3 id="s1-2">1.2 ความครบถ้วนตามข้อกำหนดของโครงงาน</h3>
+    <p class="tcap" id="t1-1"><b>ตารางที่ 1.1</b> การเทียบข้อกำหนดของโครงงานกับความสามารถของระบบ</p>
     <table>
       <thead>
-        <tr><th>ข้อกำหนด</th><th>ใน SportHub</th><th>สิทธิ์</th></tr>
+        <tr><th>ข้อกำหนด</th><th>ใน Arena Hub</th><th>สิทธิ์</th></tr>
       </thead>
       <tbody>
         <tr><td>ดูสินค้าทั้งหมด / ดูรายสินค้า</td><td>ตารางสนามว่าง, รายการสนาม, รายการอุปกรณ์, หน้ารายละเอียดสนามและอุปกรณ์</td><td>ทุกคน</td></tr>
@@ -366,11 +466,11 @@
         <tr><td>ซื้อสินค้า (ตะกร้า, ลบรายการ, ลบตะกร้า, ยืนยัน)</td><td>ตะกร้าการจอง: ลบทีละรายการ ลบทั้งตะกร้า ยืนยันการจอง หลังยืนยันแก้ไขไม่ได้</td><td>สมาชิก</td></tr>
         <tr><td>ดูรายละเอียดการซื้อแต่ละครั้ง</td><td>หน้ารายละเอียดการจอง (รายการ ยอดรวม การชำระเงิน QR เช็คอิน)</td><td>สมาชิก, admin</td></tr>
         <tr><td>ดูรายการซื้อทั้งหมดของลูกค้าแต่ละคน</td><td>การจองของฉัน (สมาชิก) และประวัติการจองรายคนในเมนูสมาชิก (admin)</td><td>สมาชิก, admin</td></tr>
-        <tr><td>Backend REST API, PostgreSQL, Node.js + Express</td><td>Express 5 บน Node.js 24, PostgreSQL 18, REST API 71 endpoint ใต้ <code>/api/v1</code></td><td>-</td></tr>
+        <tr><td>Backend REST API, PostgreSQL, Node.js + Express</td><td>Express 5 บน Node.js 24, PostgreSQL 18, REST API 72 endpoint ใต้ <code>/api/v1</code></td><td>-</td></tr>
         <tr><td>API Document ออนไลน์</td><td>หน้า <code>/docs</code> อธิบายทุก endpoint พร้อม parameter ผลลัพธ์ ตัวอย่างการเรียกและตัวอย่างผลลัพธ์จริง</td><td>ทุกคน</td></tr>
       </tbody>
     </table>
-    <h3>ความสามารถเพิ่มเติม</h3>
+    <h3 id="s1-3">1.3 ความสามารถเพิ่มเติม</h3>
     <ul>
       <li>ตารางเวลาว่างของทุกสนามอัปเดตทันทีเมื่อมีคนจอง (Server-Sent Events) ไม่ต้องรีเฟรช</li>
       <li>กันการจองซ้อนด้วย exclusion constraint ของ PostgreSQL แม้สองคนกดยืนยันพร้อมกัน ระบบให้สำเร็จได้คนเดียว</li>
@@ -385,7 +485,7 @@
       <li>คูปองส่วนลดแบบเปอร์เซ็นต์หรือจำนวนเงิน กำหนดยอดขั้นต่ำ จำนวนครั้ง และวันหมดอายุได้</li>
       <li>หน้าตาแบบเมนูเกม: แผงกระจกสีม่วง ขอบลาเวนเดอร์ ปุ่มหลักสีทอง ตัวอักษร Kanit รองรับมือถือ ติดตั้งเป็นแอปบนหน้าจอได้ (PWA) และเป็นภาษาไทยทั้งระบบ</li>
     </ul>
-    <h3>สถาปัตยกรรมและเทคโนโลยี</h3>
+    <h3 id="s1-4">1.4 สถาปัตยกรรมและเทคโนโลยี</h3>
     <div class="arch">
       <div class="box"><b>Web (React 19)</b>Vite, TypeScript, Tailwind CSS 4, TanStack Query, React Router</div>
       <span class="arrow">REST /api/v1<br />+ SSE</span>
@@ -398,7 +498,8 @@
       และทดสอบ end-to-end ผ่านเบราว์เซอร์
     </p>
 
-    <h2>2. เริ่มต้นใช้งาน</h2>
+    <h2 id="s2" class="chapter"><span>บทที่ 2</span>เริ่มต้นใช้งาน</h2>
+    <p class="tcap" id="t2-1"><b>ตารางที่ 2.1</b> ที่อยู่ของส่วนต่างๆ ของระบบ</p>
     <table>
       <thead>
         <tr><th>ส่วน</th><th>ที่อยู่ (เครื่องที่รันระบบ)</th></tr>
@@ -409,7 +510,8 @@
         <tr><td>อีเมลที่ระบบส่ง</td><td>เมนู ข้อความ (สมาชิก) และ ผู้ดูแลระบบ &gt; อีเมล</td></tr>
       </tbody>
     </table>
-    <h3>บัญชีทดลอง</h3>
+    <h3 id="s2-1">2.1 บัญชีทดลอง</h3>
+    <p class="tcap" id="t2-2"><b>ตารางที่ 2.2</b> บัญชีทดลองสำหรับเข้าสู่ระบบ</p>
     <table>
       <thead>
         <tr><th>บทบาท</th><th>อีเมล</th><th>รหัสผ่าน</th></tr>
@@ -420,25 +522,25 @@
         <tr><td>สมาชิกอื่น</td><td>somying@ / anan@ / pim@ / krit@sporthub.local</td><td>member1234</td></tr>
       </tbody>
     </table>
-    <h3>ขั้นตอนของการจอง</h3>
+    <h3 id="s2-2">2.2 ขั้นตอนของการจอง</h3>
     <div class="flow">
       <span class="s">อยู่ในตะกร้า</span> → <span class="s">รอชำระเงิน (15 นาที)</span> → <span class="s">ชำระแล้ว</span> → <span class="s">เช็คอินแล้ว</span> →
       <span class="s">เสร็จสิ้น</span>
     </div>
-    <p>การจองที่ไม่แนบสลิปภายใน 15 นาทีจะเปลี่ยนเป็น <b>หมดเวลาชำระ</b> และคืนช่วงเวลาให้คนอื่นจองได้ สมาชิกหรือผู้ดูแลระบบยกเลิกการจองได้ตามกฎในหัวข้อ 5</p>
+    <p>การจองที่ไม่แนบสลิปภายใน 15 นาทีจะเปลี่ยนเป็น <b>หมดเวลาชำระ</b> และคืนช่วงเวลาให้คนอื่นจองได้ สมาชิกหรือผู้ดูแลระบบยกเลิกการจองได้ตามกฎในบทที่ 5</p>
 
-    <h2>3. คู่มือสำหรับสมาชิก</h2>
-    <h3>3.1 สมัครสมาชิกและเข้าสู่ระบบ</h3>
+    <h2 id="s3" class="chapter"><span>บทที่ 3</span>คู่มือสำหรับสมาชิก</h2>
+    <h3 id="s3-1">3.1 สมัครสมาชิกและเข้าสู่ระบบ</h3>
     <ol>
       <li>กด <b>เข้าสู่ระบบ</b> มุมขวาบน แล้วเลือก <b>สมัครสมาชิก</b></li>
       <li>กรอกชื่อ-นามสกุล อีเมล เบอร์โทร (ไม่บังคับ) และรหัสผ่านอย่างน้อย 8 ตัวอักษร แล้วกด <b>สมัครสมาชิก</b> ระบบจะเข้าสู่ระบบให้ทันที</li>
       <li>ครั้งต่อไปเข้าสู่ระบบด้วยอีเมลและรหัสผ่าน ระบบจำการเข้าสู่ระบบไว้ 7 วัน</li>
     </ol>
-    <figure><img src="img/04-register.jpg" alt="" /><figcaption>หน้าสมัครสมาชิก</figcaption></figure>
+    <figure><img src="img/04-register.jpg" alt="" /><figcaption id="f3-1"><b>รูปที่ 3.1</b> หน้าสมัครสมาชิก</figcaption></figure>
 
-    <h3>3.2 ดูตารางสนามว่างและเลือกเวลา</h3>
-    <p><b>หน้าแรก</b>แนะนำระบบ: SportHub คืออะไร ทำอะไรได้บ้าง ขั้นตอนการจอง 5 ขั้น กีฬาที่เปิดให้จองพร้อมราคาเริ่มต้น และกติกาการจองที่ใช้อยู่ กด <b>ดูตารางว่างและจองเลย</b> หรือเมนู <b>ตารางว่าง</b> เพื่อไปหน้าจอง</p>
-    <figure><img src="img/31-landing.jpg" alt="" /><figcaption>หน้าแรกแนะนำระบบ</figcaption></figure>
+    <h3 id="s3-2">3.2 ดูตารางสนามว่างและเลือกเวลา</h3>
+    <p><b>หน้าแรก</b>แนะนำระบบ: Arena Hub คืออะไร ทำอะไรได้บ้าง ขั้นตอนการจอง 5 ขั้น กีฬาที่เปิดให้จองพร้อมราคาเริ่มต้น และกติกาการจองที่ใช้อยู่ กด <b>ดูตารางว่างและจองเลย</b> หรือเมนู <b>ตารางว่าง</b> เพื่อไปหน้าจอง</p>
+    <figure><img src="img/31-landing.jpg" alt="" /><figcaption id="f3-2"><b>รูปที่ 3.2</b> หน้าแรกแนะนำระบบ</figcaption></figure>
     <p>หน้า <b>ตารางว่าง</b> แต่ละแถวคือสนาม แต่ละคอลัมน์คือชั่วโมง เลือกวันที่จากแถบวันที่ (ค่าเริ่มต้นจองได้เฉพาะวันนี้และพรุ่งนี้ ผู้ดูแลระบบปรับได้) และกรองตามกีฬาได้</p>
     <ul>
       <li>ทุกช่องมีคำบอกสถานะ: <b>ว่าง</b> (สีเขียว) กดเพื่อเพิ่มลงตะกร้า ช่องละ 1 ชั่วโมง เมื่อชี้เมาส์จะขึ้นว่า + จอง</li>
@@ -446,23 +548,23 @@
       <li>ช่องว่างเปล่าคือเลยเวลาแล้วหรือสนามยังไม่เปิด ชั่วโมงปัจจุบันมีป้ายเวลาสีทองที่หัวตาราง</li>
       <li>เมื่อมีคนยืนยันการจองจากเครื่องอื่น ช่องจะพลิกเปลี่ยนสถานะทันทีโดยไม่ต้องรีเฟรช</li>
     </ul>
-    <figure><img src="img/01-home.jpg" alt="" /><figcaption>ตารางสนามว่างของทุกสนาม</figcaption></figure>
-    <figure><img src="img/05-home-cart.jpg" alt="" /><figcaption>ช่องที่เลือกเปลี่ยนเป็นสีเหลือง และมีแจ้งเตือนพร้อมปุ่มไปที่ตะกร้า</figcaption></figure>
+    <figure><img src="img/01-home.jpg" alt="" /><figcaption id="f3-3"><b>รูปที่ 3.3</b> ตารางสนามว่างของทุกสนาม</figcaption></figure>
+    <figure><img src="img/05-home-cart.jpg" alt="" /><figcaption id="f3-4"><b>รูปที่ 3.4</b> ช่องที่เลือกเปลี่ยนเป็นสีเหลือง และมีแจ้งเตือนพร้อมปุ่มไปที่ตะกร้า</figcaption></figure>
     <p>กดชื่อสนามเพื่อดูรายละเอียด ราคา เวลาเปิด-ปิด รีวิว และเลือกเวลาของสนามนั้นจากแผงด้านขวา สนามที่มีราคาช่วง peak จะแสดงราคาใต้แต่ละชั่วโมง</p>
     <p><b>จองประจำ:</b> เลือกจำนวนสัปดาห์ในช่อง <b>จองประจำ</b> ก่อนกดชั่วโมง ระบบจะเพิ่มชั่วโมงเดียวกันของทุกสัปดาห์ลงตะกร้า ถ้าสัปดาห์ใดไม่ว่างจะไม่เพิ่มเลยและบอกวันที่ไม่ว่าง ตัวเลือกนี้แสดงเมื่อผู้ดูแลระบบเปิดให้จองล่วงหน้าตั้งแต่ 7 วันขึ้นไป (ค่าเริ่มต้นจองได้แค่ถึงพรุ่งนี้จึงไม่แสดง)</p>
-    <figure><img src="img/02-court.jpg" alt="" /><figcaption>หน้ารายละเอียดสนาม ราคาช่วง peak และช่วงเวลาที่จองได้</figcaption></figure>
+    <figure><img src="img/02-court.jpg" alt="" /><figcaption id="f3-5"><b>รูปที่ 3.5</b> หน้ารายละเอียดสนาม ราคาช่วง peak และช่วงเวลาที่จองได้</figcaption></figure>
 
-    <h3>3.3 ยืมอุปกรณ์</h3>
+    <h3 id="s3-3">3.3 ยืมอุปกรณ์</h3>
     <ol>
       <li>เมนู <b>ยืมอุปกรณ์</b> แสดงอุปกรณ์ทั้งหมด พร้อมค่าเช่า มัดจำ และจำนวนในคลัง</li>
       <li>เลือกอุปกรณ์ แล้วเลือกวัน เวลาเริ่ม จำนวนชั่วโมง และจำนวนชิ้น ระบบแสดงจำนวนที่ยังยืมได้ในช่วงเวลานั้น</li>
       <li>กด <b>เพิ่มลงตะกร้า</b> ค่าเช่าคิดต่อชิ้นต่อการจอง ส่วนมัดจำจ่ายที่เคาน์เตอร์และได้คืนเมื่อคืนของ</li>
       <li>หรือยืมจากหน้าสนามได้เลย: แผง <b>ยืมอุปกรณ์</b> ใต้แผงเลือกเวลาแสดงเฉพาะอุปกรณ์ของกีฬาสนามนั้น หลังกดเลือกชั่วโมงของสนาม อุปกรณ์จะใช้ช่วงเวลาเดียวกัน (ตั้งแต่ชั่วโมงแรกถึงชั่วโมงสุดท้ายที่เลือก) พร้อมบอกจำนวนที่ยังว่าง</li>
     </ol>
-    <figure><img src="img/03-equipment-list.jpg" alt="" /><figcaption>รายการอุปกรณ์</figcaption></figure>
-    <figure><img src="img/06-equipment.jpg" alt="" /><figcaption>เลือกช่วงเวลาและจำนวนที่จะยืม</figcaption></figure>
+    <figure><img src="img/03-equipment-list.jpg" alt="" /><figcaption id="f3-6"><b>รูปที่ 3.6</b> รายการอุปกรณ์</figcaption></figure>
+    <figure><img src="img/06-equipment.jpg" alt="" /><figcaption id="f3-7"><b>รูปที่ 3.7</b> เลือกช่วงเวลาและจำนวนที่จะยืม</figcaption></figure>
 
-    <h3>3.4 ตะกร้าและการยืนยันการจอง</h3>
+    <h3 id="s3-4">3.4 ตะกร้าและการยืนยันการจอง</h3>
     <p>ตะกร้าแสดงเลขที่การจอง วันที่สร้าง จำนวนรายการ ยอดรวม และรายการสนามกับอุปกรณ์ทั้งหมด</p>
     <ul>
       <li>รายการอยู่ทางซ้าย ส่วนสรุปยอด คูปอง และปุ่มยืนยันอยู่ทางขวา กด <b>ลบ</b> ท้ายรายการเพื่อลบทีละรายการ หรือ <b>ลบทั้งตะกร้า</b> ใต้ปุ่มยืนยันเพื่อลบทั้งหมด</li>
@@ -470,65 +572,65 @@
       <li>มีคูปอง ให้กรอกรหัสในช่อง <b>รหัสคูปอง</b> แล้วกด <b>ใช้คูปอง</b> ระบบแสดงยอดก่อนส่วนลด ส่วนลด และยอดชำระ ส่วนลดจะถูกล็อกตอนยืนยัน (ทดลอง: WELCOME10 ลด 10% เมื่อยอดถึง 300 บาท)</li>
       <li>กด <b>ยืนยันการจอง</b> ระบบจะล็อกช่วงเวลาและอุปกรณ์ทั้งหมด หลังยืนยันแล้วแก้ไขหรือลบรายการไม่ได้ ถ้าส่วนลดทำให้ยอดเป็น 0 การจองจะเป็นชำระแล้วทันที</li>
     </ul>
-    <figure><img src="img/07-cart.jpg" alt="" /><figcaption>ตะกร้าการจองที่ใช้คูปองส่วนลด</figcaption></figure>
+    <figure><img src="img/07-cart.jpg" alt="" /><figcaption id="f3-8"><b>รูปที่ 3.8</b> ตะกร้าการจองที่ใช้คูปองส่วนลด</figcaption></figure>
 
-    <h3>3.5 ชำระเงินด้วย PromptPay และแนบสลิป</h3>
+    <h3 id="s3-5">3.5 ชำระเงินด้วย PromptPay และแนบสลิป</h3>
     <ol>
       <li>หลังยืนยัน ระบบเปิดหน้าการจองพร้อม QR PromptPay ตามยอดที่ต้องชำระและนาฬิกานับถอยหลัง 15 นาที</li>
       <li>สแกน QR ด้วยแอปธนาคาร โอนเงิน แล้วกดเลือกไฟล์สลิปในช่อง <b>แนบสลิป</b></li>
       <li>ระหว่างรอเจ้าหน้าที่ตรวจ การจองจะไม่หมดเวลา ถ้าสลิปไม่ผ่าน จะได้อีเมลแจ้งเหตุผลและแนบใหม่ได้อีก 15 นาที</li>
     </ol>
-    <figure><img src="img/08-pay.jpg" alt="" /><figcaption>QR PromptPay และช่องแนบสลิป</figcaption></figure>
-    <figure><img src="img/09-waiting.jpg" alt="" /><figcaption>รอเจ้าหน้าที่ตรวจสลิป</figcaption></figure>
+    <figure><img src="img/08-pay.jpg" alt="" /><figcaption id="f3-9"><b>รูปที่ 3.9</b> QR PromptPay และช่องแนบสลิป</figcaption></figure>
+    <figure><img src="img/09-waiting.jpg" alt="" /><figcaption id="f3-10"><b>รูปที่ 3.10</b> รอเจ้าหน้าที่ตรวจสลิป</figcaption></figure>
 
-    <h3>3.6 ตั๋วเช็คอินและกล่องข้อความ</h3>
+    <h3 id="s3-6">3.6 ตั๋วเช็คอินและกล่องข้อความ</h3>
     <p>เมื่อสลิปได้รับอนุมัติ หน้าการจองจะแสดง <b>ตั๋วเช็คอิน</b> เป็น QR พร้อมเลขที่การจอง และส่งอีเมลพร้อม QR เดียวกันเข้า <b>กล่องข้อความ</b> บนเว็บ (เมนู <b>ข้อความ</b> มุมขวาบน ตัวเลขสีแดงคือจำนวนที่ยังไม่อ่าน) แสดง QR นี้ที่เคาน์เตอร์เพื่อเช็คอินและรับอุปกรณ์ ก่อนถึงเวลา 1 ชั่วโมงระบบจะส่งอีเมลเตือนอีกครั้ง ถ้าระบบตั้งค่า SMTP ไว้ อีเมลจะถูกส่งเข้าอีเมลจริงของสมาชิกด้วย</p>
-    <figure><img src="img/11-ticket.jpg" alt="" /><figcaption>ตั๋วเช็คอิน</figcaption></figure>
-    <figure><img src="img/25-email.jpg" alt="" /><figcaption>กล่องข้อความบนเว็บ: อีเมลชำระเงินสำเร็จพร้อม QR</figcaption></figure>
+    <figure><img src="img/11-ticket.jpg" alt="" /><figcaption id="f3-11"><b>รูปที่ 3.11</b> ตั๋วเช็คอิน</figcaption></figure>
+    <figure><img src="img/25-email.jpg" alt="" /><figcaption id="f3-12"><b>รูปที่ 3.12</b> กล่องข้อความบนเว็บ: อีเมลชำระเงินสำเร็จพร้อม QR</figcaption></figure>
 
-    <h3>3.7 ประวัติการจองและการยกเลิก</h3>
+    <h3 id="s3-7">3.7 ประวัติการจองและการยกเลิก</h3>
     <p>เมนู <b>การจองของฉัน</b> แสดงการจองทั้งหมด กรองตามสถานะได้ กดแต่ละรายการเพื่อดูรายละเอียด ประวัติการชำระเงิน และสลิปที่ส่ง</p>
     <ul>
       <li>ยกเลิกได้ระหว่างรอชำระเงิน หรือหลังชำระแล้วถ้าเหลือเวลาก่อนเริ่มอย่างน้อย 24 ชั่วโมง (เงินที่ชำระแล้ว เจ้าหน้าที่คืนให้นอกระบบ)</li>
     </ul>
-    <figure><img src="img/12-my-bookings.jpg" alt="" /><figcaption>การจองของฉัน</figcaption></figure>
+    <figure><img src="img/12-my-bookings.jpg" alt="" /><figcaption id="f3-13"><b>รูปที่ 3.13</b> การจองของฉัน</figcaption></figure>
 
-    <h3>3.8 รีวิวสนาม</h3>
+    <h3 id="s3-8">3.8 รีวิวสนาม</h3>
     <p>เมื่อใช้บริการเสร็จ (สถานะเสร็จสิ้น) หน้าการจองจะมีแบบฟอร์มรีวิวสำหรับแต่ละสนามในการจอง ให้คะแนน 1-5 ดาวและเขียนความเห็น รีวิวจะแสดงในหน้าสนามและนำไปคำนวณคะแนนเฉลี่ย</p>
-    <figure><img src="img/16-review.jpg" alt="" /><figcaption>รีวิวสนามหลังใช้บริการ</figcaption></figure>
+    <figure><img src="img/16-review.jpg" alt="" /><figcaption id="f3-14"><b>รูปที่ 3.14</b> รีวิวสนามหลังใช้บริการ</figcaption></figure>
 
-    <h3>3.9 แก้ไขข้อมูลส่วนตัวและรูปโปรไฟล์</h3>
+    <h3 id="s3-9">3.9 แก้ไขข้อมูลส่วนตัวและรูปโปรไฟล์</h3>
     <p>กดรูปโปรไฟล์มุมขวาบน &gt; <b>ข้อมูลส่วนตัว</b> แก้ชื่อและเบอร์โทรแล้วกด <b>บันทึกข้อมูล</b> เปลี่ยนรูปโปรไฟล์ได้จากช่อง <b>เปลี่ยนรูป</b> (JPG, PNG, WEBP ไม่เกิน 5 MB) และเปลี่ยนรหัสผ่านโดยกรอกรหัสผ่านปัจจุบันก่อน</p>
-    <figure><img src="img/13-profile.jpg" alt="" /><figcaption>ข้อมูลส่วนตัว</figcaption></figure>
+    <figure><img src="img/13-profile.jpg" alt="" /><figcaption id="f3-15"><b>รูปที่ 3.15</b> ข้อมูลส่วนตัว</figcaption></figure>
 
-    <h2>4. คู่มือสำหรับผู้ดูแลระบบ</h2>
-    <p>เข้าสู่ระบบด้วยบัญชีผู้ดูแลระบบแล้วเลือกเมนู <b>ผู้ดูแลระบบ</b> จะมีแถบเมนูย่อย 11 หน้า ตัวเลขสีแดงข้างเมนูตรวจสลิปคือจำนวนสลิปที่รอตรวจ</p>
-    <h3>4.1 ภาพรวมและสถิติ</h3>
+    <h2 id="s4" class="chapter"><span>บทที่ 4</span>คู่มือสำหรับผู้ดูแลระบบ</h2>
+    <p>เข้าสู่ระบบด้วยบัญชีผู้ดูแลระบบแล้วเลือกเมนู <b>ผู้ดูแลระบบ</b> จะมีแถบเมนูย่อย 11 หน้า ตัวเลขสีแดงข้างเมนูตรวจสลิปคือจำนวนสลิปที่รอตรวจ ส่วนปุ่ม <b>คู่มือ PDF</b> ท้ายแถบเมนูใช้ดาวน์โหลดคู่มือฉบับนี้</p>
+    <h3 id="s4-1">4.1 ภาพรวมและสถิติ</h3>
     <p>เลือกช่วงวันที่ (7, 30, 90 วัน หรือกำหนดเอง) เพื่อดูรายได้ที่อนุมัติแล้ว จำนวนการจอง สลิปรอตรวจ ลูกค้าที่ใช้สนามวันนี้ รายได้รายวัน ช่วงเวลาที่คนจองมากที่สุด รายได้ตามกีฬา สนามยอดนิยม และอุปกรณ์ที่ถูกยืมบ่อย ทุกกราฟกด "ดูเป็นตาราง" เพื่อดูตัวเลขได้</p>
-    <figure><img src="img/17-admin-dashboard.jpg" alt="" /><figcaption>แดชบอร์ดผู้ดูแลระบบ</figcaption></figure>
+    <figure><img src="img/17-admin-dashboard.jpg" alt="" /><figcaption id="f4-1"><b>รูปที่ 4.1</b> แดชบอร์ดผู้ดูแลระบบ</figcaption></figure>
 
-    <h3>4.2 ตรวจสลิป</h3>
+    <h3 id="s4-2">4.2 ตรวจสลิป</h3>
     <p>หน้า <b>ตรวจสลิป</b> แสดงสลิปที่รอตรวจพร้อมรูปสลิป เลขที่การจอง ชื่อสมาชิก และยอดเงิน กดรูปเพื่อเปิดขนาดเต็ม</p>
     <ul>
       <li><b>อนุมัติ</b>: การจองเปลี่ยนเป็นชำระแล้ว และสมาชิกได้อีเมลพร้อม QR เช็คอิน</li>
       <li><b>ปฏิเสธ</b>: ใส่เหตุผล สมาชิกได้อีเมลแจ้งและแนบสลิปใหม่ได้อีก 15 นาที</li>
     </ul>
-    <figure><img src="img/10-admin-payments.jpg" alt="" /><figcaption>ตรวจสลิป</figcaption></figure>
+    <figure><img src="img/10-admin-payments.jpg" alt="" /><figcaption id="f4-2"><b>รูปที่ 4.2</b> ตรวจสลิป</figcaption></figure>
 
-    <h3>4.3 เช็คอินหน้าสนามและรับคืนอุปกรณ์</h3>
+    <h3 id="s4-3">4.3 เช็คอินหน้าสนามและรับคืนอุปกรณ์</h3>
     <ol>
       <li>หน้า <b>เช็คอิน</b> กด <b>เปิดกล้องสแกน QR</b> แล้วสแกนตั๋วจากมือถือสมาชิก หรือพิมพ์เลขที่การจอง</li>
       <li>ระบบแสดงรายการสนามและอุปกรณ์ที่ต้องส่งมอบพร้อมมัดจำที่ต้องเก็บ</li>
       <li>เมื่อสมาชิกคืนอุปกรณ์ เปิดรายละเอียดการจอง กรอกสภาพและค่าปรับ (ถ้ามี) แล้วกด <b>รับคืน</b> อุปกรณ์จะว่างให้คนอื่นยืมต่อทันที</li>
     </ol>
-    <figure><img src="img/14-admin-checkin.jpg" alt="" /><figcaption>เช็คอินด้วยเลขที่การจอง</figcaption></figure>
-    <figure><img src="img/15-admin-return.jpg" alt="" /><figcaption>บันทึกการคืนอุปกรณ์</figcaption></figure>
+    <figure><img src="img/14-admin-checkin.jpg" alt="" /><figcaption id="f4-3"><b>รูปที่ 4.3</b> เช็คอินด้วยเลขที่การจอง</figcaption></figure>
+    <figure><img src="img/15-admin-return.jpg" alt="" /><figcaption id="f4-4"><b>รูปที่ 4.4</b> บันทึกการคืนอุปกรณ์</figcaption></figure>
 
-    <h3>4.4 การจองทั้งหมด</h3>
+    <h3 id="s4-4">4.4 การจองทั้งหมด</h3>
     <p>ดูการจองของทุกคน กรองตามสถานะ และค้นหาด้วยเลขที่การจอง ผู้ดูแลระบบยกเลิกการจองที่รอชำระหรือชำระแล้วได้ทุกเวลา</p>
-    <figure><img src="img/18-admin-bookings.jpg" alt="" /><figcaption>การจองทั้งหมด</figcaption></figure>
+    <figure><img src="img/18-admin-bookings.jpg" alt="" /><figcaption id="f4-5"><b>รูปที่ 4.5</b> การจองทั้งหมด</figcaption></figure>
 
-    <h3>4.5 จัดการข้อมูล: สนาม อุปกรณ์ ประเภทกีฬา และรีวิว</h3>
+    <h3 id="s4-5">4.5 จัดการข้อมูล: สนาม อุปกรณ์ ประเภทกีฬา และรีวิว</h3>
     <ul>
       <li>แท็บ <b>สนาม</b> และ <b>อุปกรณ์</b>: กด <b>เพิ่มสนาม</b>/<b>เพิ่มอุปกรณ์</b> หรือ <b>แก้ไข</b> เพื่อเปิดแบบฟอร์ม (ชื่อ กีฬา ราคา เวลาเปิด-ปิด จำนวนในคลัง ค่าเช่า มัดจำ รายละเอียด) ราคาที่แก้มีผลกับรายการที่เพิ่มลงตะกร้าหลังจากนั้น</li>
       <li>เอาเครื่องหมาย <b>เปิดให้จอง</b> ออกเพื่อปิดสนามหรืออุปกรณ์ชั่วคราว สมาชิกจะไม่เห็นรายการนั้น</li>
@@ -538,11 +640,11 @@
       <li>แท็บ <b>ประเภทกีฬา</b>: เพิ่ม แก้ชื่อหรือไอคอน และลบกีฬาที่ยังไม่มีสนามหรืออุปกรณ์</li>
       <li>แท็บ <b>รีวิว</b>: ดูรีวิวทุกสนาม กรองตามจำนวนดาว และลบรีวิวที่ไม่เหมาะสม คะแนนเฉลี่ยของสนามคำนวณใหม่ทันที</li>
     </ul>
-    <figure><img src="img/19-admin-catalog.jpg" alt="" /><figcaption>รายการสนาม</figcaption></figure>
-    <figure><img src="img/20-admin-catalog-edit.jpg" alt="" /><figcaption>แก้ไขข้อมูลสนาม</figcaption></figure>
-    <figure><img src="img/30-admin-reviews.jpg" alt="" /><figcaption>ตรวจสอบและลบรีวิว</figcaption></figure>
+    <figure><img src="img/19-admin-catalog.jpg" alt="" /><figcaption id="f4-6"><b>รูปที่ 4.6</b> รายการสนาม</figcaption></figure>
+    <figure><img src="img/20-admin-catalog-edit.jpg" alt="" /><figcaption id="f4-7"><b>รูปที่ 4.7</b> แก้ไขข้อมูลสนาม</figcaption></figure>
+    <figure><img src="img/30-admin-reviews.jpg" alt="" /><figcaption id="f4-8"><b>รูปที่ 4.8</b> ตรวจสอบและลบรีวิว</figcaption></figure>
 
-    <h3>4.6 คูปองส่วนลด</h3>
+    <h3 id="s4-6">4.6 คูปองส่วนลด</h3>
     <ul>
       <li>เมนู <b>คูปอง</b> แสดงคูปองทั้งหมดเป็นการ์ด: รหัส ชื่อโปร ส่วนลด เงื่อนไข จำนวนที่ใช้ไปเทียบกับที่จำกัด (มีแถบความคืบหน้า) จำนวนสมาชิกที่ใช้ และส่วนลดที่ให้ไปแล้ว ด้านบนสรุปจำนวนคูปองที่เปิดใช้ จำนวนครั้งที่ใช้ และส่วนลดรวม</li>
       <li>กด <b>สร้างคูปอง</b> ตั้ง <b>ชื่อโปร</b> (เช่น โปรเปิดเทอม) ใส่รหัสเองหรือกด <b>สุ่มรหัส</b> เลือกลดเป็นเปอร์เซ็นต์หรือเป็นบาท และกำหนด <b>จำกัดกี่คน</b> กับ <b>ใช้ได้คนละกี่ครั้ง</b> (ค่าเริ่มต้นคนละ 1 ครั้ง จำนวนสิทธิ์ทั้งหมดจึงเท่ากับจำนวนคน) ยอดขั้นต่ำ และวันหมดอายุ</li>
@@ -550,10 +652,10 @@
       <li><b>แก้ไข</b> เปลี่ยนส่วนลดหรือเงื่อนไข หรือปิดคูปอง (การจองที่ยืนยันแล้วยังได้ส่วนลดเดิม) <b>ลบ</b> ได้เฉพาะคูปองที่ยังไม่มีใครใช้</li>
       <li>สมาชิกที่ใช้ครบสิทธิ์ของตัวเองแล้วจะได้ข้อความ "คูปองนี้ใช้ได้คนละ … ครั้ง และคุณใช้ครบแล้ว" ตอนกดใช้คูปองในตะกร้า</li>
     </ul>
-    <figure><img src="img/26-admin-coupons.jpg" alt="" /><figcaption>หน้าคูปองส่วนลด</figcaption></figure>
-    <figure><img src="img/32-coupon-usage.jpg" alt="" /><figcaption>รายละเอียดการใช้คูปอง: ใครใช้ การจองไหน และลดไปเท่าไร</figcaption></figure>
+    <figure><img src="img/26-admin-coupons.jpg" alt="" /><figcaption id="f4-9"><b>รูปที่ 4.9</b> หน้าคูปองส่วนลด</figcaption></figure>
+    <figure><img src="img/32-coupon-usage.jpg" alt="" /><figcaption id="f4-10"><b>รูปที่ 4.10</b> รายละเอียดการใช้คูปอง: ใครใช้ การจองไหน และลดไปเท่าไร</figcaption></figure>
 
-    <h3>4.7 จัดการสมาชิก</h3>
+    <h3 id="s4-7">4.7 จัดการสมาชิก</h3>
     <ul>
       <li>ค้นหาด้วยชื่อหรืออีเมล และกรองตามสิทธิ์</li>
       <li><b>ระงับ</b>/<b>เปิดใช้งาน</b>: สมาชิกที่ถูกระงับเข้าสู่ระบบไม่ได้ และ token เดิมใช้ไม่ได้ทันที</li>
@@ -561,30 +663,31 @@
       <li>กดชื่อสมาชิกเพื่อดูจำนวนการจอง ยอดใช้จ่าย และประวัติการจองทั้งหมดของคนนั้น</li>
       <li>ในหน้าสมาชิก 1 คน กด <b>แก้ไขข้อมูล</b> เพื่อแก้ชื่อ อีเมล หรือเบอร์โทร และ <b>ตั้งรหัสผ่านใหม่</b> เมื่อสมาชิกลืมรหัสผ่าน แล้วแจ้งรหัสให้สมาชิกไปเปลี่ยนเองที่หน้าข้อมูลส่วนตัว</li>
     </ul>
-    <figure><img src="img/21-admin-users.jpg" alt="" /><figcaption>รายชื่อสมาชิก</figcaption></figure>
-    <figure><img src="img/22-admin-user-detail.jpg" alt="" /><figcaption>ประวัติการจองของสมาชิก 1 คน</figcaption></figure>
+    <figure><img src="img/21-admin-users.jpg" alt="" /><figcaption id="f4-11"><b>รูปที่ 4.11</b> รายชื่อสมาชิก</figcaption></figure>
+    <figure><img src="img/22-admin-user-detail.jpg" alt="" /><figcaption id="f4-12"><b>รูปที่ 4.12</b> ประวัติการจองของสมาชิก 1 คน</figcaption></figure>
 
-    <h3>4.8 อีเมลของระบบ</h3>
+    <h3 id="s4-8">4.8 อีเมลของระบบ</h3>
     <p>เมนู <b>อีเมล</b> แสดงอีเมลทุกฉบับที่ระบบส่งให้สมาชิก ค้นหาจากผู้รับ ชื่อ หรือหัวเรื่อง กรองตามประเภทและสถานะการส่ง กดรายการเพื่ออ่านเนื้อหาเหมือนที่สมาชิกเห็น สถานะ <b>ในเว็บ</b> คืออยู่ในกล่องข้อความของสมาชิก ถ้าเซิร์ฟเวอร์ตั้งค่า SMTP ไว้ จะเห็นสถานะ <b>ส่งออกแล้ว</b> หรือ <b>ส่งออกไม่สำเร็จ</b> และกด <b>ส่งออกอีกครั้ง</b> ได้</p>
-    <figure><img src="img/27-admin-emails.jpg" alt="" /><figcaption>อีเมลทั้งหมดที่ระบบส่ง</figcaption></figure>
+    <figure><img src="img/27-admin-emails.jpg" alt="" /><figcaption id="f4-13"><b>รูปที่ 4.13</b> อีเมลทั้งหมดที่ระบบส่ง</figcaption></figure>
 
-    <h3>4.9 ระบบหลังบ้านและค่าตั้งระบบ</h3>
+    <h3 id="s4-9">4.9 ระบบหลังบ้านและค่าตั้งระบบ</h3>
     <ul>
       <li>แก้ <b>PromptPay ที่รับเงิน</b>, <b>เวลาชำระเงิน</b>, <b>ยกเลิกได้ก่อนเริ่ม</b>, <b>เช็คอินล่วงหน้าได้</b> และ <b>จองล่วงหน้าได้</b> แล้วกด <b>บันทึกค่าตั้งระบบ</b> มีผลกับรายการถัดไปทันทีโดยไม่ต้องรีสตาร์ทเซิร์ฟเวอร์</li>
       <li><b>ข้อมูลสนามและประกาศ</b>: ข้อความ <b>ประกาศหน้าเว็บ</b> แสดงเป็นแถบสีเหลืองบนทุกหน้า (เว้นว่างเพื่อซ่อน) ส่วน <b>เบอร์ติดต่อ</b>, <b>LINE ID</b> และ <b>ที่อยู่</b> แสดงท้ายเว็บและท้ายอีเมลทุกฉบับ</li>
       <li><b>สถานะระบบ</b> แสดงการเชื่อมต่อฐานข้อมูล เวอร์ชัน PostgreSQL การส่งอีเมลออก งานอัตโนมัติครั้งล่าสุด จำนวนข้อมูล และ migration ที่รันแล้ว</li>
       <li>กด <b>รันตอนนี้เลย</b> เพื่อสั่งงานอัตโนมัติทันที (ปกติรันเองทุก 1 นาที)</li>
     </ul>
-    <figure><img src="img/28-admin-system.jpg" alt="" /><figcaption>ค่าตั้งระบบและสถานะระบบหลังบ้าน</figcaption></figure>
+    <figure><img src="img/28-admin-system.jpg" alt="" /><figcaption id="f4-14"><b>รูปที่ 4.14</b> ค่าตั้งระบบและสถานะระบบหลังบ้าน</figcaption></figure>
 
-    <h3>4.10 API ในหน้าผู้ดูแลระบบ</h3>
+    <h3 id="s4-10">4.10 API ในหน้าผู้ดูแลระบบ</h3>
     <p>เมนู <b>API</b> เปิดเอกสาร API ฉบับเต็มไว้ในหน้าผู้ดูแลระบบ กด <b>Test Request</b> เพื่อเรียก endpoint จริงด้วยสิทธิ์ของบัญชีผู้ดูแลระบบที่เข้าสู่ระบบอยู่ได้ทันที ไม่ต้องคัดลอก token</p>
-    <figure><img src="img/29-admin-api.jpg" alt="" /><figcaption>เอกสาร API ในหน้าผู้ดูแลระบบ</figcaption></figure>
+    <figure><img src="img/29-admin-api.jpg" alt="" /><figcaption id="f4-15"><b>รูปที่ 4.15</b> เอกสาร API ในหน้าผู้ดูแลระบบ</figcaption></figure>
 
-    <h3>4.11 ข้อมูลระบบ</h3>
-    <p>เมนู <b>ข้อมูลระบบ</b> (เปิดได้ทุกคนที่ <code>/about</code> หรือจากลิงก์ท้ายเว็บ) สรุปด้านเทคนิคของ SportHub สำหรับการนำเสนอ: ภาพรวม 3 ชั้น (หน้าเว็บ, API, ฐานข้อมูล), เทคโนโลยีที่ใช้แต่ละส่วนและหน้าที่, แผนภาพความสัมพันธ์ของตาราง (ER diagram) พร้อมคอลัมน์ของทุกตาราง, สิ่งที่ฐานข้อมูลบังคับเอง (ENUM, VIEW, exclusion constraint, CHECK, foreign key), สถานะของการจอง, กลไกสำคัญ เช่น กันจองซ้อนและสต็อกอุปกรณ์, โครงสร้างไฟล์ และจำนวน endpoint ที่นับจากเอกสาร API จริง</p>
+    <h3 id="s4-11">4.11 ข้อมูลระบบ</h3>
+    <p>เมนู <b>ข้อมูลระบบ</b> (เปิดได้ทุกคนที่ <code>/about</code> หรือจากลิงก์ท้ายเว็บ) สรุปด้านเทคนิคของ Arena Hub สำหรับการนำเสนอ: ภาพรวม 3 ชั้น (หน้าเว็บ, API, ฐานข้อมูล), เทคโนโลยีที่ใช้แต่ละส่วนและหน้าที่, แผนภาพความสัมพันธ์ของตาราง (ER diagram) พร้อมคอลัมน์ของทุกตาราง, สิ่งที่ฐานข้อมูลบังคับเอง (ENUM, VIEW, exclusion constraint, CHECK, foreign key), สถานะของการจอง, กลไกสำคัญ เช่น กันจองซ้อนและสต็อกอุปกรณ์, โครงสร้างไฟล์ และจำนวน endpoint ที่นับจากเอกสาร API จริง</p>
 
-    <h2>5. กฎการทำงานของระบบ</h2>
+    <h2 id="s5" class="chapter"><span>บทที่ 5</span>กฎการทำงานของระบบ</h2>
+    <p class="tcap" id="t5-1"><b>ตารางที่ 5.1</b> กฎการทำงานของระบบ</p>
     <table>
       <thead>
         <tr><th>เรื่อง</th><th>กฎ</th></tr>
@@ -606,13 +709,13 @@
       </tbody>
     </table>
 
-    <h2>6. API Document</h2>
+    <h2 id="s6" class="chapter"><span>บทที่ 6</span>API Document</h2>
     <p>
       เอกสาร API ออนไลน์อยู่ที่ <code>/docs</code> สร้างจากโค้ดของแต่ละ endpoint โดยตรง (OpenAPI 3.1) จึงครบทุก endpoint และตรงกับระบบจริงเสมอ แต่ละ endpoint บอกว่าทำอะไร ใช้สิทธิ์ระดับไหน มี parameter อะไร คืนค่าอะไร พร้อมตัวอย่างการเรียก
       (curl, JavaScript, Python และอื่นๆ) และตัวอย่างผลลัพธ์จริงที่บันทึกจากการรันชุดทดสอบ กด <b>Test Request</b> เพื่อลองเรียกได้จากหน้าเอกสาร ผู้ดูแลระบบเปิดเอกสารเดียวกันได้จากเมนู ผู้ดูแลระบบ &gt; API
     </p>
-    <figure><img src="img/24-api-endpoint.jpg" alt="" /><figcaption>รายละเอียด endpoint ยืนยันการจอง พร้อมตัวอย่างการเรียกและผลลัพธ์</figcaption></figure>
-    <h3>ตัวอย่างการเรียกใช้</h3>
+    <figure><img src="img/24-api-endpoint.jpg" alt="" /><figcaption id="f6-1"><b>รูปที่ 6.1</b> รายละเอียด endpoint ยืนยันการจอง พร้อมตัวอย่างการเรียกและผลลัพธ์</figcaption></figure>
+    <h3 id="s6-1">6.1 ตัวอย่างการเรียกใช้</h3>
     <pre><code># 1) เข้าสู่ระบบ ได้ token กลับมา
 curl -X POST http://localhost:3000/api/v1/auth/login \
   -H "Content-Type: application/json" \
@@ -623,102 +726,113 @@ curl -X POST http://localhost:3000/api/v1/cart/slots \
   -H "Authorization: Bearer &lt;token&gt;" -H "Content-Type: application/json" \
   -d '{"courtId":3,"startAt":"2026-10-08T18:00:00+07:00"}'</code></pre>
     <p>ทุก error ใช้รูปแบบเดียวกัน เช่น <code>{"error":{"code":"SLOT_TAKEN","message":"ช่วงเวลานี้มีผู้จองแล้ว"}}</code> โดย status 400 = ข้อมูลไม่ถูกต้อง, 401 = ยังไม่เข้าสู่ระบบ, 403 = ไม่มีสิทธิ์หรือบัญชีถูกระงับ, 404 = ไม่พบข้อมูล, 409 = ขัดแย้งกับสถานะปัจจุบัน</p>
-    <h3>รายการ endpoint ทั้งหมด</h3>
-    <table>
+    <h3 id="s6-2">6.2 รายการ endpoint ทั้งหมด</h3>
+    <p class="tcap" id="t6-1"><b>ตารางที่ 6.1</b> รายการ endpoint ทั้งหมดของ REST API</p>
+    <table class="endpoints">
       <thead>
-        <tr><th>หมวด</th><th>Method</th><th>Path</th><th>หน้าที่</th><th>สิทธิ์</th></tr>
+        <tr><th>หมวด</th><th>Method</th><th>Path (ต่อจาก <code>/api/v1</code>)</th><th>หน้าที่</th><th>สิทธิ์</th></tr>
       </thead>
       <tbody>
-          <tr><td>ระบบ</td><td class="m">GET</td><td><code>/api/v1/health</code></td><td>ตรวจสถานะเซิร์ฟเวอร์และฐานข้อมูล</td><td>ทุกคน</td></tr>
-          <tr><td>เข้าสู่ระบบ</td><td class="m">POST</td><td><code>/api/v1/auth/register</code></td><td>สมัครสมาชิก</td><td>ทุกคน</td></tr>
-          <tr><td>เข้าสู่ระบบ</td><td class="m">POST</td><td><code>/api/v1/auth/login</code></td><td>เข้าสู่ระบบ</td><td>ทุกคน</td></tr>
-          <tr><td>เข้าสู่ระบบ</td><td class="m">POST</td><td><code>/api/v1/auth/logout</code></td><td>ออกจากระบบ</td><td>ทุกคน</td></tr>
-          <tr><td>เข้าสู่ระบบ</td><td class="m">GET</td><td><code>/api/v1/auth/me</code></td><td>ข้อมูลผู้ใช้ที่เข้าสู่ระบบอยู่</td><td>สมาชิก</td></tr>
-          <tr><td>สมาชิก</td><td class="m">PATCH</td><td><code>/api/v1/users/me</code></td><td>แก้ไขข้อมูลส่วนตัว</td><td>สมาชิก</td></tr>
-          <tr><td>สมาชิก</td><td class="m">POST</td><td><code>/api/v1/users/me/avatar</code></td><td>อัปโหลด/เปลี่ยนรูปโปรไฟล์</td><td>สมาชิก</td></tr>
-          <tr><td>สมาชิก</td><td class="m">GET</td><td><code>/api/v1/users</code></td><td>รายชื่อสมาชิกทั้งหมด</td><td>admin</td></tr>
-          <tr><td>สมาชิก</td><td class="m">POST</td><td><code>/api/v1/users</code></td><td>เพิ่มผู้ใช้ใหม่ (เช่น เพิ่ม admin)</td><td>admin</td></tr>
-          <tr><td>สมาชิก</td><td class="m">GET</td><td><code>/api/v1/users/{id}</code></td><td>ข้อมูลสมาชิก 1 คน พร้อมสถิติการจอง</td><td>admin</td></tr>
-          <tr><td>สมาชิก</td><td class="m">PATCH</td><td><code>/api/v1/users/{id}</code></td><td>แก้ไขข้อมูลสมาชิก (โดย admin)</td><td>admin</td></tr>
-          <tr><td>สมาชิก</td><td class="m">PATCH</td><td><code>/api/v1/users/{id}/status</code></td><td>เปลี่ยนสถานะสมาชิก (ระงับ/เปิดใช้งาน)</td><td>admin</td></tr>
-          <tr><td>สมาชิก</td><td class="m">PATCH</td><td><code>/api/v1/users/{id}/role</code></td><td>เปลี่ยนสิทธิ์ (member/admin)</td><td>admin</td></tr>
-          <tr><td>สมาชิก</td><td class="m">POST</td><td><code>/api/v1/users/{id}/password</code></td><td>ตั้งรหัสผ่านใหม่ให้สมาชิก</td><td>admin</td></tr>
-          <tr><td>กีฬา</td><td class="m">GET</td><td><code>/api/v1/sports</code></td><td>ประเภทกีฬาทั้งหมด</td><td>ทุกคน</td></tr>
-          <tr><td>กีฬา</td><td class="m">POST</td><td><code>/api/v1/sports</code></td><td>เพิ่มประเภทกีฬา</td><td>admin</td></tr>
-          <tr><td>กีฬา</td><td class="m">PATCH</td><td><code>/api/v1/sports/{id}</code></td><td>แก้ไขประเภทกีฬา</td><td>admin</td></tr>
-          <tr><td>กีฬา</td><td class="m">DELETE</td><td><code>/api/v1/sports/{id}</code></td><td>ลบประเภทกีฬา</td><td>admin</td></tr>
-          <tr><td>สนาม</td><td class="m">GET</td><td><code>/api/v1/courts</code></td><td>รายการสนามทั้งหมด</td><td>ทุกคน</td></tr>
-          <tr><td>สนาม</td><td class="m">POST</td><td><code>/api/v1/courts</code></td><td>เพิ่มสนาม</td><td>admin</td></tr>
-          <tr><td>สนาม</td><td class="m">GET</td><td><code>/api/v1/courts/{id}</code></td><td>ข้อมูลสนาม 1 สนาม</td><td>ทุกคน</td></tr>
-          <tr><td>สนาม</td><td class="m">PATCH</td><td><code>/api/v1/courts/{id}</code></td><td>แก้ไขข้อมูลสนาม</td><td>admin</td></tr>
-          <tr><td>สนาม</td><td class="m">DELETE</td><td><code>/api/v1/courts/{id}</code></td><td>ลบสนาม</td><td>admin</td></tr>
-          <tr><td>สนาม</td><td class="m">POST</td><td><code>/api/v1/courts/{id}/image</code></td><td>อัปโหลด/เปลี่ยนรูปสนาม</td><td>admin</td></tr>
-          <tr><td>สนาม</td><td class="m">GET</td><td><code>/api/v1/courts/{id}/availability</code></td><td>ตารางช่วงเวลาว่างของสนามในวันที่เลือก</td><td>ทุกคน</td></tr>
-          <tr><td>สนาม</td><td class="m">GET</td><td><code>/api/v1/availability</code></td><td>กระดานเวลาว่างของทุกสนามในวันที่เลือก</td><td>ทุกคน</td></tr>
-          <tr><td>อุปกรณ์</td><td class="m">GET</td><td><code>/api/v1/equipment</code></td><td>รายการอุปกรณ์ให้ยืมทั้งหมด</td><td>ทุกคน</td></tr>
-          <tr><td>อุปกรณ์</td><td class="m">POST</td><td><code>/api/v1/equipment</code></td><td>เพิ่มอุปกรณ์</td><td>admin</td></tr>
-          <tr><td>อุปกรณ์</td><td class="m">GET</td><td><code>/api/v1/equipment/{id}</code></td><td>ข้อมูลอุปกรณ์ 1 รายการ</td><td>ทุกคน</td></tr>
-          <tr><td>อุปกรณ์</td><td class="m">PATCH</td><td><code>/api/v1/equipment/{id}</code></td><td>แก้ไขข้อมูลอุปกรณ์</td><td>admin</td></tr>
-          <tr><td>อุปกรณ์</td><td class="m">DELETE</td><td><code>/api/v1/equipment/{id}</code></td><td>ลบอุปกรณ์</td><td>admin</td></tr>
-          <tr><td>อุปกรณ์</td><td class="m">POST</td><td><code>/api/v1/equipment/{id}/image</code></td><td>อัปโหลด/เปลี่ยนรูปอุปกรณ์</td><td>admin</td></tr>
-          <tr><td>อุปกรณ์</td><td class="m">GET</td><td><code>/api/v1/equipment/{id}/availability</code></td><td>จำนวนอุปกรณ์ที่ยืมได้ในช่วงเวลาที่เลือก</td><td>ทุกคน</td></tr>
-          <tr><td>ตะกร้า</td><td class="m">GET</td><td><code>/api/v1/cart</code></td><td>ดูตะกร้าการจองของฉัน</td><td>สมาชิก</td></tr>
-          <tr><td>ตะกร้า</td><td class="m">DELETE</td><td><code>/api/v1/cart</code></td><td>ลบตะกร้าทั้งหมด</td><td>สมาชิก</td></tr>
-          <tr><td>ตะกร้า</td><td class="m">POST</td><td><code>/api/v1/cart/slots</code></td><td>เพิ่มช่วงเวลาสนาม (1 ชั่วโมง) ลงตะกร้า</td><td>สมาชิก</td></tr>
-          <tr><td>ตะกร้า</td><td class="m">POST</td><td><code>/api/v1/cart/coupon</code></td><td>ใช้คูปองส่วนลดกับตะกร้า</td><td>สมาชิก</td></tr>
-          <tr><td>ตะกร้า</td><td class="m">DELETE</td><td><code>/api/v1/cart/coupon</code></td><td>เอาคูปองออกจากตะกร้า</td><td>สมาชิก</td></tr>
-          <tr><td>ตะกร้า</td><td class="m">POST</td><td><code>/api/v1/cart/equipment</code></td><td>เพิ่มอุปกรณ์ที่จะยืมลงตะกร้า</td><td>สมาชิก</td></tr>
-          <tr><td>ตะกร้า</td><td class="m">DELETE</td><td><code>/api/v1/cart/slots/{id}</code></td><td>ลบรายการช่วงเวลาสนามออกจากตะกร้า</td><td>สมาชิก</td></tr>
-          <tr><td>ตะกร้า</td><td class="m">DELETE</td><td><code>/api/v1/cart/equipment/{id}</code></td><td>ลบรายการอุปกรณ์ออกจากตะกร้า</td><td>สมาชิก</td></tr>
-          <tr><td>ตะกร้า</td><td class="m">POST</td><td><code>/api/v1/cart/confirm</code></td><td>ยืนยันการจอง</td><td>สมาชิก</td></tr>
-          <tr><td>การจอง</td><td class="m">GET</td><td><code>/api/v1/bookings</code></td><td>รายการจองทั้งหมด (ประวัติการจอง)</td><td>สมาชิก</td></tr>
-          <tr><td>การจอง</td><td class="m">GET</td><td><code>/api/v1/bookings/{id}</code></td><td>รายละเอียดการจอง 1 รายการ</td><td>สมาชิก</td></tr>
-          <tr><td>การจอง</td><td class="m">POST</td><td><code>/api/v1/bookings/{id}/cancel</code></td><td>ยกเลิกการจอง</td><td>สมาชิก</td></tr>
-          <tr><td>การจอง</td><td class="m">POST</td><td><code>/api/v1/checkin</code></td><td>เช็คอินหน้าสนาม</td><td>admin</td></tr>
-          <tr><td>การจอง</td><td class="m">POST</td><td><code>/api/v1/bookings/{id}/equipment/{itemId}/return</code></td><td>บันทึกการคืนอุปกรณ์</td><td>admin</td></tr>
-          <tr><td>ชำระเงิน</td><td class="m">GET</td><td><code>/api/v1/bookings/{id}/promptpay</code></td><td>QR PromptPay สำหรับชำระค่าจอง</td><td>สมาชิก</td></tr>
-          <tr><td>ชำระเงิน</td><td class="m">POST</td><td><code>/api/v1/bookings/{id}/payments</code></td><td>แนบสลิปการโอนเงิน</td><td>สมาชิก</td></tr>
-          <tr><td>ชำระเงิน</td><td class="m">GET</td><td><code>/api/v1/payments</code></td><td>รายการสลิปทั้งหมด (สำหรับตรวจสอบ)</td><td>admin</td></tr>
-          <tr><td>ชำระเงิน</td><td class="m">GET</td><td><code>/api/v1/payments/{id}/slip</code></td><td>ดูรูปสลิป</td><td>สมาชิก</td></tr>
-          <tr><td>ชำระเงิน</td><td class="m">PATCH</td><td><code>/api/v1/payments/{id}</code></td><td>อนุมัติหรือปฏิเสธสลิป</td><td>admin</td></tr>
-          <tr><td>รีวิว</td><td class="m">GET</td><td><code>/api/v1/courts/{id}/reviews</code></td><td>รีวิวของสนาม</td><td>ทุกคน</td></tr>
-          <tr><td>รีวิว</td><td class="m">POST</td><td><code>/api/v1/bookings/{id}/review</code></td><td>รีวิวสนามหลังใช้บริการ</td><td>สมาชิก</td></tr>
-          <tr><td>รีวิว</td><td class="m">GET</td><td><code>/api/v1/reviews</code></td><td>รีวิวทั้งหมด (สำหรับตรวจสอบ)</td><td>admin</td></tr>
-          <tr><td>รีวิว</td><td class="m">DELETE</td><td><code>/api/v1/reviews/{id}</code></td><td>ลบรีวิว</td><td>admin</td></tr>
-          <tr><td>เรียลไทม์</td><td class="m">GET</td><td><code>/api/v1/events/availability</code></td><td>สตรีมแจ้งเตือนเมื่อตารางว่างเปลี่ยน (Server-Sent Events)</td><td>ทุกคน</td></tr>
-          <tr><td>อีเมล</td><td class="m">GET</td><td><code>/api/v1/users/me/emails</code></td><td>กล่องข้อความของฉัน</td><td>สมาชิก</td></tr>
-          <tr><td>อีเมล</td><td class="m">GET</td><td><code>/api/v1/emails</code></td><td>อีเมลทั้งหมดที่ระบบส่ง</td><td>admin</td></tr>
-          <tr><td>อีเมล</td><td class="m">GET</td><td><code>/api/v1/emails/{id}</code></td><td>เปิดอ่านอีเมล 1 ฉบับ</td><td>สมาชิก</td></tr>
-          <tr><td>อีเมล</td><td class="m">POST</td><td><code>/api/v1/emails/{id}/resend</code></td><td>ส่งอีเมลออกทาง SMTP อีกครั้ง</td><td>admin</td></tr>
-          <tr><td>ผู้ดูแล</td><td class="m">GET</td><td><code>/api/v1/admin/stats</code></td><td>สถิติแดชบอร์ด</td><td>admin</td></tr>
-          <tr><td>ผู้ดูแล</td><td class="m">GET</td><td><code>/api/v1/admin/system</code></td><td>สถานะระบบหลังบ้าน</td><td>admin</td></tr>
-          <tr><td>ผู้ดูแล</td><td class="m">POST</td><td><code>/api/v1/admin/jobs/run</code></td><td>รันงานอัตโนมัติทันที</td><td>admin</td></tr>
-          <tr><td>ผู้ดูแล</td><td class="m">GET</td><td><code>/api/v1/coupons</code></td><td>คูปองส่วนลดทั้งหมด</td><td>admin</td></tr>
-          <tr><td>ผู้ดูแล</td><td class="m">POST</td><td><code>/api/v1/coupons</code></td><td>สร้างคูปองส่วนลด</td><td>admin</td></tr>
-          <tr><td>ผู้ดูแล</td><td class="m">PATCH</td><td><code>/api/v1/coupons/{id}</code></td><td>แก้ไขหรือปิดคูปอง</td><td>admin</td></tr>
-          <tr><td>ผู้ดูแล</td><td class="m">DELETE</td><td><code>/api/v1/coupons/{id}</code></td><td>ลบคูปอง</td><td>admin</td></tr>
-          <tr><td>ผู้ดูแล</td><td class="m">GET</td><td><code>/api/v1/coupons/{id}/usage</code></td><td>รายละเอียดการใช้คูปอง</td><td>admin</td></tr>
-          <tr><td>ผู้ดูแล</td><td class="m">GET</td><td><code>/api/v1/settings</code></td><td>ค่าตั้งระบบที่ใช้อยู่</td><td>ทุกคน</td></tr>
-          <tr><td>ผู้ดูแล</td><td class="m">PATCH</td><td><code>/api/v1/settings</code></td><td>แก้ค่าตั้งระบบ</td><td>admin</td></tr>
+          <tr><td>ระบบ</td><td class="m">GET</td><td><code>/health</code></td><td>ตรวจสถานะเซิร์ฟเวอร์และฐานข้อมูล</td><td>ทุกคน</td></tr>
+          <tr><td>เข้าสู่ระบบ</td><td class="m">POST</td><td><code>/auth/<wbr>register</code></td><td>สมัครสมาชิก</td><td>ทุกคน</td></tr>
+          <tr><td>เข้าสู่ระบบ</td><td class="m">POST</td><td><code>/auth/<wbr>login</code></td><td>เข้าสู่ระบบ</td><td>ทุกคน</td></tr>
+          <tr><td>เข้าสู่ระบบ</td><td class="m">POST</td><td><code>/auth/<wbr>logout</code></td><td>ออกจากระบบ</td><td>ทุกคน</td></tr>
+          <tr><td>เข้าสู่ระบบ</td><td class="m">GET</td><td><code>/auth/<wbr>me</code></td><td>ข้อมูลผู้ใช้ที่เข้าสู่ระบบอยู่</td><td>สมาชิก</td></tr>
+          <tr><td>สมาชิก</td><td class="m">PATCH</td><td><code>/users/<wbr>me</code></td><td>แก้ไขข้อมูลส่วนตัว</td><td>สมาชิก</td></tr>
+          <tr><td>สมาชิก</td><td class="m">POST</td><td><code>/users/<wbr>me/<wbr>avatar</code></td><td>อัปโหลด/เปลี่ยนรูปโปรไฟล์</td><td>สมาชิก</td></tr>
+          <tr><td>สมาชิก</td><td class="m">GET</td><td><code>/users</code></td><td>รายชื่อสมาชิกทั้งหมด</td><td>admin</td></tr>
+          <tr><td>สมาชิก</td><td class="m">POST</td><td><code>/users</code></td><td>เพิ่มผู้ใช้ใหม่ (เช่น เพิ่ม admin)</td><td>admin</td></tr>
+          <tr><td>สมาชิก</td><td class="m">GET</td><td><code>/users/<wbr>{id}</code></td><td>ข้อมูลสมาชิก 1 คน พร้อมสถิติการจอง</td><td>admin</td></tr>
+          <tr><td>สมาชิก</td><td class="m">PATCH</td><td><code>/users/<wbr>{id}</code></td><td>แก้ไขข้อมูลสมาชิก (โดย admin)</td><td>admin</td></tr>
+          <tr><td>สมาชิก</td><td class="m">PATCH</td><td><code>/users/<wbr>{id}/<wbr>status</code></td><td>เปลี่ยนสถานะสมาชิก (ระงับ/เปิดใช้งาน)</td><td>admin</td></tr>
+          <tr><td>สมาชิก</td><td class="m">PATCH</td><td><code>/users/<wbr>{id}/<wbr>role</code></td><td>เปลี่ยนสิทธิ์ (member/admin)</td><td>admin</td></tr>
+          <tr><td>สมาชิก</td><td class="m">POST</td><td><code>/users/<wbr>{id}/<wbr>password</code></td><td>ตั้งรหัสผ่านใหม่ให้สมาชิก</td><td>admin</td></tr>
+          <tr><td>กีฬา</td><td class="m">GET</td><td><code>/sports</code></td><td>ประเภทกีฬาทั้งหมด</td><td>ทุกคน</td></tr>
+          <tr><td>กีฬา</td><td class="m">POST</td><td><code>/sports</code></td><td>เพิ่มประเภทกีฬา</td><td>admin</td></tr>
+          <tr><td>กีฬา</td><td class="m">PATCH</td><td><code>/sports/<wbr>{id}</code></td><td>แก้ไขประเภทกีฬา</td><td>admin</td></tr>
+          <tr><td>กีฬา</td><td class="m">DELETE</td><td><code>/sports/<wbr>{id}</code></td><td>ลบประเภทกีฬา</td><td>admin</td></tr>
+          <tr><td>สนาม</td><td class="m">GET</td><td><code>/courts</code></td><td>รายการสนามทั้งหมด</td><td>ทุกคน</td></tr>
+          <tr><td>สนาม</td><td class="m">POST</td><td><code>/courts</code></td><td>เพิ่มสนาม</td><td>admin</td></tr>
+          <tr><td>สนาม</td><td class="m">GET</td><td><code>/courts/<wbr>{id}</code></td><td>ข้อมูลสนาม 1 สนาม</td><td>ทุกคน</td></tr>
+          <tr><td>สนาม</td><td class="m">PATCH</td><td><code>/courts/<wbr>{id}</code></td><td>แก้ไขข้อมูลสนาม</td><td>admin</td></tr>
+          <tr><td>สนาม</td><td class="m">DELETE</td><td><code>/courts/<wbr>{id}</code></td><td>ลบสนาม</td><td>admin</td></tr>
+          <tr><td>สนาม</td><td class="m">POST</td><td><code>/courts/<wbr>{id}/<wbr>image</code></td><td>อัปโหลด/เปลี่ยนรูปสนาม</td><td>admin</td></tr>
+          <tr><td>สนาม</td><td class="m">GET</td><td><code>/courts/<wbr>{id}/<wbr>availability</code></td><td>ตารางช่วงเวลาว่างของสนามในวันที่เลือก</td><td>ทุกคน</td></tr>
+          <tr><td>สนาม</td><td class="m">GET</td><td><code>/availability</code></td><td>กระดานเวลาว่างของทุกสนามในวันที่เลือก</td><td>ทุกคน</td></tr>
+          <tr><td>อุปกรณ์</td><td class="m">GET</td><td><code>/equipment</code></td><td>รายการอุปกรณ์ให้ยืมทั้งหมด</td><td>ทุกคน</td></tr>
+          <tr><td>อุปกรณ์</td><td class="m">POST</td><td><code>/equipment</code></td><td>เพิ่มอุปกรณ์</td><td>admin</td></tr>
+          <tr><td>อุปกรณ์</td><td class="m">GET</td><td><code>/equipment/<wbr>{id}</code></td><td>ข้อมูลอุปกรณ์ 1 รายการ</td><td>ทุกคน</td></tr>
+          <tr><td>อุปกรณ์</td><td class="m">PATCH</td><td><code>/equipment/<wbr>{id}</code></td><td>แก้ไขข้อมูลอุปกรณ์</td><td>admin</td></tr>
+          <tr><td>อุปกรณ์</td><td class="m">DELETE</td><td><code>/equipment/<wbr>{id}</code></td><td>ลบอุปกรณ์</td><td>admin</td></tr>
+          <tr><td>อุปกรณ์</td><td class="m">POST</td><td><code>/equipment/<wbr>{id}/<wbr>image</code></td><td>อัปโหลด/เปลี่ยนรูปอุปกรณ์</td><td>admin</td></tr>
+          <tr><td>อุปกรณ์</td><td class="m">GET</td><td><code>/equipment/<wbr>{id}/<wbr>availability</code></td><td>จำนวนอุปกรณ์ที่ยืมได้ในช่วงเวลาที่เลือก</td><td>ทุกคน</td></tr>
+          <tr><td>ตะกร้า</td><td class="m">GET</td><td><code>/cart</code></td><td>ดูตะกร้าการจองของฉัน</td><td>สมาชิก</td></tr>
+          <tr><td>ตะกร้า</td><td class="m">DELETE</td><td><code>/cart</code></td><td>ลบตะกร้าทั้งหมด</td><td>สมาชิก</td></tr>
+          <tr><td>ตะกร้า</td><td class="m">POST</td><td><code>/cart/<wbr>slots</code></td><td>เพิ่มช่วงเวลาสนาม (1 ชั่วโมง) ลงตะกร้า</td><td>สมาชิก</td></tr>
+          <tr><td>ตะกร้า</td><td class="m">POST</td><td><code>/cart/<wbr>coupon</code></td><td>ใช้คูปองส่วนลดกับตะกร้า</td><td>สมาชิก</td></tr>
+          <tr><td>ตะกร้า</td><td class="m">DELETE</td><td><code>/cart/<wbr>coupon</code></td><td>เอาคูปองออกจากตะกร้า</td><td>สมาชิก</td></tr>
+          <tr><td>ตะกร้า</td><td class="m">POST</td><td><code>/cart/<wbr>equipment</code></td><td>เพิ่มอุปกรณ์ที่จะยืมลงตะกร้า</td><td>สมาชิก</td></tr>
+          <tr><td>ตะกร้า</td><td class="m">DELETE</td><td><code>/cart/<wbr>slots/<wbr>{id}</code></td><td>ลบรายการช่วงเวลาสนามออกจากตะกร้า</td><td>สมาชิก</td></tr>
+          <tr><td>ตะกร้า</td><td class="m">DELETE</td><td><code>/cart/<wbr>equipment/<wbr>{id}</code></td><td>ลบรายการอุปกรณ์ออกจากตะกร้า</td><td>สมาชิก</td></tr>
+          <tr><td>ตะกร้า</td><td class="m">POST</td><td><code>/cart/<wbr>confirm</code></td><td>ยืนยันการจอง</td><td>สมาชิก</td></tr>
+          <tr><td>การจอง</td><td class="m">GET</td><td><code>/bookings</code></td><td>รายการจองทั้งหมด (ประวัติการจอง)</td><td>สมาชิก</td></tr>
+          <tr><td>การจอง</td><td class="m">GET</td><td><code>/bookings/<wbr>{id}</code></td><td>รายละเอียดการจอง 1 รายการ</td><td>สมาชิก</td></tr>
+          <tr><td>การจอง</td><td class="m">POST</td><td><code>/bookings/<wbr>{id}/<wbr>cancel</code></td><td>ยกเลิกการจอง</td><td>สมาชิก</td></tr>
+          <tr><td>การจอง</td><td class="m">POST</td><td><code>/checkin</code></td><td>เช็คอินหน้าสนาม</td><td>admin</td></tr>
+          <tr><td>การจอง</td><td class="m">POST</td><td><code>/bookings/<wbr>{id}/<wbr>equipment/<wbr>{itemId}/<wbr>return</code></td><td>บันทึกการคืนอุปกรณ์</td><td>admin</td></tr>
+          <tr><td>ชำระเงิน</td><td class="m">GET</td><td><code>/bookings/<wbr>{id}/<wbr>promptpay</code></td><td>QR PromptPay สำหรับชำระค่าจอง</td><td>สมาชิก</td></tr>
+          <tr><td>ชำระเงิน</td><td class="m">POST</td><td><code>/bookings/<wbr>{id}/<wbr>payments</code></td><td>แนบสลิปการโอนเงิน</td><td>สมาชิก</td></tr>
+          <tr><td>ชำระเงิน</td><td class="m">GET</td><td><code>/payments</code></td><td>รายการสลิปทั้งหมด (สำหรับตรวจสอบ)</td><td>admin</td></tr>
+          <tr><td>ชำระเงิน</td><td class="m">GET</td><td><code>/payments/<wbr>{id}/<wbr>slip</code></td><td>ดูรูปสลิป</td><td>สมาชิก</td></tr>
+          <tr><td>ชำระเงิน</td><td class="m">PATCH</td><td><code>/payments/<wbr>{id}</code></td><td>อนุมัติหรือปฏิเสธสลิป</td><td>admin</td></tr>
+          <tr><td>รีวิว</td><td class="m">GET</td><td><code>/courts/<wbr>{id}/<wbr>reviews</code></td><td>รีวิวของสนาม</td><td>ทุกคน</td></tr>
+          <tr><td>รีวิว</td><td class="m">POST</td><td><code>/bookings/<wbr>{id}/<wbr>review</code></td><td>รีวิวสนามหลังใช้บริการ</td><td>สมาชิก</td></tr>
+          <tr><td>รีวิว</td><td class="m">GET</td><td><code>/reviews</code></td><td>รีวิวทั้งหมด (สำหรับตรวจสอบ)</td><td>admin</td></tr>
+          <tr><td>รีวิว</td><td class="m">DELETE</td><td><code>/reviews/<wbr>{id}</code></td><td>ลบรีวิว</td><td>admin</td></tr>
+          <tr><td>เรียลไทม์</td><td class="m">GET</td><td><code>/events/<wbr>availability</code></td><td>สตรีมแจ้งเตือนเมื่อตารางว่างเปลี่ยน (Server-Sent Events)</td><td>ทุกคน</td></tr>
+          <tr><td>อีเมล</td><td class="m">GET</td><td><code>/users/<wbr>me/<wbr>emails</code></td><td>กล่องข้อความของฉัน</td><td>สมาชิก</td></tr>
+          <tr><td>อีเมล</td><td class="m">GET</td><td><code>/emails</code></td><td>อีเมลทั้งหมดที่ระบบส่ง</td><td>admin</td></tr>
+          <tr><td>อีเมล</td><td class="m">GET</td><td><code>/emails/<wbr>{id}</code></td><td>เปิดอ่านอีเมล 1 ฉบับ</td><td>สมาชิก</td></tr>
+          <tr><td>อีเมล</td><td class="m">POST</td><td><code>/emails/<wbr>{id}/<wbr>resend</code></td><td>ส่งอีเมลออกทาง SMTP อีกครั้ง</td><td>admin</td></tr>
+          <tr><td>ผู้ดูแล</td><td class="m">GET</td><td><code>/admin/<wbr>stats</code></td><td>สถิติแดชบอร์ด</td><td>admin</td></tr>
+          <tr><td>ผู้ดูแล</td><td class="m">GET</td><td><code>/admin/<wbr>system</code></td><td>สถานะระบบหลังบ้าน</td><td>admin</td></tr>
+          <tr><td>ผู้ดูแล</td><td class="m">POST</td><td><code>/admin/<wbr>jobs/<wbr>run</code></td><td>รันงานอัตโนมัติทันที</td><td>admin</td></tr>
+          <tr><td>ผู้ดูแล</td><td class="m">GET</td><td><code>/admin/<wbr>manual</code></td><td>ดาวน์โหลดคู่มือการใช้งาน (PDF)</td><td>admin</td></tr>
+          <tr><td>ผู้ดูแล</td><td class="m">GET</td><td><code>/coupons</code></td><td>คูปองส่วนลดทั้งหมด</td><td>admin</td></tr>
+          <tr><td>ผู้ดูแล</td><td class="m">POST</td><td><code>/coupons</code></td><td>สร้างคูปองส่วนลด</td><td>admin</td></tr>
+          <tr><td>ผู้ดูแล</td><td class="m">PATCH</td><td><code>/coupons/<wbr>{id}</code></td><td>แก้ไขหรือปิดคูปอง</td><td>admin</td></tr>
+          <tr><td>ผู้ดูแล</td><td class="m">DELETE</td><td><code>/coupons/<wbr>{id}</code></td><td>ลบคูปอง</td><td>admin</td></tr>
+          <tr><td>ผู้ดูแล</td><td class="m">GET</td><td><code>/coupons/<wbr>{id}/<wbr>usage</code></td><td>รายละเอียดการใช้คูปอง</td><td>admin</td></tr>
+          <tr><td>ผู้ดูแล</td><td class="m">GET</td><td><code>/settings</code></td><td>ค่าตั้งระบบที่ใช้อยู่</td><td>ทุกคน</td></tr>
+          <tr><td>ผู้ดูแล</td><td class="m">PATCH</td><td><code>/settings</code></td><td>แก้ค่าตั้งระบบ</td><td>admin</td></tr>
       </tbody>
     </table>
 
-    <h2>7. การติดตั้งและทดสอบระบบ</h2>
-    <h3>สิ่งที่ต้องมี</h3>
+    <h2 id="s7" class="chapter"><span>บทที่ 7</span>การติดตั้งและทดสอบระบบ</h2>
+    <h3 id="s7-1">7.1 สิ่งที่ต้องมี</h3>
     <p>Node.js 24, pnpm และ Docker Desktop (สำหรับ PostgreSQL)</p>
-    <h3>ติดตั้งและรัน</h3>
+    <h3 id="s7-2">7.2 ติดตั้งและรัน</h3>
     <pre><code>docker compose up -d     # PostgreSQL 18 (พอร์ตถูกใช้: ตั้ง DB_PORT ใน .env)
 pnpm install
 pnpm db:migrate          # สร้างตาราง
 pnpm db:seed             # ข้อมูลตัวอย่าง (หรือ pnpm db:reset เพื่อล้างและสร้างใหม่)
 pnpm dev                 # API :3000 และเว็บ :5173</code></pre>
     <p>ต้องการฐานข้อมูลชุดเดียวกับอีกเครื่อง: เครื่องต้นทางรัน <code>pnpm db:export</code> แล้ว commit โฟลเดอร์ <code>apps/api/db/snapshot/</code> เครื่องปลายทางรัน <code>pnpm db:import</code> แทน <code>db:migrate</code> และ <code>db:seed</code> จะได้ทุกตาราง ทุกการจอง และไฟล์สลิปเหมือนกัน</p>
-    <h3>ทดสอบ</h3>
+    <h3 id="s7-3">7.3 ทดสอบ</h3>
     <pre><code>pnpm test                # ชุดทดสอบ API 113 กรณี กับฐานข้อมูล sporthub_test</code></pre>
     <p>ชุดทดสอบครอบคลุมการสมัครและสิทธิ์ การจัดการสนามและอุปกรณ์ ตะกร้า การยืนยันพร้อมกันสองคน (จองซ้อนและยืมเกินสต็อก) การชำระเงิน อีเมล การเช็คอิน การคืนอุปกรณ์ รีวิว งานอัตโนมัติ และสถิติ</p>
-    <h3>Production</h3>
+    <h3 id="s7-4">7.4 Production</h3>
     <pre><code>docker build -t sporthub .
 docker run -p 3000:3000 -e DATABASE_URL=... -e JWT_SECRET=... sporthub</code></pre>
     <p>image เดียวสร้างหน้าเว็บและรัน API ซึ่งเสิร์ฟหน้าเว็บบนโดเมนเดียวกัน และ migrate ฐานข้อมูลให้ตอนเริ่มทำงาน รายละเอียดค่าที่ตั้งได้อยู่ในไฟล์ <code>.env.example</code></p>
+    <h2 id="refs">บรรณานุกรม</h2>
+    <div class="refs">
+      <p>Express.js. (ม.ป.ป.). <i>Express 5.x API reference</i>. สืบค้นเมื่อ 28 ตุลาคม 2569, จาก https://expressjs.com/en/5x/api.html</p>
+      <p>Meta Open Source. (ม.ป.ป.). <i>React documentation</i>. สืบค้นเมื่อ 28 ตุลาคม 2569, จาก https://react.dev/</p>
+      <p>OpenJS Foundation. (ม.ป.ป.). <i>Node.js v24 documentation</i>. สืบค้นเมื่อ 28 ตุลาคม 2569, จาก https://nodejs.org/docs/latest-v24.x/api/</p>
+      <p>OpenAPI Initiative. (2021). <i>OpenAPI Specification v3.1.0</i>. สืบค้นเมื่อ 28 ตุลาคม 2569, จาก https://spec.openapis.org/oas/v3.1.0</p>
+      <p>The PostgreSQL Global Development Group. (ม.ป.ป.). <i>PostgreSQL 18 documentation</i>. สืบค้นเมื่อ 28 ตุลาคม 2569, จาก https://www.postgresql.org/docs/18/</p>
+      <p>Vite. (ม.ป.ป.). <i>Vite guide</i>. สืบค้นเมื่อ 28 ตุลาคม 2569, จาก https://vite.dev/guide/</p>
+    </div>
   </body>
 </html>

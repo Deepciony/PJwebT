@@ -1,6 +1,6 @@
 {
-  "name": "SportHub จองสนามกีฬา",
-  "short_name": "SportHub",
+  "name": "Arena Hub จองสนามกีฬา",
+  "short_name": "Arena Hub",
   "description": "จองสนามกีฬาและยืมอุปกรณ์ ดูตารางว่างแบบเรียลไทม์ จ่ายด้วย PromptPay",
   "lang": "th",
   "start_url": "/",

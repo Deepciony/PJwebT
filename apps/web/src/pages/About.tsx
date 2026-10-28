@@ -53,7 +53,7 @@ function ProjectFiles() {
   );
 }
 
-// What SportHub is built with and how it works, for the presentation and anyone curious.
+// What Arena Hub is built with and how it works, for the presentation and anyone curious.
 // Endpoint counts are read live from /openapi.json; the schema below mirrors apps/api/db/migrations.
 
 type OpenApi = { paths: Record<string, Record<string, { tags?: string[] }>> };
@@ -484,7 +484,7 @@ export default function About() {
   return (
     <div className="space-y-12">
       <div className="space-y-4">
-        <PageHeader title="ข้อมูลระบบ" sub="SportHub สร้างด้วยอะไร ทำงานยังไง และเก็บข้อมูลแบบไหน สำหรับการนำเสนอและผู้ที่สนใจด้านเทคนิค">
+        <PageHeader title="ข้อมูลระบบ" sub="Arena Hub สร้างด้วยอะไร ทำงานยังไง และเก็บข้อมูลแบบไหน สำหรับการนำเสนอและผู้ที่สนใจด้านเทคนิค">
           <StatBox label="REST API" value={ops.length || '-'} unit="endpoint" />
           <StatBox label="ฐานข้อมูล" value={tables.length} unit="ตาราง" />
           <StatBox label="ภาษา" value="TS" unit="ทั้งระบบ" />

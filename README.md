@@ -1,4 +1,4 @@
-# SportHub ระบบจองสนามกีฬาและยืมอุปกรณ์
+# Arena Hub ระบบจองสนามกีฬาและยืมอุปกรณ์
 
 เว็บจองสนามกีฬาหลายประเภทพร้อมระบบยืมอุปกรณ์: ดูตารางว่างแบบเรียลไทม์ จองรายชั่วโมงหรือจองประจำรายสัปดาห์ ราคาช่วง peak คูปองส่วนลด จ่ายด้วย PromptPay เช็คอินด้วย QR คืนอุปกรณ์ รีวิว แดชบอร์ดผู้ดูแลระบบ และติดตั้งเป็นแอปบนมือถือได้ (PWA)
 
@@ -100,14 +100,22 @@ apps/web/src/
 
 ## Deploy
 
-`Dockerfile` สร้าง image เดียวที่ build เว็บแล้วรัน API (API เสิร์ฟเว็บบนโดเมนเดียวกัน จึงไม่มีปัญหา CORS หรือ cookie ข้ามโดเมน) และ migrate ฐานข้อมูลตอนเริ่ม
+`Dockerfile` สร้าง image เดียวที่ build เว็บแล้วรัน API (API เสิร์ฟเว็บบนโดเมนเดียวกัน จึงไม่มีปัญหา CORS หรือ cookie ข้ามโดเมน) ตอนเริ่มจะ migrate ฐานข้อมูล ใส่ข้อมูลตัวอย่างถ้าฐานข้อมูลยังว่าง แล้วจึงเปิดเว็บ บน production รหัสผ่าน admin มาจาก `ADMIN_PASSWORD` (ไม่ใช่ `admin1234`)
 
 ```bash
-docker build -t sporthub .
-docker run -p 3000:3000 -e DATABASE_URL=postgres://... -e JWT_SECRET=<สุ่มยาวๆ> sporthub
+docker build -t arena-hub .
+docker run -p 3000:3000 -e DATABASE_URL=postgres://... -e JWT_SECRET=<สุ่มยาวๆ> -e ADMIN_PASSWORD=<รหัส admin> arena-hub
 ```
 
-บน Render หรือ Railway: สร้าง PostgreSQL ของผู้ให้บริการ แล้วสร้าง Web Service จาก repo นี้แบบ Docker ตั้ง `DATABASE_URL`, `JWT_SECRET` และ `APP_URL` (ถ้าต้องการส่งอีเมลออกไปอีเมลจริงด้วย ตั้ง `SMTP_URL` เช่น SMTP ของ Gmail แบบ App Password ถ้าไม่ตั้ง อีเมลจะอยู่ในเว็บอย่างเดียว) PromptPay กฎการจอง ประกาศ และข้อมูลติดต่อแก้ได้ในหน้า ผู้ดูแลระบบ > ระบบ health check คือ `/api/v1/health` ดิสก์ของแพ็กเกจฟรีจะล้างตอน deploy ใหม่ ถ้าต้องเก็บรูปที่อัปโหลดให้ต่อ persistent disk ที่ `/app/apps/api/uploads`
+### ขึ้นออนไลน์ฟรี (Render + Neon)
+
+1. **ฐานข้อมูล:** สมัคร https://neon.tech สร้าง project (region Singapore) แล้วคัดลอก connection string (`postgresql://...neon.tech/neondb?sslmode=require`)
+2. **เว็บ:** สมัคร https://render.com ด้วย GitHub เลือก New > Blueprint > repo นี้ Render อ่าน `render.yaml` เอง ใส่ `DATABASE_URL` (จากข้อ 1) และ `ADMIN_PASSWORD` แล้วกด Deploy รอ 5-10 นาที จะได้ลิงก์ `https://arena-hub-xxxx.onrender.com`
+3. **ไม่ให้หลับ:** แพ็กเกจฟรีของ Render หลับเมื่อไม่มีคนเข้า 15 นาที สมัคร https://uptimerobot.com เพิ่ม HTTP monitor ไปที่ `<ลิงก์>/api/v1/health` ทุก 5 นาที
+
+ไฟล์ที่ผู้ใช้อัปโหลด (สลิป รูปโปรไฟล์ รูปที่ admin เปลี่ยน) อยู่บนดิสก์ชั่วคราวของ Render และหายเมื่อ deploy ใหม่ ส่วนรูปสนามและอุปกรณ์ตัวอย่างอยู่ในตัวเว็บ ไม่หาย
+
+ผู้ให้บริการอื่น (เช่น Railway): สร้าง PostgreSQL ของผู้ให้บริการ แล้วสร้าง Web Service จาก repo นี้แบบ Docker ตั้ง `DATABASE_URL`, `JWT_SECRET`, `ADMIN_PASSWORD` และ `APP_URL` (ถ้าต้องการส่งอีเมลออกไปอีเมลจริงด้วย ตั้ง `SMTP_URL` เช่น SMTP ของ Gmail แบบ App Password ถ้าไม่ตั้ง อีเมลจะอยู่ในเว็บอย่างเดียว) PromptPay กฎการจอง ประกาศ และข้อมูลติดต่อแก้ได้ในหน้า ผู้ดูแลระบบ > ระบบ health check คือ `/api/v1/health` ดิสก์ของแพ็กเกจฟรีจะล้างตอน deploy ใหม่ ถ้าต้องเก็บรูปที่อัปโหลดให้ต่อ persistent disk ที่ `/app/apps/api/uploads`
 
 ## สาธิต 30 นาที (แนะนำ)
 

@@ -1,3 +1,5 @@
+import { existsSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import { z } from 'zod';
 import { one, query } from '../db';
 import { fail } from '../lib/http';
@@ -160,5 +162,24 @@ route({
   handler: async () => {
     await runJobs();
     return { ok: true as const, lastJobRunAt: lastJobRunAt()! };
+  },
+});
+
+// the printed user manual (it lists the demo accounts' passwords, so admins only)
+const manualFile = fileURLToPath(new URL('../../../../docs/SportHub-manual.pdf', import.meta.url));
+
+route({
+  method: 'get',
+  path: '/admin/manual',
+  tag: 'Admin',
+  summary: 'ดาวน์โหลดคู่มือการใช้งาน (PDF)',
+  description: 'ไฟล์คู่มือการใช้งานฉบับพิมพ์ของระบบ ดาวน์โหลดเป็นชื่อ Arena-Hub-manual.pdf',
+  access: 'admin',
+  response: z.string(),
+  produces: 'pdf',
+  errors: { 404: 'ยังไม่มีไฟล์คู่มือบนเซิร์ฟเวอร์ (NOT_FOUND)' },
+  handler: async ({ res }) => {
+    if (!existsSync(manualFile)) fail(404, 'NOT_FOUND', 'ยังไม่มีไฟล์คู่มือบนเซิร์ฟเวอร์');
+    await new Promise<void>((resolve, reject) => res.download(manualFile, 'Arena-Hub-manual.pdf', (err) => (err ? reject(err) : resolve())));
   },
 });

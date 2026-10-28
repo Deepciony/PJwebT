@@ -2,8 +2,8 @@
 // The text comes from each file's own header comment, else from a rule for its folder, so the list follows
 // the code: files added, removed or edited while `pnpm dev` runs show up on the next page load.
 import { execFileSync } from 'node:child_process';
-import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { readdirSync, readFileSync } from 'node:fs';
+import { join, relative } from 'node:path';
 import type { Plugin } from 'vite';
 
 const repo = new URL('../../', import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1');
@@ -14,7 +14,8 @@ const rules: [RegExp, string][] = [
   [/^apps\/web\/src\/pages\/admin\//, 'หน้าในส่วนผู้ดูแลระบบ'],
   [/^apps\/web\/src\/pages\//, 'หน้าเว็บฝั่งสมาชิก'],
   [/^apps\/web\/src\/components\//, 'ส่วนประกอบหน้าเว็บที่ใช้ซ้ำ'],
-  [/^apps\/web\/public\//, 'ไฟล์ที่เว็บเสิร์ฟตรง เช่น ไอคอนแอป'],
+  [/^apps\/web\/public\/photos\//, 'รูปจริงของสนามและอุปกรณ์ เลขตามลำดับรายการใน seed.ts'],
+  [/^apps\/web\/public\//,'ไฟล์ที่เว็บเสิร์ฟตรง เช่น ไอคอนแอป'],
   [/^apps\/api\/src\/routes\//, 'endpoint ของ REST API หมวดนี้'],
   [/^apps\/api\/test\//, 'ชุดทดสอบ API (Vitest + Supertest)'],
   [/^apps\/api\/db\/migrations\//, 'migration สร้างหรือแก้ตารางในฐานข้อมูล'],
@@ -56,14 +57,23 @@ function headerComment(text: string) {
   return out.join(' ').trim();
 }
 
+// git's view of the repo (tracked + new files, minus .gitignore); a Docker build has no git, so walk the folder there
+function repoFiles() {
+  try {
+    return execFileSync('git', ['ls-files', '--cached', '--others', '--exclude-standard', '-z'], { cwd: repo, encoding: 'utf8' }).split('\0').filter(Boolean);
+  } catch {
+    return readdirSync(repo, { recursive: true, withFileTypes: true })
+      .filter((d) => d.isFile())
+      .map((d) => relative(repo, join(d.parentPath, d.name)).replaceAll('\\', '/'))
+      .filter((f) => !/(^|\/)(node_modules|dist|\.git)\/|^apps\/api\/uploads\/|^\.env$/.test(f));
+  }
+}
+
 function scan() {
-  const files = execFileSync('git', ['ls-files', '--cached', '--others', '--exclude-standard', '-z'], { cwd: repo, encoding: 'utf8' })
-    .split('\0')
-    .filter(Boolean)
-    .filter((f) => !/^apps\/api\/db\/snapshot\/uploads\/private\//.test(f)); // slips are listed as one line below
-  const slips = execFileSync('git', ['ls-files', '--cached', '--others', '--exclude-standard', 'apps/api/db/snapshot/uploads/private'], { cwd: repo, encoding: 'utf8' })
-    .split('\n')
-    .filter(Boolean).length;
+  const all = repoFiles();
+  const isSlip = (f: string) => /^apps\/api\/db\/snapshot\/uploads\/private\//.test(f);
+  const files = all.filter((f) => !isSlip(f)); // slips are listed as one line below
+  const slips = all.filter(isSlip).length;
   const list = files.map((path) => {
     let text = '';
     const binary = /\.(png|jpe?g|webp|ico|pdf|gif)$/i.test(path);

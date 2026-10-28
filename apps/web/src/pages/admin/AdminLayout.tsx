@@ -54,6 +54,13 @@ export default function AdminLayout() {
         <NavLink to="/admin/about" className={tab}>
           ข้อมูลระบบ
         </NavLink>
+        {/* a plain link: the login cookie goes along, and the API answers with the file as an attachment */}
+        <a href="/api/v1/admin/manual" download className={`${tab({ isActive: false })} ml-auto`}>
+          <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <path d="M12 4v11m-5-5 5 5 5-5M5 20h14" />
+          </svg>
+          คู่มือ PDF
+        </a>
       </nav>
       <Suspense fallback={<Loading />}>
         <Outlet />

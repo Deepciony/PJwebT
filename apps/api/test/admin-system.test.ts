@@ -186,4 +186,14 @@ describe('system status', () => {
     const { token } = await member();
     expect((await api().post('/api/v1/admin/jobs/run').set(bearer(token))).status).toBe(403);
   });
+
+  it('lets admins download the user manual as a PDF; members cannot', async () => {
+    const res = await api().get('/api/v1/admin/manual').set(bearer(adminToken)).buffer(true);
+    expect(res.status).toBe(200);
+    expect(res.headers['content-type']).toBe('application/pdf');
+    expect(res.headers['content-disposition']).toContain('Arena-Hub-manual.pdf');
+    expect(res.body.subarray(0, 5).toString()).toBe('%PDF-');
+    const { token } = await member();
+    expect((await api().get('/api/v1/admin/manual').set(bearer(token))).status).toBe(403);
+  });
 });

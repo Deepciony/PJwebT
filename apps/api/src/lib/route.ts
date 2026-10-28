@@ -26,7 +26,7 @@ export type RouteDef<P extends z.ZodType = z.ZodType, Q extends z.ZodType = z.Zo
   upload?: { field: string; description: string }; // documents a multipart file field
   response: z.ZodType;
   status?: number;
-  produces?: 'json' | 'image' | 'sse';
+  produces?: 'json' | 'image' | 'pdf' | 'sse';
   errors?: Record<number, string>;
   handler: (ctx: Ctx<z.output<P>, z.output<Q>, z.output<B>>) => unknown;
 };

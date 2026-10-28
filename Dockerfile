@@ -14,9 +14,8 @@ RUN pnpm --filter web build
 FROM base
 ENV NODE_ENV=production
 COPY --from=build /app /app
-# uploaded images and payment slips; mount a persistent disk here in production
-VOLUME /app/apps/api/uploads
+# uploaded images and payment slips go to /app/apps/api/uploads: mount a persistent disk there to keep them
 EXPOSE 3000
 WORKDIR /app/apps/api
-# apply pending migrations, then start
-CMD ["sh", "-c", "npx tsx src/migrate.ts && npx tsx src/index.ts"]
+# apply pending migrations, fill an empty database (an existing one only gets missing catalog rows), then start
+CMD ["sh", "-c", "npx tsx src/migrate.ts && npx tsx src/seed.ts && npx tsx src/index.ts"]

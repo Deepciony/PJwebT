@@ -1,0 +1,16 @@
+# Render Blueprint: one free web service built from the Dockerfile (web app + API on one address).
+# The database is a free Neon PostgreSQL; paste its connection string as DATABASE_URL when Render asks.
+services:
+  - type: web
+    name: arena-hub
+    runtime: docker
+    plan: free
+    region: singapore
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DATABASE_URL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
