@@ -466,7 +466,7 @@
         <tr><td>ซื้อสินค้า (ตะกร้า, ลบรายการ, ลบตะกร้า, ยืนยัน)</td><td>ตะกร้าการจอง: ลบทีละรายการ ลบทั้งตะกร้า ยืนยันการจอง หลังยืนยันแก้ไขไม่ได้</td><td>สมาชิก</td></tr>
         <tr><td>ดูรายละเอียดการซื้อแต่ละครั้ง</td><td>หน้ารายละเอียดการจอง (รายการ ยอดรวม การชำระเงิน QR เช็คอิน)</td><td>สมาชิก, admin</td></tr>
         <tr><td>ดูรายการซื้อทั้งหมดของลูกค้าแต่ละคน</td><td>การจองของฉัน (สมาชิก) และประวัติการจองรายคนในเมนูสมาชิก (admin)</td><td>สมาชิก, admin</td></tr>
-        <tr><td>Backend REST API, PostgreSQL, Node.js + Express</td><td>Express 5 บน Node.js 24, PostgreSQL 18, REST API 71 endpoint ใต้ <code>/api/v1</code></td><td>-</td></tr>
+        <tr><td>Backend REST API, PostgreSQL, Node.js + Express</td><td>Express 5 บน Node.js 24, PostgreSQL 18, REST API 72 endpoint ใต้ <code>/api/v1</code></td><td>-</td></tr>
         <tr><td>API Document ออนไลน์</td><td>หน้า <code>/docs</code> อธิบายทุก endpoint พร้อม parameter ผลลัพธ์ ตัวอย่างการเรียกและตัวอย่างผลลัพธ์จริง</td><td>ทุกคน</td></tr>
       </tbody>
     </table>
@@ -604,7 +604,7 @@
     <figure><img src="img/13-profile.jpg" alt="" /><figcaption id="f3-15"><b>รูปที่ 3.15</b> ข้อมูลส่วนตัว</figcaption></figure>
 
     <h2 id="s4" class="chapter"><span>บทที่ 4</span>คู่มือสำหรับผู้ดูแลระบบ</h2>
-    <p>เข้าสู่ระบบด้วยบัญชีผู้ดูแลระบบแล้วเลือกเมนู <b>ผู้ดูแลระบบ</b> จะมีแถบเมนูย่อย 11 หน้า ตัวเลขสีแดงข้างเมนูตรวจสลิปคือจำนวนสลิปที่รอตรวจ</p>
+    <p>เข้าสู่ระบบด้วยบัญชีผู้ดูแลระบบแล้วเลือกเมนู <b>ผู้ดูแลระบบ</b> จะมีแถบเมนูย่อย 11 หน้า ตัวเลขสีแดงข้างเมนูตรวจสลิปคือจำนวนสลิปที่รอตรวจ ส่วนปุ่ม <b>คู่มือ PDF</b> ท้ายแถบเมนูใช้ดาวน์โหลดคู่มือฉบับนี้</p>
     <h3 id="s4-1">4.1 ภาพรวมและสถิติ</h3>
     <p>เลือกช่วงวันที่ (7, 30, 90 วัน หรือกำหนดเอง) เพื่อดูรายได้ที่อนุมัติแล้ว จำนวนการจอง สลิปรอตรวจ ลูกค้าที่ใช้สนามวันนี้ รายได้รายวัน ช่วงเวลาที่คนจองมากที่สุด รายได้ตามกีฬา สนามยอดนิยม และอุปกรณ์ที่ถูกยืมบ่อย ทุกกราฟกด "ดูเป็นตาราง" เพื่อดูตัวเลขได้</p>
     <figure><img src="img/17-admin-dashboard.jpg" alt="" /><figcaption id="f4-1"><b>รูปที่ 4.1</b> แดชบอร์ดผู้ดูแลระบบ</figcaption></figure>
@@ -797,6 +797,7 @@ curl -X POST http://localhost:3000/api/v1/cart/slots \
           <tr><td>ผู้ดูแล</td><td class="m">GET</td><td><code>/admin/<wbr>stats</code></td><td>สถิติแดชบอร์ด</td><td>admin</td></tr>
           <tr><td>ผู้ดูแล</td><td class="m">GET</td><td><code>/admin/<wbr>system</code></td><td>สถานะระบบหลังบ้าน</td><td>admin</td></tr>
           <tr><td>ผู้ดูแล</td><td class="m">POST</td><td><code>/admin/<wbr>jobs/<wbr>run</code></td><td>รันงานอัตโนมัติทันที</td><td>admin</td></tr>
+          <tr><td>ผู้ดูแล</td><td class="m">GET</td><td><code>/admin/<wbr>manual</code></td><td>ดาวน์โหลดคู่มือการใช้งาน (PDF)</td><td>admin</td></tr>
           <tr><td>ผู้ดูแล</td><td class="m">GET</td><td><code>/coupons</code></td><td>คูปองส่วนลดทั้งหมด</td><td>admin</td></tr>
           <tr><td>ผู้ดูแล</td><td class="m">POST</td><td><code>/coupons</code></td><td>สร้างคูปองส่วนลด</td><td>admin</td></tr>
           <tr><td>ผู้ดูแล</td><td class="m">PATCH</td><td><code>/coupons/<wbr>{id}</code></td><td>แก้ไขหรือปิดคูปอง</td><td>admin</td></tr>

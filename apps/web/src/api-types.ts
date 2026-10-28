@@ -6078,6 +6078,74 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/admin/manual": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * ดาวน์โหลดคู่มือการใช้งาน (PDF)
+         * @description ไฟล์คู่มือการใช้งานฉบับพิมพ์ของระบบ ดาวน์โหลดเป็นชื่อ Arena-Hub-manual.pdf
+         *
+         *     **สิทธิ์:** เฉพาะผู้ดูแลระบบ (admin)
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description สำเร็จ */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/pdf": string;
+                    };
+                };
+                /** @description ยังไม่ได้เข้าสู่ระบบ (UNAUTHORIZED) */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Error"];
+                    };
+                };
+                /** @description ไม่ใช่ผู้ดูแลระบบ (FORBIDDEN) หรือบัญชีถูกระงับ */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Error"];
+                    };
+                };
+                /** @description ยังไม่มีไฟล์คู่มือบนเซิร์ฟเวอร์ (NOT_FOUND) */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Error"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/coupons": {
         parameters: {
             query?: never;

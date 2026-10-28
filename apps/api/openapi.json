@@ -6525,6 +6525,67 @@
         ]
       }
     },
+    "/api/v1/admin/manual": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "ดาวน์โหลดคู่มือการใช้งาน (PDF)",
+        "description": "ไฟล์คู่มือการใช้งานฉบับพิมพ์ของระบบ ดาวน์โหลดเป็นชื่อ Arena-Hub-manual.pdf\n\n**สิทธิ์:** เฉพาะผู้ดูแลระบบ (admin)",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "สำเร็จ",
+            "content": {
+              "application/pdf": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "ยังไม่ได้เข้าสู่ระบบ (UNAUTHORIZED)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "ไม่ใช่ผู้ดูแลระบบ (FORBIDDEN) หรือบัญชีถูกระงับ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "ยังไม่มีไฟล์คู่มือบนเซิร์ฟเวอร์ (NOT_FOUND)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "cookieAuth": []
+          }
+        ]
+      }
+    },
     "/api/v1/coupons": {
       "get": {
         "tags": [

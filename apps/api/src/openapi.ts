@@ -72,8 +72,8 @@ export function buildOpenApi() {
     if (r.access) errors[401] ??= 'ยังไม่ได้เข้าสู่ระบบ (UNAUTHORIZED)';
     if (r.access) errors[403] ??= r.access === 'admin' ? 'ไม่ใช่ผู้ดูแลระบบ (FORBIDDEN) หรือบัญชีถูกระงับ' : 'บัญชีถูกระงับ (ACCOUNT_SUSPENDED)';
     const success =
-      r.produces === 'image'
-        ? { 'image/*': { schema: { type: 'string', format: 'binary' } } }
+      r.produces === 'image' || r.produces === 'pdf'
+        ? { [r.produces === 'pdf' ? 'application/pdf' : 'image/*']: { schema: { type: 'string', format: 'binary' } } }
         : r.produces === 'sse'
           ? { 'text/event-stream': { schema: { type: 'string' }, example: 'event: availability\ndata: {"courtIds":[1],"equipmentIds":[2]}\n\n' } }
           : { 'application/json': { schema: schema(r.response, 'output'), ...(ex && { example: ex.response }) } };

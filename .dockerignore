@@ -6,3 +6,6 @@ apps/api/uploads
 .superpowers
 *.pdf
 docs
+
+# the printed manual is served to admins by GET /api/v1/admin/manual
+!docs/SportHub-manual.pdf
