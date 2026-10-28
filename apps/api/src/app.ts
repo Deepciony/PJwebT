@@ -104,7 +104,7 @@ app.use(
   '/docs',
   apiReference({
     url: '/openapi.json',
-    pageTitle: 'SportHub API',
+    pageTitle: 'Arena Hub API',
     cdn: '/docs/scalar.js',
     withDefaultFonts: false,
     theme: 'none',

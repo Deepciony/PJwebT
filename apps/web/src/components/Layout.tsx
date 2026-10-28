@@ -255,7 +255,7 @@ export function Layout() {
         </div>
       </main>
       <footer className="flex w-full flex-wrap items-center gap-x-6 gap-y-2 px-4 pb-6 text-sm text-muted sm:px-5">
-        <span>SportHub ระบบจองสนามกีฬาและยืมอุปกรณ์</span>
+        <span>Arena Hub ระบบจองสนามกีฬาและยืมอุปกรณ์</span>
         {settings?.contactPhone && (
           <a href={`tel:${settings.contactPhone}`} className="num hover:text-ink">
             โทร {settings.contactPhone}

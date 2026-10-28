@@ -6,7 +6,7 @@ import { useSports } from '../components/Pickers';
 import { LinkButton, Section, SportArt, StatBox } from '../components/ui';
 import { baht, bangkokDate } from '../lib/format';
 
-// The front page is a poster: what SportHub is, how booking works, what you can play and the house rules.
+// The front page is a poster: what Arena Hub is, how booking works, what you can play and the house rules.
 // Booking itself lives on /book.
 
 const duration = (minutes: number) => (minutes >= 60 && minutes % 60 === 0 ? `${minutes / 60} ชั่วโมง` : `${minutes} นาที`);
@@ -69,7 +69,7 @@ export default function Home() {
             <span className="text-mark">จบในที่เดียว</span>
           </h1>
           <p className="max-w-4xl text-lg text-muted sm:text-xl 2xl:text-2xl">
-            SportHub รวมสนามกีฬา {sports.length || 'หลาย'} ประเภท{sportList && ` ตั้งแต่${sportList}`} ไว้ในตารางเดียว ดูว่าชั่วโมงไหนว่าง กดจอง จ่ายด้วย
+            Arena Hub รวมสนามกีฬา {sports.length || 'หลาย'} ประเภท{sportList && ` ตั้งแต่${sportList}`} ไว้ในตารางเดียว ดูว่าชั่วโมงไหนว่าง กดจอง จ่ายด้วย
             PromptPay แล้วใช้ตั๋ว QR เช็คอินที่หน้าสนาม ไม่ต้องโทร ไม่ต้องรอคิว
           </p>
           <div className="flex flex-wrap gap-3">
@@ -125,7 +125,7 @@ export default function Home() {
         </div>
       </section>
 
-      <Section kicker="What is SportHub" title="ทำอะไรได้บ้าง" sub="ทุกอย่างที่ต้องใช้ตั้งแต่หาสนามว่างจนเข้าเล่นจริง อยู่ในเว็บเดียว ใช้ได้ทั้งคอมและมือถือ">
+      <Section kicker="What is Arena Hub" title="ทำอะไรได้บ้าง" sub="ทุกอย่างที่ต้องใช้ตั้งแต่หาสนามว่างจนเข้าเล่นจริง อยู่ในเว็บเดียว ใช้ได้ทั้งคอมและมือถือ">
         <ul className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {features.map(([icon, title, text]) => (
             <li key={title} className="flex gap-4 rounded-xl border-2 border-line bg-surface p-5">

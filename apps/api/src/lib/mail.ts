@@ -35,7 +35,7 @@ function layout(b: BookingRow, heading: string, body: string, s: SettingsValue) 
   <p><b>เลขที่การจอง:</b> ${b.code}<br><b>ยอดรวม:</b> ${baht(b.total)}</p>
   ${items(b)}
   <p><a href="${env.appUrl}/bookings/${b.id}">ดูรายละเอียดการจอง</a></p>
-  <p style="color:#64748b;font-size:12px">SportHub — ระบบจองสนามกีฬาและยืมอุปกรณ์${contact(s)}</p></div>`;
+  <p style="color:#64748b;font-size:12px">Arena Hub — ระบบจองสนามกีฬาและยืมอุปกรณ์${contact(s)}</p></div>`;
 }
 
 async function record(b: BookingRow, kind: Kind, subject: string, html: string) {
@@ -76,7 +76,7 @@ export const mail = {
     return record(
       b,
       'confirmed',
-      `[SportHub] ยืนยันการจอง #${b.code} — กรุณาชำระเงินภายใน ${payWithinMinutes} นาที`,
+      `[Arena Hub] ยืนยันการจอง #${b.code} — กรุณาชำระเงินภายใน ${payWithinMinutes} นาที`,
       layout(b, 'ได้รับการจองแล้ว', `<p>กรุณาสแกน QR PromptPay และแนบสลิปภายใน ${payWithinMinutes} นาที ไม่เช่นนั้นการจองจะถูกยกเลิกอัตโนมัติ</p>`, s),
     );
   },
@@ -84,7 +84,7 @@ export const mail = {
     record(
       b,
       'approved',
-      `[SportHub] ชำระเงินสำเร็จ #${b.code}`,
+      `[Arena Hub] ชำระเงินสำเร็จ #${b.code}`,
       layout(b, 'ชำระเงินสำเร็จ', `<p>แสดง QR นี้ที่เคาน์เตอร์เพื่อเช็คอิน</p><img src="${b.checkinQr}" width="200" alt="QR เช็คอิน">`, await getSettings()),
     ),
   rejected: async (b: BookingRow, note: string | null) => {
@@ -93,12 +93,12 @@ export const mail = {
     return record(
       b,
       'rejected',
-      `[SportHub] สลิปไม่ผ่านการตรวจสอบ #${b.code}`,
+      `[Arena Hub] สลิปไม่ผ่านการตรวจสอบ #${b.code}`,
       layout(b, 'สลิปไม่ผ่านการตรวจสอบ', `<p>เหตุผล: ${esc(note ?? '-')}</p><p>กรุณาแนบสลิปใหม่ภายใน ${payWithinMinutes} นาที</p>`, s),
     );
   },
   cancelled: async (b: BookingRow, reason: string) =>
-    record(b, 'cancelled', `[SportHub] การจอง #${b.code} ถูกยกเลิก`, layout(b, 'การจองถูกยกเลิก', `<p>${esc(reason)}</p>`, await getSettings())),
+    record(b, 'cancelled', `[Arena Hub] การจอง #${b.code} ถูกยกเลิก`, layout(b, 'การจองถูกยกเลิก', `<p>${esc(reason)}</p>`, await getSettings())),
   reminder: async (b: BookingRow) =>
-    record(b, 'reminder', `[SportHub] อีก 1 ชั่วโมงถึงเวลาจอง #${b.code}`, layout(b, 'ใกล้ถึงเวลาแล้ว', '<p>อย่าลืมแสดง QR เช็คอินที่เคาน์เตอร์</p>', await getSettings())),
+    record(b, 'reminder', `[Arena Hub] อีก 1 ชั่วโมงถึงเวลาจอง #${b.code}`, layout(b, 'ใกล้ถึงเวลาแล้ว', '<p>อย่าลืมแสดง QR เช็คอินที่เคาน์เตอร์</p>', await getSettings())),
 };

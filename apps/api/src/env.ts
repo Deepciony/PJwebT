@@ -17,7 +17,7 @@ export const env = {
   get smtpUrl() {
     return process.env.SMTP_URL || null;
   },
-  mailFrom: process.env.MAIL_FROM ?? 'SportHub <no-reply@sporthub.local>',
+  mailFrom: process.env.MAIL_FROM ?? 'Arena Hub <no-reply@sporthub.local>',
   appUrl: process.env.APP_URL ?? 'http://localhost:5173',
   promptpayId: process.env.PROMPTPAY_ID ?? '0812345678',
   // how early before the first slot a booking may check in (calibration knob for demos)

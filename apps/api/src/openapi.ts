@@ -10,7 +10,7 @@ export const ErrorSchema = z.object({
   }),
 });
 
-const intro = `REST API ของระบบจองสนามกีฬาและยืมอุปกรณ์ **SportHub**
+const intro = `REST API ของระบบจองสนามกีฬาและยืมอุปกรณ์ **Arena Hub**
 
 - ทุก endpoint อยู่ใต้ \`/api/v1\` รับและคืนค่าเป็น JSON (ยกเว้นอัปโหลดรูปที่ใช้ \`multipart/form-data\`)
 - **การยืนยันตัวตน:** เรียก \`POST /api/v1/auth/login\` แล้วนำ \`token\` ไปใส่ header \`Authorization: Bearer <token>\` (หน้าเว็บใช้ httpOnly cookie ชื่อ \`token\` ที่ตั้งให้อัตโนมัติ)
@@ -115,7 +115,7 @@ export function buildOpenApi() {
 
   const doc = {
     openapi: '3.1.0',
-    info: { title: 'SportHub API', version: '1.0.0', description: intro },
+    info: { title: 'Arena Hub API', version: '1.0.0', description: intro },
     tags,
     paths,
     components: {
