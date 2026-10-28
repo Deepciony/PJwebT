@@ -163,7 +163,7 @@ export function Layout() {
           <div className="flex items-center gap-3">
             {/* left: emblem, name and the menu buttons; right: clock and account */}
             <Link to="/" className="shrink-0" aria-label="หน้าแรก">
-              <img src="/logo.png" alt="" className="h-11 w-auto lg:h-12" />
+              <img src="/logo.svg" alt="" className="size-11 drop-shadow-[0_0_10px_rgb(124_92_230/0.6)] lg:size-12" />
             </Link>
             <div className="min-w-0 shrink-0 leading-tight">
               <Link to="/" className="font-display text-xl font-extrabold tracking-wide uppercase">
