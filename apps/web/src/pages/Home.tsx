@@ -57,7 +57,8 @@ export default function Home() {
     <div className="space-y-14">
       {/* hero poster */}
       {/* text in the left half from the edge; the wheel centred in the right half, shrinking if the half is narrow */}
-      <section className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
+      {/* arena photo behind, darkened on the left so the text stays readable */}
+      <section className="grid items-center gap-8 rounded-2xl border-2 border-line bg-[linear-gradient(90deg,rgb(18_13_28/0.94)_0%,rgb(29_21_48/0.78)_45%,rgb(29_21_48/0.35)_100%),url(/hero-arena.jpg)] bg-cover bg-center p-6 sm:p-10 lg:grid-cols-2 lg:gap-12">
         <div className="space-y-7">
           <p className="inline-flex items-center gap-2 rounded-full border-2 border-line bg-sunken px-4 py-1.5 text-sm sm:text-base">
             <span className="size-2 rounded-full bg-turf" aria-hidden /> ระบบจองสนามกีฬาและยืมอุปกรณ์ออนไลน์
