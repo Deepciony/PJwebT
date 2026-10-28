@@ -4,6 +4,7 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { type Db, one, pool, query, tx } from './db';
+import { env } from './env';
 import { hashPassword } from './lib/auth';
 import { folderPath } from './lib/upload';
 import { atBangkok, bangkokDate, HOUR } from './lib/time';
@@ -168,7 +169,10 @@ async function seed() {
     join(folderPath('slips'), 'seed-slip.png'),
     Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==', 'base64'),
   );
-  const adminHash = await hashPassword('admin1234');
+  // the demo admin password is published in the README, so a production database takes its own
+  const adminPassword = process.env.ADMIN_PASSWORD ?? (env.prod ? '' : 'admin1234');
+  if (!adminPassword) throw new Error('set ADMIN_PASSWORD to seed a production database');
+  const adminHash = await hashPassword(adminPassword);
   const memberHash = await hashPassword('member1234');
 
   await tx(async (db) => {
@@ -254,7 +258,7 @@ async function seed() {
       }
     }
   });
-  console.log('seeded: admin@sporthub.local / admin1234, member@sporthub.local / member1234');
+  console.log(`seeded: admin@sporthub.local / ${process.env.ADMIN_PASSWORD ? '(ADMIN_PASSWORD)' : 'admin1234'}, member@sporthub.local / member1234`);
 }
 
 await seed().finally(() => pool.end());
