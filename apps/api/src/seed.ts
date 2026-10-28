@@ -93,6 +93,9 @@ const equipment: [string, string, string, number, number, number][] = [
   ['ฟิตเนส', 'ผ้าเย็นและล็อกเกอร์', 'ผ้าเย็นพร้อมกุญแจล็อกเกอร์', 40, 20, 0],
 ];
 
+// photos live in apps/web/public/photos, numbered in the order of the lists above (migration 006 fills older databases)
+const photo = (kind: 'courts' | 'equipment', i: number) => `/photos/${kind}/${String(i + 1).padStart(2, '0')}.jpg`;
+
 const members = [
   ['member@sporthub.local', 'สมชาย ใจดี', '0812345678'],
   ['somying@sporthub.local', 'สมหญิง รักกีฬา', '0898765432'],
@@ -130,23 +133,23 @@ async function addMissingCatalog(db: Db) {
   for (const s of sports) {
     added += (await db.query('INSERT INTO sports (name, icon) VALUES ($1, $2) ON CONFLICT (name) DO NOTHING', [s.name, s.icon])).rowCount ?? 0;
   }
-  for (const [sport, name, description, price, open, close] of courts) {
+  for (const [i, [sport, name, description, price, open, close]] of courts.entries()) {
     added +=
       (
         await db.query(
-          `INSERT INTO courts (sport_id, name, description, price_per_hour, open_hour, close_hour)
-           SELECT id, $2, $3, $4, $5, $6 FROM sports WHERE name = $1 AND NOT EXISTS (SELECT 1 FROM courts WHERE name = $2)`,
-          [sport, name, description, price, open, close],
+          `INSERT INTO courts (sport_id, name, description, price_per_hour, open_hour, close_hour, image_url)
+           SELECT id, $2, $3, $4, $5, $6, $7 FROM sports WHERE name = $1 AND NOT EXISTS (SELECT 1 FROM courts WHERE name = $2)`,
+          [sport, name, description, price, open, close, photo('courts', i)],
         )
       ).rowCount ?? 0;
   }
-  for (const [sport, name, description, qty, rent, deposit] of equipment) {
+  for (const [i, [sport, name, description, qty, rent, deposit]] of equipment.entries()) {
     added +=
       (
         await db.query(
-          `INSERT INTO equipment (sport_id, name, description, total_qty, rent_price, deposit)
-           SELECT id, $2, $3, $4, $5, $6 FROM sports WHERE name = $1 AND NOT EXISTS (SELECT 1 FROM equipment WHERE name = $2)`,
-          [sport, name, description, qty, rent, deposit],
+          `INSERT INTO equipment (sport_id, name, description, total_qty, rent_price, deposit, image_url)
+           SELECT id, $2, $3, $4, $5, $6, $7 FROM sports WHERE name = $1 AND NOT EXISTS (SELECT 1 FROM equipment WHERE name = $2)`,
+          [sport, name, description, qty, rent, deposit, photo('equipment', i)],
         )
       ).rowCount ?? 0;
   }

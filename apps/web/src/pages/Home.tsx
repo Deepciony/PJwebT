@@ -165,7 +165,7 @@ export default function Home() {
                 to={`/courts?sport=${s.id}`}
                 className="flex h-full flex-col overflow-hidden rounded-xl border-2 border-line bg-surface transition hover:-translate-y-0.5 hover:border-line-hi"
               >
-                <SportArt icon={s.icon} sportId={s.id} className="aspect-[2/1] w-full" />
+                <SportArt icon={s.icon} sportId={s.id} imageUrl={courts.find((c) => c.sportId === s.id && c.imageUrl)?.imageUrl} className="aspect-[2/1] w-full" />
                 <div className="flex flex-1 items-end justify-between gap-3 p-4">
                   <div>
                     <h3 className="text-lg">{s.name}</h3>
