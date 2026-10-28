@@ -1,8 +1,8 @@
 // Copy the whole database to another machine.
-//   pnpm db:export            writes db/snapshot/: a pg_dump of this database (schema, data, migration ledger)
+//   bun run db:export            writes db/snapshot/: a pg_dump of this database (schema, data, migration ledger)
 //                             plus every uploaded file the data points at (slips, avatars, photos)
-//   pnpm db:import            loads that snapshot here, restores the files and runs any newer migrations
-//   pnpm db:import --replace  same, even if this database already has bookings (they are replaced)
+//   bun run db:import            loads that snapshot here, restores the files and runs any newer migrations
+//   bun run db:import --replace  same, even if this database already has bookings (they are replaced)
 // pg_dump and psql run inside the docker compose "db" container, so nothing else needs installing.
 import { spawn } from 'node:child_process';
 import { cpSync, createReadStream, createWriteStream, existsSync, mkdirSync, rmSync, statSync } from 'node:fs';
@@ -71,11 +71,11 @@ async function exportSnapshot() {
 }
 
 async function importSnapshot(replace: boolean) {
-  if (!existsSync(sqlFile)) throw new Error(`no snapshot at ${relative(repoRoot, sqlFile)}; run "pnpm db:export" on the source machine first`);
+  if (!existsSync(sqlFile)) throw new Error(`no snapshot at ${relative(repoRoot, sqlFile)}; run "bun run db:export" on the source machine first`);
   // never wipe real bookings by accident
   if (!replace && (await query("SELECT 1 FROM pg_tables WHERE schemaname = 'public' AND tablename = 'bookings'")).length) {
     const [{ n }] = await query<{ n: number }>('SELECT count(*)::int AS n FROM bookings');
-    if (n > 0) throw new Error(`this database already has ${n} bookings; run "pnpm db:import --replace" to overwrite it with the snapshot`);
+    if (n > 0) throw new Error(`this database already has ${n} bookings; run "bun run db:import --replace" to overwrite it with the snapshot`);
   }
   // one transaction: either the whole snapshot loads or nothing changes; notices like "does not exist, skipping" stay quiet
   await inDb(['psql', '-q', '-v', 'ON_ERROR_STOP=1', '--single-transaction', '-c', 'SET client_min_messages = warning', '-f', '-'], { stdin: sqlFile });
@@ -90,7 +90,7 @@ const [command, ...flags] = process.argv.slice(2);
 try {
   if (command === 'export') await exportSnapshot();
   else if (command === 'import') await importSnapshot(flags.includes('--replace'));
-  else throw new Error('usage: tsx src/snapshot.ts export | import [--replace]');
+  else throw new Error('usage: bun src/snapshot.ts export | import [--replace]');
 } catch (err) {
   console.error((err as Error).message);
   process.exitCode = 1;

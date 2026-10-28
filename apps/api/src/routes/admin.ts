@@ -123,7 +123,7 @@ route({
       smtpEnabled: z.boolean().describe('false = อีเมลอยู่ในเว็บเท่านั้น'),
       lastJobRunAt: dateTime.nullable(),
       uptimeSeconds: z.number().int(),
-      nodeVersion: z.string(),
+      runtime: z.string(),
       counts: z.object({
         users: z.number().int(),
         bookings: z.number().int(),
@@ -139,7 +139,7 @@ route({
     smtpEnabled: Boolean(env.smtpUrl),
     lastJobRunAt: lastJobRunAt(),
     uptimeSeconds: Math.round(process.uptime()),
-    nodeVersion: process.version,
+    runtime: `Bun ${process.versions.bun}`,
     counts: await one(
       `SELECT (SELECT count(*) FROM users) AS users,
          (SELECT count(*) FROM bookings WHERE status <> 'cart') AS bookings,

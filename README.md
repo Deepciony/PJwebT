@@ -3,21 +3,21 @@
 เว็บจองสนามกีฬาหลายประเภทพร้อมระบบยืมอุปกรณ์: ดูตารางว่างแบบเรียลไทม์ จองรายชั่วโมงหรือจองประจำรายสัปดาห์ ราคาช่วง peak คูปองส่วนลด จ่ายด้วย PromptPay เช็คอินด้วย QR คืนอุปกรณ์ รีวิว แดชบอร์ดผู้ดูแลระบบ และติดตั้งเป็นแอปบนมือถือได้ (PWA)
 
 - **Frontend** React 19 + Vite + TypeScript + Tailwind CSS 4 + TanStack Query (`apps/web`)
-- **Backend** Node.js 24 + Express 5 + PostgreSQL 18 (`pg` เขียน SQL ตรง) + Zod 4 (`apps/api`)
+- **Backend** Bun 1.4 + Express 5 + PostgreSQL 18 (`pg` เขียน SQL ตรง) + Zod 4 (`apps/api`)
 - **API Document** OpenAPI 3.1 สร้างจากโค้ด แสดงที่ `/docs` ครบทุก endpoint พร้อมตัวอย่างจริง
 - คู่มือฉบับพิมพ์: [`docs/SportHub-manual.pdf`](docs/SportHub-manual.pdf) (แก้จาก [`docs/manual/index.html`](docs/manual/index.html))
 
 ## เริ่มใช้งาน
 
-ต้องมี Node.js 24, pnpm และ Docker Desktop
+ต้องมี [Bun](https://bun.sh) 1.4 ขึ้นไป และ Docker Desktop (ไม่ต้องลง Node.js)
 
 ```bash
 docker compose up -d   # PostgreSQL 18 (:5432)
-pnpm install
-pnpm db:migrate        # สร้างตาราง
-pnpm db:seed           # ข้อมูลตัวอย่าง: กีฬา 19 ประเภท สนาม 31 สนาม อุปกรณ์ 26 รายการ และประวัติการจอง 2 สัปดาห์
+bun install
+bun run db:migrate        # สร้างตาราง
+bun run db:seed           # ข้อมูลตัวอย่าง: กีฬา 19 ประเภท สนาม 31 สนาม อุปกรณ์ 26 รายการ และประวัติการจอง 2 สัปดาห์
                        # (ถ้าฐานข้อมูลมีข้อมูลแล้ว จะเติมเฉพาะกีฬา สนาม และอุปกรณ์ที่ยังไม่มี การจองเดิมอยู่ครบ)
-pnpm dev               # API http://localhost:3000 และเว็บ http://localhost:5173
+bun run dev               # API http://localhost:3000 และเว็บ http://localhost:5173
 ```
 
 | ที่อยู่ | ใช้ทำอะไร |
@@ -42,35 +42,35 @@ pnpm dev               # API http://localhost:3000 และเว็บ http://
 
 ```bash
 # เครื่องต้นทาง: บันทึกสถานะปัจจุบันลง snapshot แล้ว commit + push
-pnpm db:export
+bun run db:export
 
 # เครื่องปลายทาง: แทนที่ db:migrate และ db:seed ด้วยคำสั่งนี้
 docker compose up -d
-pnpm install
-pnpm db:import         # ได้ฐานข้อมูลเหมือนเครื่องต้นทางทุกแถว
-pnpm dev
+bun install
+bun run db:import         # ได้ฐานข้อมูลเหมือนเครื่องต้นทางทุกแถว
+bun run dev
 ```
 
-`db:import` จะไม่ทับฐานข้อมูลที่มีการจองอยู่แล้ว ถ้าต้องการแทนที่จริงๆ ใช้ `pnpm db:import --replace`
+`db:import` จะไม่ทับฐานข้อมูลที่มีการจองอยู่แล้ว ถ้าต้องการแทนที่จริงๆ ใช้ `bun run db:import --replace`
 snapshot อยู่ใน git: ข้อมูลจริงของลูกค้าอย่า export ลง repo สาธารณะ
 
 ### พอร์ตถูกใช้อยู่
 
 - `docker compose up` ขึ้นว่า port 5432 is not available: Windows บางครั้งกันช่วงพอร์ตไว้เอง (ดูด้วย `netsh interface ipv4 show excludedportrange protocol=tcp`) ใส่ `DB_PORT=5433` ใน `.env` และเปลี่ยนพอร์ตใน `DATABASE_URL` ให้ตรงกัน หรือรีสตาร์ทเครื่องให้ Windows สุ่มช่วงใหม่
 - มีโปรแกรมอื่นใช้พอร์ต 3000 อยู่: ใส่ `PORT=3001` ใน `.env` ทั้ง API และหน้าเว็บ (proxy ของ Vite) จะย้ายไปใช้พอร์ตนั้น
-- 5173 ไม่ว่าง: Vite จะเลือก 5174, 5175 … เอง ดูพอร์ตจริงที่บรรทัด `Local:` ตอนรัน `pnpm dev`
+- 5173 ไม่ว่าง: Vite จะเลือก 5174, 5175 … เอง ดูพอร์ตจริงที่บรรทัด `Local:` ตอนรัน `bun run dev`
 
 ## คำสั่ง
 
 | คำสั่ง | ทำอะไร |
 |---|---|
-| `pnpm dev` | รัน API และเว็บพร้อมกัน (โหลดใหม่อัตโนมัติเมื่อแก้โค้ด) |
-| `pnpm test` | ชุดทดสอบ API 113 กรณี กับฐานข้อมูล `sporthub_test` (ล้างใหม่ทุกครั้ง) |
-| `pnpm db:export` / `pnpm db:import` | บันทึก / โหลดฐานข้อมูลทั้งก้อนผ่าน `apps/api/db/snapshot/` (ย้ายไปเครื่องอื่น) |
-| `pnpm db:reset` | **ลบข้อมูลทั้งหมดในฐานข้อมูลพัฒนา** แล้วสร้างข้อมูลตัวอย่างใหม่ (ใช้ก่อนสาธิต) |
-| `pnpm build` | build เว็บไปที่ `apps/web/dist` (API จะเสิร์ฟให้เองในโหมด production) |
-| `pnpm --filter api openapi:export` | เขียน `apps/api/openapi.json` และบอก endpoint ที่ยังไม่มีตัวอย่าง |
-| `pnpm --filter web gen:api` | สร้าง type ของเว็บใหม่จาก `openapi.json` หลังแก้ API |
+| `bun run dev` | รัน API และเว็บพร้อมกัน (โหลดใหม่อัตโนมัติเมื่อแก้โค้ด) |
+| `bun run test` | ชุดทดสอบ API 113 กรณี กับฐานข้อมูล `sporthub_test` (ล้างใหม่ทุกครั้ง) |
+| `bun run db:export` / `bun run db:import` | บันทึก / โหลดฐานข้อมูลทั้งก้อนผ่าน `apps/api/db/snapshot/` (ย้ายไปเครื่องอื่น) |
+| `bun run db:reset` | **ลบข้อมูลทั้งหมดในฐานข้อมูลพัฒนา** แล้วสร้างข้อมูลตัวอย่างใหม่ (ใช้ก่อนสาธิต) |
+| `bun run build` | build เว็บไปที่ `apps/web/dist` (API จะเสิร์ฟให้เองในโหมด production) |
+| `bun --filter api openapi:export` | เขียน `apps/api/openapi.json` และบอก endpoint ที่ยังไม่มีตัวอย่าง |
+| `bun --filter web gen:api` | สร้าง type ของเว็บใหม่จาก `openapi.json` หลังแก้ API |
 
 ## โครงสร้าง
 
@@ -96,7 +96,7 @@ apps/web/src/
 - **สต็อกอุปกรณ์** ตรวจซ้ำตอนยืนยันใน transaction โดย `SELECT ... FOR UPDATE` แถวอุปกรณ์ตามลำดับ id
 - **ยอดเงิน** คำนวณจากรายการผ่าน VIEW `booking_totals` เสมอ (subtotal, discount, total) ส่วนลดคูปองคิดสดระหว่างอยู่ในตะกร้า และล็อกลง `bookings.discount` ตอนยืนยัน
 - **เวลา** ใช้ `timestamptz` และ session timezone `Asia/Bangkok` ช่องจองละ 1 ชั่วโมง
-- เพิ่ม endpoint ใหม่: เขียน `route({...})` พร้อม schema แล้วเพิ่มเทสต์ที่เรียก endpoint นั้น ตัวอย่างในเอกสารจะถูกบันทึกเองตอน `pnpm test` และเทสต์จะ fail ถ้าผลลัพธ์จริงไม่ตรงกับ schema ในเอกสาร
+- เพิ่ม endpoint ใหม่: เขียน `route({...})` พร้อม schema แล้วเพิ่มเทสต์ที่เรียก endpoint นั้น ตัวอย่างในเอกสารจะถูกบันทึกเองตอน `bun run test` และเทสต์จะ fail ถ้าผลลัพธ์จริงไม่ตรงกับ schema ในเอกสาร
 
 ## Deploy
 
@@ -111,14 +111,14 @@ docker run -p 3000:3000 -e DATABASE_URL=postgres://... -e JWT_SECRET=<สุ่�
 
 ## สาธิต 30 นาที (แนะนำ)
 
-1. `pnpm db:reset` ก่อนเริ่ม แล้วในหน้า ผู้ดูแลระบบ > ระบบ ตั้ง เช็คอินล่วงหน้าได้ = 1440 นาที เพื่อให้เช็คอินการจองวันนี้ได้ทันที
+1. `bun run db:reset` ก่อนเริ่ม แล้วในหน้า ผู้ดูแลระบบ > ระบบ ตั้ง เช็คอินล่วงหน้าได้ = 1440 นาที เพื่อให้เช็คอินการจองวันนี้ได้ทันที
 2. เปิดเว็บสองหน้าต่าง (สมาชิก 2 คน) ที่ตารางสนามว่าง: คนแรกจองแล้วยืนยัน ให้ดูช่องของอีกจอพลิกเป็น "มีผู้จองแล้ว" ทันที
 3. ยืมอุปกรณ์ → ตะกร้า (ลบรายการ, ลบตะกร้า, ยืนยัน) → QR PromptPay → แนบสลิป
 4. ใช้คูปอง WELCOME10 และดูราคาช่วง peak หลัง 17:00 ที่หน้าสนามฟุตบอล (จองประจำรายสัปดาห์ต้องเปิดจองล่วงหน้าตั้งแต่ 7 วันในหน้า ผู้ดูแลระบบ > ระบบ ก่อน เพราะค่าเริ่มต้นจองได้แค่วันนี้และพรุ่งนี้)
 5. ผู้ดูแลระบบ: ตรวจสลิปแล้วอนุมัติ → ฝั่งสมาชิกเปิดเมนู ข้อความ ดูอีเมลพร้อม QR (admin ดูได้ที่เมนู อีเมล) → เช็คอินด้วยเลขที่การจอง → รับคืนอุปกรณ์
 6. แดชบอร์ด, เมนู จัดการข้อมูล (เพิ่ม/แก้ราคา/ลบสนามและอุปกรณ์, เปลี่ยนรูป, แก้และลบคูปอง, ลบรีวิว), ตั้งประกาศหน้าเว็บและข้อมูลติดต่อในหน้า ระบบ, แก้ข้อมูลหรือตั้งรหัสผ่านใหม่ให้สมาชิก, ระงับสมาชิกแล้วลองเข้าสู่ระบบด้วยบัญชีนั้น
 7. เปิดเมนู ผู้ดูแลระบบ > API อธิบาย endpoint หนึ่งตัว: parameter, ผลลัพธ์, ตัวอย่าง, กด Test Request แล้วเปิด ข้อมูลระบบ (`/about`) อธิบายเทคโนโลยี แผนภาพฐานข้อมูล และกลไกกันจองซ้อน
-8. `pnpm test` ให้เห็นเทสต์ยืนยันพร้อมกันสองคน ("exactly one wins")
+8. `bun run test` ให้เห็นเทสต์ยืนยันพร้อมกันสองคน ("exactly one wins")
 
 ถ้าเปิดผ่าน IP ของเครื่อง (http://192.168.x.x) แทน localhost กล้องสแกน QR จะใช้ไม่ได้เพราะเบราว์เซอร์อนุญาตกล้องเฉพาะ https หรือ localhost ให้พิมพ์เลขที่การจองแทน
 

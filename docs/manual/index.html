@@ -366,7 +366,7 @@
         <tr><td>ซื้อสินค้า (ตะกร้า, ลบรายการ, ลบตะกร้า, ยืนยัน)</td><td>ตะกร้าการจอง: ลบทีละรายการ ลบทั้งตะกร้า ยืนยันการจอง หลังยืนยันแก้ไขไม่ได้</td><td>สมาชิก</td></tr>
         <tr><td>ดูรายละเอียดการซื้อแต่ละครั้ง</td><td>หน้ารายละเอียดการจอง (รายการ ยอดรวม การชำระเงิน QR เช็คอิน)</td><td>สมาชิก, admin</td></tr>
         <tr><td>ดูรายการซื้อทั้งหมดของลูกค้าแต่ละคน</td><td>การจองของฉัน (สมาชิก) และประวัติการจองรายคนในเมนูสมาชิก (admin)</td><td>สมาชิก, admin</td></tr>
-        <tr><td>Backend REST API, PostgreSQL, Node.js + Express</td><td>Express 5 บน Node.js 24, PostgreSQL 18, REST API 71 endpoint ใต้ <code>/api/v1</code></td><td>-</td></tr>
+        <tr><td>Backend REST API, PostgreSQL, Node.js + Express</td><td>Express 5 บน Bun 1.4, PostgreSQL 18, REST API 71 endpoint ใต้ <code>/api/v1</code></td><td>-</td></tr>
         <tr><td>API Document ออนไลน์</td><td>หน้า <code>/docs</code> อธิบายทุก endpoint พร้อม parameter ผลลัพธ์ ตัวอย่างการเรียกและตัวอย่างผลลัพธ์จริง</td><td>ทุกคน</td></tr>
       </tbody>
     </table>
@@ -389,7 +389,7 @@
     <div class="arch">
       <div class="box"><b>Web (React 19)</b>Vite, TypeScript, Tailwind CSS 4, TanStack Query, React Router</div>
       <span class="arrow">REST /api/v1<br />+ SSE</span>
-      <div class="box"><b>API (Express 5)</b>Node.js 24, Zod 4, JWT + argon2id, Nodemailer, PromptPay QR</div>
+      <div class="box"><b>API (Express 5)</b>Bun 1.4, Zod 4, JWT + argon2id, Nodemailer, PromptPay QR</div>
       <span class="arrow">SQL</span>
       <div class="box"><b>PostgreSQL 18</b>ENUM, VIEW, exclusion constraint, transaction + row lock</div>
     </div>
@@ -705,16 +705,16 @@ curl -X POST http://localhost:3000/api/v1/cart/slots \
 
     <h2>7. การติดตั้งและทดสอบระบบ</h2>
     <h3>สิ่งที่ต้องมี</h3>
-    <p>Node.js 24, pnpm และ Docker Desktop (สำหรับ PostgreSQL)</p>
+    <p>Bun 1.4 และ Docker Desktop (สำหรับ PostgreSQL)</p>
     <h3>ติดตั้งและรัน</h3>
     <pre><code>docker compose up -d     # PostgreSQL 18 (พอร์ตถูกใช้: ตั้ง DB_PORT ใน .env)
-pnpm install
-pnpm db:migrate          # สร้างตาราง
-pnpm db:seed             # ข้อมูลตัวอย่าง (หรือ pnpm db:reset เพื่อล้างและสร้างใหม่)
-pnpm dev                 # API :3000 และเว็บ :5173</code></pre>
-    <p>ต้องการฐานข้อมูลชุดเดียวกับอีกเครื่อง: เครื่องต้นทางรัน <code>pnpm db:export</code> แล้ว commit โฟลเดอร์ <code>apps/api/db/snapshot/</code> เครื่องปลายทางรัน <code>pnpm db:import</code> แทน <code>db:migrate</code> และ <code>db:seed</code> จะได้ทุกตาราง ทุกการจอง และไฟล์สลิปเหมือนกัน</p>
+bun install
+bun run db:migrate          # สร้างตาราง
+bun run db:seed             # ข้อมูลตัวอย่าง (หรือ bun run db:reset เพื่อล้างและสร้างใหม่)
+bun run dev                 # API :3000 และเว็บ :5173</code></pre>
+    <p>ต้องการฐานข้อมูลชุดเดียวกับอีกเครื่อง: เครื่องต้นทางรัน <code>bun run db:export</code> แล้ว commit โฟลเดอร์ <code>apps/api/db/snapshot/</code> เครื่องปลายทางรัน <code>bun run db:import</code> แทน <code>db:migrate</code> และ <code>db:seed</code> จะได้ทุกตาราง ทุกการจอง และไฟล์สลิปเหมือนกัน</p>
     <h3>ทดสอบ</h3>
-    <pre><code>pnpm test                # ชุดทดสอบ API 113 กรณี กับฐานข้อมูล sporthub_test</code></pre>
+    <pre><code>bun run test                # ชุดทดสอบ API 113 กรณี กับฐานข้อมูล sporthub_test</code></pre>
     <p>ชุดทดสอบครอบคลุมการสมัครและสิทธิ์ การจัดการสนามและอุปกรณ์ ตะกร้า การยืนยันพร้อมกันสองคน (จองซ้อนและยืมเกินสต็อก) การชำระเงิน อีเมล การเช็คอิน การคืนอุปกรณ์ รีวิว งานอัตโนมัติ และสถิติ</p>
     <h3>Production</h3>
     <pre><code>docker build -t sporthub .

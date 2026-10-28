@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
-import { projectFiles } from './project-files';
+import { projectFiles } from './project-files.ts';
 
 // The API listens on PORT from the repo .env (default 3000); follow it so both can move off a busy port.
 const envFile = new URL('../../.env', import.meta.url);

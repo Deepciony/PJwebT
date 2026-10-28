@@ -2,15 +2,17 @@
   "name": "sporthub",
   "private": true,
   "type": "module",
+  "workspaces": ["apps/*"],
+  "trustedDependencies": ["argon2", "esbuild"],
   "scripts": {
-    "dev": "pnpm -r --parallel dev",
-    "build": "pnpm --filter web build",
-    "start": "pnpm --filter api start",
-    "test": "pnpm --filter api test",
-    "db:migrate": "pnpm --filter api db:migrate",
-    "db:seed": "pnpm --filter api db:seed",
-    "db:reset": "pnpm --filter api db:reset",
-    "db:export": "pnpm --filter api db:export",
-    "db:import": "pnpm --filter api db:import"
+    "dev": "bun --filter '*' dev",
+    "build": "bun --filter web build",
+    "start": "bun --filter api start",
+    "test": "bun --filter api test",
+    "db:migrate": "bun --filter api db:migrate",
+    "db:seed": "bun --filter api db:seed",
+    "db:reset": "bun --filter api db:reset",
+    "db:export": "bun --filter api db:export",
+    "db:import": "bun --filter api db:import"
   }
 }

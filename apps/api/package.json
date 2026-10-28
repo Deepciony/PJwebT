@@ -3,16 +3,16 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "tsx watch src/index.ts",
-    "start": "tsx src/index.ts",
-    "test": "vitest run",
-    "typecheck": "tsc --noEmit",
-    "db:migrate": "tsx src/migrate.ts",
-    "db:seed": "tsx src/seed.ts",
-    "openapi:export": "tsx src/openapi-export.ts",
-    "db:reset": "tsx src/reset.ts",
-    "db:export": "tsx src/snapshot.ts export",
-    "db:import": "tsx src/snapshot.ts import"
+    "dev": "bun --watch src/index.ts",
+    "start": "bun src/index.ts",
+    "test": "bun --bun vitest run",
+    "typecheck": "bun --bun tsc --noEmit",
+    "db:migrate": "bun src/migrate.ts",
+    "db:seed": "bun src/seed.ts",
+    "openapi:export": "bun src/openapi-export.ts",
+    "db:reset": "bun src/reset.ts",
+    "db:export": "bun src/snapshot.ts export",
+    "db:import": "bun src/snapshot.ts import"
   },
   "dependencies": {
     "@scalar/api-reference": "^1.73.0",
@@ -38,7 +38,6 @@
     "@types/qrcode": "^1.5.6",
     "@types/supertest": "^7.2.1",
     "supertest": "^7.3.1",
-    "tsx": "^4.23.15",
     "typescript": "^7.0.2",
     "vitest": "^5.0.3"
   }

@@ -94,7 +94,7 @@ const stack: [string, string, [string, string][]][] = [
     '⚙️',
     'เซิร์ฟเวอร์ (Backend)',
     [
-      ['Node.js 24', 'รันโค้ดฝั่งเซิร์ฟเวอร์'],
+      ['Bun 1.4', 'รันโค้ด TypeScript ฝั่งเซิร์ฟเวอร์ได้ตรงๆ ใช้แทน Node.js และเป็นตัวติดตั้งแพ็กเกจ'],
       ['Express 5', 'REST API ทุก endpoint อยู่ใต้ /api/v1'],
       ['Zod 4', 'ตรวจข้อมูลที่ส่งเข้ามา และสร้างเอกสาร API จาก schema เดียวกัน'],
       ['pg (node-postgres)', 'ส่ง SQL ไป PostgreSQL แบบ parameterized ($1, $2) กัน SQL injection'],
@@ -129,7 +129,7 @@ const stack: [string, string, [string, string][]][] = [
     '📦',
     'โครงสร้างโปรเจกต์และการติดตั้ง',
     [
-      ['pnpm workspaces', 'repo เดียวแยกเป็น apps/api และ apps/web'],
+      ['Bun workspaces', 'repo เดียวแยกเป็น apps/api และ apps/web'],
       ['Dockerfile', 'image เดียว build หน้าเว็บแล้วให้ API เสิร์ฟบนโดเมนเดียวกัน และ migrate ฐานข้อมูลตอนเริ่ม'],
     ],
   ],
@@ -502,7 +502,7 @@ export default function About() {
         <div className="flex flex-col items-stretch gap-3 lg:flex-row lg:items-center">
           {[
             ['เบราว์เซอร์', 'หน้าเว็บ React', ['หน้าสมาชิกและหน้าผู้ดูแลระบบ', 'ชนิดข้อมูลสร้างจากเอกสาร API', 'ติดตั้งเป็นแอปบนมือถือได้ (PWA)']],
-            ['เซิร์ฟเวอร์', 'API Node.js + Express', [`${ops.length || 'ทุก'} endpoint ใต้ /api/v1`, 'ตรวจสิทธิ์ ตรวจข้อมูล ส่งอีเมล', 'งานอัตโนมัติทุก 1 นาที', 'เอกสาร API ที่ /docs']],
+            ['เซิร์ฟเวอร์', 'API Bun + Express', [`${ops.length || 'ทุก'} endpoint ใต้ /api/v1`, 'ตรวจสิทธิ์ ตรวจข้อมูล ส่งอีเมล', 'งานอัตโนมัติทุก 1 นาที', 'เอกสาร API ที่ /docs']],
             ['ฐานข้อมูล', 'PostgreSQL 18 ใน Docker', [`${tables.length} ตาราง 1 VIEW 5 ENUM`, 'กฎสำคัญบังคับในฐานข้อมูล', 'รูปและสลิปเก็บเป็นไฟล์ในเซิร์ฟเวอร์']],
           ].map(([kicker, title, items], i) => (
             <div key={title as string} className="contents">
