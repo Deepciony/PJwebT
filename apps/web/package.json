@@ -3,10 +3,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "bun --bun vite",
-    "build": "bun --bun tsc --noEmit && bun --bun vite build",
-    "preview": "bun --bun vite preview",
-    "gen:api": "bunx openapi-typescript@7.13.0 ../api/openapi.json -o src/api-types.ts"
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "gen:api": "pnpm dlx openapi-typescript@7.13.0 ../api/openapi.json -o src/api-types.ts"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.104.1",

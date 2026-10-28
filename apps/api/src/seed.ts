@@ -1,5 +1,5 @@
 // Demo data: sports, courts, equipment, accounts and two weeks of booking history for the dashboard.
-// bun run db:seed on an empty database fills everything; on a database that already has data it only adds
+// pnpm db:seed on an empty database fills everything; on a database that already has data it only adds
 // sports, courts and equipment from the lists below that are missing (matched by name), so bookings stay.
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';

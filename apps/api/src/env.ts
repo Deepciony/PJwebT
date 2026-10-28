@@ -2,7 +2,7 @@ import { existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
 const envFile = new URL('../../../.env', import.meta.url);
-if (process.env.NODE_ENV !== 'test' && existsSync(envFile)) process.loadEnvFile(fileURLToPath(envFile));
+if (process.env.NODE_ENV !== 'test' && existsSync(envFile)) process.loadEnvFile(envFile);
 
 const prod = process.env.NODE_ENV === 'production';
 if (prod && !process.env.JWT_SECRET) throw new Error('JWT_SECRET must be set in production');

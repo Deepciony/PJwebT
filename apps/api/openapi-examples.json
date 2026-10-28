@@ -1608,7 +1608,7 @@
       "smtpEnabled": false,
       "lastJobRunAt": null,
       "uptimeSeconds": 1,
-      "runtime": "Bun 1.4.4",
+      "nodeVersion": "v24.18.0",
       "counts": {
         "users": 92,
         "bookings": 43,

@@ -127,7 +127,7 @@ export default function System() {
                 <dd>{system.data.lastJobRunAt ? `ล่าสุด ${dateTimeTh(system.data.lastJobRunAt)}` : 'ยังไม่ได้รันตั้งแต่เปิดเซิร์ฟเวอร์'}</dd>
                 <dt className="text-muted">ทำงานมาแล้ว</dt>
                 <dd>
-                  {duration(system.data.uptimeSeconds)} ({system.data.runtime})
+                  {duration(system.data.uptimeSeconds)} (Node {system.data.nodeVersion})
                 </dd>
                 <dt className="text-muted">ข้อมูล</dt>
                 <dd className="num">

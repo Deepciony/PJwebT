@@ -1,6 +1,6 @@
 // Vite plugin: `virtual:project-files` lists every file in the repo with what it is for, for the /about page.
 // The text comes from each file's own header comment, else from a rule for its folder, so the list follows
-// the code: files added, removed or edited while `bun run dev` runs show up on the next page load.
+// the code: files added, removed or edited while `pnpm dev` runs show up on the next page load.
 import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -20,10 +20,10 @@ const rules: [RegExp, string][] = [
   [/^apps\/api\/test\//, 'ชุดทดสอบ API (Vitest + Supertest)'],
   [/^apps\/api\/db\/migrations\//, 'migration สร้างหรือแก้ตารางในฐานข้อมูล'],
   [/^apps\/api\/db\/snapshot\/uploads\//, 'ไฟล์ที่อัปโหลด เก็บไว้กับ snapshot ฐานข้อมูล'],
-  [/^apps\/api\/db\/snapshot\//, 'ข้อมูลฐานข้อมูลทั้งก้อนสำหรับ bun run db:import'],
+  [/^apps\/api\/db\/snapshot\//, 'ข้อมูลฐานข้อมูลทั้งก้อนสำหรับ pnpm db:import'],
   [/^docs\/manual\/img\//, 'ภาพหน้าจอในคู่มือ'],
   [/^docs\//, 'เอกสารและคู่มือ'],
-  [/package\.json$/, 'รายชื่อแพ็กเกจและคำสั่ง bun run'],
+  [/package\.json$/, 'รายชื่อแพ็กเกจและคำสั่ง pnpm'],
   [/tsconfig.*\.json$/, 'ตั้งค่า TypeScript'],
   [/openapi.*\.json$/, 'เอกสาร API (OpenAPI) ที่สร้างอัตโนมัติ'],
   [/api-types\.ts$/, 'ชนิดข้อมูล API ที่สร้างจาก OpenAPI (ห้ามแก้มือ)'],
@@ -37,7 +37,8 @@ const known: Record<string, string> = {
   '.gitignore': 'ไฟล์ที่ไม่เก็บใน git',
   '.dockerignore': 'ไฟล์ที่ไม่ส่งเข้า Docker image',
   '.gitattributes': 'ตั้งค่าการขึ้นบรรทัดของไฟล์ใน git',
-  'bun.lock': 'ล็อกเวอร์ชันแพ็กเกจทุกตัว (bun install)',
+  'pnpm-workspace.yaml': 'กำหนด monorepo (apps/*) ของ pnpm',
+  'pnpm-lock.yaml': 'ล็อกเวอร์ชันแพ็กเกจทุกตัว',
   'รายละเอียด Project.pdf': 'โจทย์โครงงานจากรายวิชา',
 };
 

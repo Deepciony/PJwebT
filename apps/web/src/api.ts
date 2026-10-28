@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import createClient from 'openapi-fetch';
 import type { components, paths } from './api-types';
 
-// Types come straight from the API document (bun run gen:api), so the web app and the API cannot drift apart.
+// Types come straight from the API document (pnpm gen:api), so the web app and the API cannot drift apart.
 type S = components['schemas'];
 export type User = S['User'];
 export type Sport = S['Sport'];
