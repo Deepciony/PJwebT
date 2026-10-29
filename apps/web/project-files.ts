@@ -69,11 +69,16 @@ function repoFiles() {
   }
 }
 
+// files whose source the /about page may open: text only, and never the database snapshot (members' data)
+const viewable = new Set<string>();
+const MAX_VIEW = 400_000;
+
 function scan() {
   const all = repoFiles();
   const isSlip = (f: string) => /^apps\/api\/db\/snapshot\/uploads\/private\//.test(f);
   const files = all.filter((f) => !isSlip(f)); // slips are listed as one line below
   const slips = all.filter(isSlip).length;
+  viewable.clear();
   const list = files.map((path) => {
     let text = '';
     const binary = /\.(png|jpe?g|webp|ico|pdf|gif)$/i.test(path);
@@ -84,11 +89,13 @@ function scan() {
         // deleted after listing
       }
     }
+    const view = !binary && text.length <= MAX_VIEW && !path.startsWith('apps/api/db/snapshot/');
+    if (view) viewable.add(path);
     const name = path.split('/').pop()!;
     const about = known[path] ?? (binary ? '' : headerComment(text)) ?? '';
-    return { path, lines: binary ? 0 : text.split('\n').length, about: about || (rules.find(([re]) => re.test(path))?.[1] ?? (name.startsWith('.') ? 'ไฟล์ตั้งค่า' : '')) };
+    return { path, lines: binary ? 0 : text.split('\n').length, view, about: about || (rules.find(([re]) => re.test(path))?.[1] ?? (name.startsWith('.') ? 'ไฟล์ตั้งค่า' : '')) };
   });
-  if (slips) list.push({ path: 'apps/api/db/snapshot/uploads/private/slips/', lines: 0, about: `สลิปชำระเงินใน snapshot (${slips} ไฟล์)` });
+  if (slips) list.push({ path: 'apps/api/db/snapshot/uploads/private/slips/', lines: 0, view: false, about: `สลิปชำระเงินใน snapshot (${slips} ไฟล์)` });
   return list;
 }
 
@@ -97,7 +104,19 @@ export function projectFiles(): Plugin {
     name: 'project-files',
     resolveId: (source) => (source === id ? `\0${id}` : undefined),
     load: (source) => (source === `\0${id}` ? `export default ${JSON.stringify({ generatedAt: new Date().toISOString(), files: scan() })};` : undefined),
+    // the build ships each viewable file as /source/<path>.txt, fetched only when someone opens it
+    generateBundle() {
+      if (!viewable.size) scan();
+      for (const path of viewable) this.emitFile({ type: 'asset', fileName: `source/${path}.txt`, source: readFileSync(join(repo, path), 'utf8') });
+    },
     configureServer(server) {
+      // the dev server answers the same /source/<path>.txt URLs straight from the repo (listed files only)
+      server.middlewares.use('/source/', (req, res, next) => {
+        const path = decodeURIComponent((req.url ?? '').slice(1).split('?')[0]).replace(/\.txt$/, '');
+        if (!viewable.has(path)) return next();
+        res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+        res.end(readFileSync(join(repo, path)));
+      });
       // any change in the repo re-generates the list on the next page load
       const refresh = () => {
         const mod = server.moduleGraph.getModuleById(`\0${id}`);

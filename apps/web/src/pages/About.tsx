@@ -1,12 +1,69 @@
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
+import { toast } from 'sonner';
 import project from 'virtual:project-files';
-import { Input, InfoChip, PageHeader, Panel, Section, StatBox } from '../components/ui';
+import { Input, InfoChip, Loading, Modal, PageHeader, Panel, Section, StatBox } from '../components/ui';
 import { dateTimeTh } from '../lib/format';
+
+const github = (path: string) => `https://github.com/Deepciony/PJwebT/blob/feat/sporthub/${path}`;
+
+// The real source of one repo file, shipped by the project-files plugin as /source/<path>.txt.
+function SourceViewer({ path, onClose }: { path: string | null; onClose: () => void }) {
+  const source = useQuery({
+    queryKey: ['source', path],
+    queryFn: async () => {
+      const res = await fetch(`/source/${path!.split('/').map(encodeURIComponent).join('/')}.txt`);
+      if (!res.ok) throw new Error(`เปิดไฟล์ไม่ได้ (${res.status})`);
+      return res.text();
+    },
+    enabled: Boolean(path),
+    staleTime: Number.POSITIVE_INFINITY,
+  });
+  const lines = source.data?.split('\n') ?? [];
+  const copy = () =>
+    navigator.clipboard.writeText(source.data ?? '').then(
+      () => toast.success('คัดลอกโค้ดแล้ว'),
+      () => toast.error('คัดลอกไม่ได้ ลองลากคลุมแล้วกด Ctrl+C'),
+    );
+  return (
+    <Modal open={Boolean(path)} onClose={onClose} title={<span className="font-mono text-base normal-case">{path}</span>} wide>
+      <div className="mb-2 flex flex-wrap items-center justify-between gap-2 text-sm text-muted">
+        <span>{source.data ? `${lines.length} บรรทัด` : ''}</span>
+        <span className="flex gap-4">
+          <button type="button" onClick={copy} disabled={!source.data} className="underline hover:text-ink">
+            คัดลอกโค้ด
+          </button>
+          {path && (
+            <a href={github(path)} target="_blank" rel="noreferrer" className="underline hover:text-ink">
+              เปิดบน GitHub
+            </a>
+          )}
+        </span>
+      </div>
+      {source.isPending ? (
+        <Loading />
+      ) : source.isError ? (
+        <p className="text-danger">{source.error.message}</p>
+      ) : (
+        <pre className="max-h-[70vh] overflow-auto rounded-lg border border-line bg-black/45 py-2 font-mono text-xs leading-5">
+          <code className="grid grid-cols-[auto_1fr]">
+            {lines.map((line, i) => (
+              <Fragment key={i}>
+                <span className="num px-3 text-right text-muted/60 select-none">{i + 1}</span>
+                <span className="pr-4 whitespace-pre">{line || ' '}</span>
+              </Fragment>
+            ))}
+          </code>
+        </pre>
+      )}
+    </Modal>
+  );
+}
 
 // Every file in the repo and what it is for, read from the files themselves at build / dev time.
 function ProjectFiles() {
   const [q, setQ] = useState('');
+  const [open, setOpen] = useState<string | null>(null);
   const files = project.files.filter((f) => !q || `${f.path} ${f.about}`.toLowerCase().includes(q.toLowerCase()));
   const groups = new Map<string, typeof files>();
   for (const f of files) {
@@ -25,7 +82,10 @@ function ProjectFiles() {
           <Input type="search" placeholder="ค้นหาไฟล์หรือคำอธิบาย" value={q} onChange={(e) => setQ(e.target.value)} aria-label="ค้นหาไฟล์" />
         </div>
       </div>
-      <p className="text-sm text-muted">อ่านจากไฟล์จริงล่าสุดเมื่อ {dateTimeTh(project.generatedAt)} · คำอธิบายมาจาก comment บรรทัดแรกของแต่ละไฟล์</p>
+      <p className="text-sm text-muted">
+        อ่านจากไฟล์จริงล่าสุดเมื่อ {dateTimeTh(project.generatedAt)} · คำอธิบายมาจาก comment บรรทัดแรกของแต่ละไฟล์ · <b className="text-mark">กดชื่อไฟล์เพื่อดูโค้ดจริง</b>
+      </p>
+      <SourceViewer path={open} onClose={() => setOpen(null)} />
       <div className="space-y-2">
         {[...groups].map(([folder, list]) => (
           <details key={folder} open={Boolean(q)} className="group rounded-xl border-2 border-line bg-surface">
@@ -39,7 +99,15 @@ function ProjectFiles() {
               <tbody>
                 {list.map((f) => (
                   <tr key={f.path} className="border-t border-line/50 align-top">
-                    <td className="w-64 px-4 py-1.5 font-mono font-semibold break-all">{f.path.split('/').pop() || f.path}</td>
+                    <td className="w-64 px-4 py-1.5 font-mono font-semibold break-all">
+                      {f.view ? (
+                        <button type="button" onClick={() => setOpen(f.path)} className="text-left text-mark underline decoration-mark/40 underline-offset-2 hover:decoration-mark">
+                          {f.path.split('/').pop()}
+                        </button>
+                      ) : (
+                        f.path.split('/').pop() || f.path
+                      )}
+                    </td>
                     <td className="px-2 py-1.5 text-muted">{f.about || '-'}</td>
                     <td className="num px-4 py-1.5 text-right whitespace-nowrap text-muted">{f.lines ? `${f.lines} บรรทัด` : ''}</td>
                   </tr>

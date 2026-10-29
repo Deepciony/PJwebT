@@ -302,7 +302,7 @@ export function Loading({ label = 'กำลังโหลด' }: { label?: str
 }
 
 // Native <dialog>: focus trap, Esc to close and inert background come for free.
-export function Modal({ open, onClose, title, wide, children }: { open: boolean; onClose: () => void; title: string; wide?: boolean; children: ReactNode }) {
+export function Modal({ open, onClose, title, wide, children }: { open: boolean; onClose: () => void; title: ReactNode; wide?: boolean; children: ReactNode }) {
   const ref = useRef<HTMLDialogElement>(null);
   useEffect(() => {
     const d = ref.current;
