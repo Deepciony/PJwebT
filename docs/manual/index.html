@@ -466,7 +466,7 @@
         <tr><td>ซื้อสินค้า (ตะกร้า, ลบรายการ, ลบตะกร้า, ยืนยัน)</td><td>ตะกร้าการจอง: ลบทีละรายการ ลบทั้งตะกร้า ยืนยันการจอง หลังยืนยันแก้ไขไม่ได้</td><td>สมาชิก</td></tr>
         <tr><td>ดูรายละเอียดการซื้อแต่ละครั้ง</td><td>หน้ารายละเอียดการจอง (รายการ ยอดรวม การชำระเงิน QR เช็คอิน)</td><td>สมาชิก, admin</td></tr>
         <tr><td>ดูรายการซื้อทั้งหมดของลูกค้าแต่ละคน</td><td>การจองของฉัน (สมาชิก) และประวัติการจองรายคนในเมนูสมาชิก (admin)</td><td>สมาชิก, admin</td></tr>
-        <tr><td>Backend REST API, PostgreSQL, Node.js + Express</td><td>Express 5 บน Node.js 24, PostgreSQL 18, REST API 72 endpoint ใต้ <code>/api/v1</code></td><td>-</td></tr>
+        <tr><td>Backend REST API, PostgreSQL, Node.js + Express</td><td>Express 5 บน Node.js 24, PostgreSQL 18, REST API 74 endpoint ใต้ <code>/api/v1</code></td><td>-</td></tr>
         <tr><td>API Document ออนไลน์</td><td>หน้า <code>/docs</code> อธิบายทุก endpoint พร้อม parameter ผลลัพธ์ ตัวอย่างการเรียกและตัวอย่างผลลัพธ์จริง</td><td>ทุกคน</td></tr>
       </tbody>
     </table>
@@ -621,7 +621,8 @@
     <ol>
       <li>หน้า <b>เช็คอิน</b> กด <b>เปิดกล้องสแกน QR</b> แล้วสแกนตั๋วจากมือถือสมาชิก หรือพิมพ์เลขที่การจอง</li>
       <li>ระบบแสดงรายการสนามและอุปกรณ์ที่ต้องส่งมอบพร้อมมัดจำที่ต้องเก็บ</li>
-      <li>เมื่อสมาชิกคืนอุปกรณ์ เปิดรายละเอียดการจอง กรอกสภาพและค่าปรับ (ถ้ามี) แล้วกด <b>รับคืน</b> อุปกรณ์จะว่างให้คนอื่นยืมต่อทันที</li>
+      <li>เมื่อสมาชิกคืนอุปกรณ์ เปิดรายละเอียดการจอง กรอกสภาพและค่าปรับ (ถ้ามี) แล้วกด <b>รับคืน</b> อุปกรณ์จะว่างให้คนอื่นยืมต่อทันที ถ้ามีค่าปรับ ระบบส่งอีเมลแจ้งสมาชิกทันทีและรวมยอดค่าปรับแสดงไว้ที่หน้ารายละเอียดการจอง (ชำระที่เคาน์เตอร์ ไม่รวมในยอดชำระผ่าน PromptPay)</li>
+      <li>เมื่อรับคืนอุปกรณ์ครบทุกรายการแล้ว กด <b>เช็คเอาท์</b> ที่หน้ารายละเอียดการจอง เพื่อปิดการจองเป็นเสร็จสิ้น (สมาชิกรีวิวสนามได้) และส่งอีเมลสรุปพร้อมค่าปรับรวม (ถ้ามี) ปุ่มนี้กดไม่ได้ถ้ายังมีอุปกรณ์ที่ยังไม่คืน</li>
     </ol>
     <figure><img src="img/14-admin-checkin.jpg" alt="" /><figcaption id="f4-3"><b>รูปที่ 4.3</b> เช็คอินด้วยเลขที่การจอง</figcaption></figure>
     <figure><img src="img/15-admin-return.jpg" alt="" /><figcaption id="f4-4"><b>รูปที่ 4.4</b> บันทึกการคืนอุปกรณ์</figcaption></figure>
@@ -780,6 +781,7 @@ curl -X POST http://localhost:3000/api/v1/cart/slots \
           <tr><td>การจอง</td><td class="m">POST</td><td><code>/bookings/<wbr>{id}/<wbr>cancel</code></td><td>ยกเลิกการจอง</td><td>สมาชิก</td></tr>
           <tr><td>การจอง</td><td class="m">POST</td><td><code>/checkin</code></td><td>เช็คอินหน้าสนาม</td><td>admin</td></tr>
           <tr><td>การจอง</td><td class="m">POST</td><td><code>/bookings/<wbr>{id}/<wbr>equipment/<wbr>{itemId}/<wbr>return</code></td><td>บันทึกการคืนอุปกรณ์</td><td>admin</td></tr>
+          <tr><td>การจอง</td><td class="m">POST</td><td><code>/bookings/<wbr>{id}/<wbr>checkout</code></td><td>เช็คเอาท์ (ปิดการจองเป็นเสร็จสิ้น)</td><td>admin</td></tr>
           <tr><td>ชำระเงิน</td><td class="m">GET</td><td><code>/bookings/<wbr>{id}/<wbr>promptpay</code></td><td>QR PromptPay สำหรับชำระค่าจอง</td><td>สมาชิก</td></tr>
           <tr><td>ชำระเงิน</td><td class="m">POST</td><td><code>/bookings/<wbr>{id}/<wbr>payments</code></td><td>แนบสลิปการโอนเงิน</td><td>สมาชิก</td></tr>
           <tr><td>ชำระเงิน</td><td class="m">GET</td><td><code>/payments</code></td><td>รายการสลิปทั้งหมด (สำหรับตรวจสอบ)</td><td>admin</td></tr>
