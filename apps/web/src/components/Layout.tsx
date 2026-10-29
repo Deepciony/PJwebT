@@ -4,6 +4,7 @@ import { Link, NavLink, Outlet, useNavigate } from 'react-router';
 import { Toaster } from 'sonner';
 import { api, ok, useMe, useSettings } from '../api';
 import { useCart } from '../lib/cart';
+import { ConfirmHost } from '../lib/confirm';
 import { useInbox } from '../pages/Inbox';
 import { LinkButton } from './ui';
 
@@ -271,6 +272,7 @@ export function Layout() {
         </a>
       </footer>
       <Toaster position="bottom-center" theme="dark" richColors closeButton />
+      <ConfirmHost />
     </div>
   );
 }

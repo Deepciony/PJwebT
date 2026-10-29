@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router';
 import { toast } from 'sonner';
 import { api, type Booking, errorText, ok, type Payment, upload, useMe, useSettings } from '../api';
 import { Badge, Button, ErrorNote, Field, Input, Loading, PageHeader, Panel, Textarea } from '../components/ui';
+import { confirm } from '../lib/confirm';
 import { baht, bookingStatus, dateTimeTh, dayLabel, paymentStatus, timeRange } from '../lib/format';
 import { formData } from '../lib/pick';
 
@@ -147,7 +148,7 @@ export default function BookingDetail() {
               variant="quiet-danger"
               className="w-full"
               pending={cancel.isPending}
-              onClick={() => window.confirm('ยืนยันการยกเลิกการจองนี้?') && cancel.mutate()}
+              onClick={() => confirm('ยืนยันการยกเลิกการจองนี้?').then((ok) => ok && cancel.mutate())}
             >
               ยกเลิกการจอง
             </Button>
