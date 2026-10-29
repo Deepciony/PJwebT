@@ -72,7 +72,9 @@ export function Login() {
         </Link>
       </p>
       <p className="rounded-lg bg-sunken px-3 py-2 text-sm text-muted">
-        บัญชีทดลอง: member@sporthub.local / member1234 หรือ admin@sporthub.local / admin1234
+        บัญชีทดลอง: member@sporthub.local / member1234
+        {/* a production admin has its own ADMIN_PASSWORD, so the demo one is only shown by the dev server */}
+        {import.meta.env.DEV && ' หรือ admin@sporthub.local / admin1234'}
       </p>
     </AuthShell>
   );
