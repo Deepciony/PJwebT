@@ -26,6 +26,7 @@ import './routes/admin';
 import './routes/coupons';
 import './routes/emails';
 import './routes/settings';
+import './routes/terminal';
 
 const pgErrors: Record<string, [number, string, string]> = {
   '23P01': [409, 'SLOT_TAKEN', 'ช่วงเวลานี้มีผู้จองแล้ว'],
