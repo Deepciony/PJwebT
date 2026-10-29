@@ -6,7 +6,7 @@ import { deliver } from '../lib/mail';
 import { route } from '../lib/route';
 import { dateTime, idParam } from '../schemas';
 
-const kind = z.enum(['confirmed', 'approved', 'rejected', 'cancelled', 'reminder']).describe('ประเภทอีเมล');
+const kind = z.enum(['confirmed', 'approved', 'rejected', 'cancelled', 'reminder', 'fine', 'checkout']).describe('ประเภทอีเมล');
 const status = z.enum(['web', 'sent', 'failed']).describe('web=อยู่ในเว็บเท่านั้น sent=ส่งออกทาง SMTP แล้ว failed=ส่ง SMTP ไม่สำเร็จ');
 
 const EmailSummary = z

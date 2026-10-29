@@ -147,6 +147,7 @@ export const Booking = z
     couponCode: z.string().nullable(),
     total: z.number().describe('ยอดที่ต้องชำระหลังส่วนลด (บาท)'),
     depositTotal: z.number().describe('มัดจำอุปกรณ์รวม จ่ายหน้างาน'),
+    fineTotal: z.number().describe('ค่าปรับรวมจากการคืนอุปกรณ์ (ชำระที่เคาน์เตอร์ ไม่รวมใน total)'),
     slots: z.array(BookingSlot),
     equipment: z.array(BookingEquipment),
     payments: z.array(PaymentSummary),

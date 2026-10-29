@@ -28,6 +28,7 @@ const bookingSql = `
       WHERE be.booking_id = b.id), '[]') AS equipment,
     COALESCE((SELECT sum(e.deposit * be.qty) FROM booking_equipment be JOIN equipment e ON e.id = be.equipment_id
       WHERE be.booking_id = b.id), 0) AS "depositTotal",
+    COALESCE((SELECT sum(fine) FROM booking_equipment WHERE booking_id = b.id), 0) AS "fineTotal",
     COALESCE((
       SELECT json_agg(json_build_object(
         'id', p.id, 'amount', p.amount, 'status', p.status, 'note', p.note, 'createdAt', p.created_at, 'reviewedAt', p.reviewed_at
@@ -46,10 +47,11 @@ export type BookingRow = {
   userEmail: string;
   expiresAt: Date | null;
   total: number;
+  fineTotal: number;
   checkinToken: string | null;
   checkinQr?: string | null;
   slots: { id: number; courtId: number; courtName: string; startAt: string; endAt: string }[];
-  equipment: { id: number; equipmentId: number; name: string; qty: number; startAt: string; endAt: string }[];
+  equipment: { id: number; equipmentId: number; name: string; qty: number; startAt: string; endAt: string; returnedAt: string | null; fine: number; conditionNote: string | null }[];
 };
 
 export async function getBooking(id: number, db: Db = pool) {

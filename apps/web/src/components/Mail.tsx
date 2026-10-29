@@ -11,6 +11,8 @@ export const mailKind: Record<EmailSummary['kind'], string> = {
   rejected: 'สลิปไม่ผ่าน',
   cancelled: 'ยกเลิกการจอง',
   reminder: 'เตือนก่อนเวลา',
+  fine: 'ค่าปรับ',
+  checkout: 'เช็คเอาท์',
 };
 
 export const mailStatus: Record<EmailSummary['status'], { label: string; tone: 'muted' | 'turf' | 'danger' }> = {
