@@ -48,6 +48,9 @@ describe('foundation', () => {
     const deepLink = await request(app).get('/courts/3').set('Accept', 'text/html');
     expect(deepLink.status).toBe(200);
     expect(deepLink.text).toContain('id="root"');
+    // uptime monitors check pages with HEAD
+    expect((await request(app).head('/')).status).toBe(200);
+    expect((await request(app).head('/courts/3').set('Accept', 'text/html')).status).toBe(200);
     const asset = await request(app).get('/assets/app-abc123.js');
     expect(asset.status).toBe(200);
     expect(asset.headers['cache-control']).toContain('immutable');

@@ -31,6 +31,7 @@ const Users = lazy(() => import('./pages/admin/Users'));
 const Emails = lazy(() => import('./pages/admin/Emails'));
 const System = lazy(() => import('./pages/admin/System'));
 const ApiDocs = lazy(() => import('./pages/admin/ApiDocs'));
+const Terminal = lazy(() => import('./pages/admin/Terminal'));
 const UserDetail = lazy(() => import('./pages/admin/Users').then((m) => ({ default: m.UserDetail })));
 
 const queryClient = new QueryClient({
@@ -84,6 +85,7 @@ const router = createBrowserRouter([
               { path: 'emails', element: <Emails /> },
               { path: 'system', element: <System /> },
               { path: 'api', element: <ApiDocs /> },
+              { path: 'terminal', element: <Terminal /> },
               { path: 'about', element: <About /> },
             ],
           },

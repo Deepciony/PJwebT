@@ -7220,6 +7220,104 @@ export interface paths {
         };
         trace?: never;
     };
+    "/api/v1/admin/terminal": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * รันคำสั่งใน terminal ของผู้ดูแลระบบ
+         * @description คำสั่งที่กำหนดไว้ (help, info, versions, node, db, tables, columns, migrations, api) และ sql สำหรับ SQL แบบอ่านอย่างเดียวครั้งละ 1 คำสั่ง (รันใน transaction READ ONLY แล้ว rollback เสมอ จำกัดเวลา 5 วินาที แสดงสูงสุด 200 แถว) ไม่ได้รัน shell ของเซิร์ฟเวอร์
+         *
+         *     **สิทธิ์:** เฉพาะผู้ดูแลระบบ (admin)
+         *
+         *     **ตัวอย่างการเรียกใช้:** `POST /api/v1/admin/terminal`
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    /**
+                     * @example {
+                     *       "command": "info"
+                     *     }
+                     */
+                    "application/json": {
+                        /** @description เช่น info, columns bookings หรือ sql SELECT version() */
+                        command: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description สำเร็จ */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        /**
+                         * @example {
+                         *       "ok": true,
+                         *       "output": "Arena Hub — ระบบจองสนามกีฬาและยืมอุปกรณ์ออนไลน์\n────────────────────────────────────────────────────────────────\nSystem    development · uptime 0d 0h 0m · timezone Asia/Bangkok\nRuntime   Node.js v24.22.1 (win32 x64)\nBackend   express 5.2.1 · zod 4.6.5 · pg 8.23.1 · argon2 0.45.1 · jose 6.2.12 · nodemailer 10.0.15 · helmet 8.3.0 · multer 2.4.0\nDatabase  PostgreSQL 18.6 (Debian 18.6-1.pgdg13+2) · database sporthub_test · user sporthub · 12 MB\n          13 tables · 1 view · migrations 6/6\nFrontend  React 19.3.0 · Vite 8.3.2 · TypeScript 7.0.2 · Tailwind CSS 4.3.3 · TanStack Query 5.104.1 · React Router 8.4.0\nAPI       73 endpoints (REST /api/v1) · OpenAPI 3.1 document at /docs\nData      users 108 · courts 27 · equipment 6 · bookings 65 · payments 18\n────────────────────────────────────────────────────────────────\nรายละเอียดเพิ่ม: versions, node, db, tables, migrations, api"
+                         *     }
+                         */
+                        "application/json": {
+                            /** @description false = ไม่รู้จักคำสั่ง หรือ SQL ผิดพลาด */
+                            ok: boolean;
+                            /** @description ข้อความที่แสดงใน terminal รวมคำสั่ง SQL ที่ใช้ */
+                            output: string;
+                            /** @description ผลลัพธ์แบบตาราง */
+                            table?: {
+                                columns: string[];
+                                rows: string[][];
+                            };
+                        };
+                    };
+                };
+                /** @description ข้อมูลที่ส่งมาไม่ถูกต้อง (VALIDATION_ERROR) */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Error"];
+                    };
+                };
+                /** @description ยังไม่ได้เข้าสู่ระบบ (UNAUTHORIZED) */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Error"];
+                    };
+                };
+                /** @description ไม่ใช่ผู้ดูแลระบบ (FORBIDDEN) หรือบัญชีถูกระงับ */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Error"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {

@@ -51,6 +51,9 @@ export default function AdminLayout() {
         <NavLink to="/admin/api" className={tab}>
           API
         </NavLink>
+        <NavLink to="/admin/terminal" className={tab}>
+          Terminal
+        </NavLink>
         <NavLink to="/admin/about" className={tab}>
           ข้อมูลระบบ
         </NavLink>

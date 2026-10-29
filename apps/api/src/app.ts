@@ -26,6 +26,7 @@ import './routes/admin';
 import './routes/coupons';
 import './routes/emails';
 import './routes/settings';
+import './routes/terminal';
 
 const pgErrors: Record<string, [number, string, string]> = {
   '23P01': [409, 'SLOT_TAKEN', 'ช่วงเวลานี้มีผู้จองแล้ว'],
@@ -138,7 +139,7 @@ if (existsSync(join(env.webDist, 'index.html'))) {
   );
   // client-side routes (/courts/3, /admin, ...) all boot the same index.html
   app.use((req, res, next) => {
-    if (req.method !== 'GET' || req.path.startsWith('/uploads/') || !req.accepts('html')) return next();
+    if ((req.method !== 'GET' && req.method !== 'HEAD') || req.path.startsWith('/uploads/') || !req.accepts('html')) return next();
     res.set('Cache-Control', 'no-cache').sendFile('index.html', { root: env.webDist });
   });
 }
