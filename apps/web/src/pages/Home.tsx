@@ -50,7 +50,7 @@ export default function Home() {
     ['ช่องเวลา', 'ช่องละ 1 ชั่วโมง'],
     ['ชำระเงินภายใน', duration(payWithin)],
     ['ยกเลิกได้ก่อนเริ่ม', duration((settings?.cancelBeforeHours ?? 24) * 60)],
-    ['เช็คอินก่อนเวลาได้', duration(settings?.checkinEarlyMinutes ?? 30)],
+    ['เช็คอินก่อนเวลาได้', duration(settings?.checkinEarlyMinutes ?? 60)],
   ];
 
   return (

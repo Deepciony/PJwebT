@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router';
 import { toast } from 'sonner';
 import { api, type Booking, errorText, ok, type Payment, upload, useMe, useSettings } from '../api';
 import { Badge, Button, ErrorNote, Field, Input, Loading, PageHeader, Panel, Textarea } from '../components/ui';
+import { confirm } from '../lib/confirm';
 import { baht, bookingStatus, dateTimeTh, dayLabel, paymentStatus, timeRange } from '../lib/format';
 import { formData } from '../lib/pick';
 
@@ -109,6 +110,12 @@ export default function BookingDetail() {
               <span className="text-muted">ยอดรวม</span>
               <span className="num text-2xl font-semibold">{baht(b.total)}</span>
             </div>
+            {b.fineTotal > 0 && (
+              <div className="num flex items-baseline justify-between border-t border-line p-4 text-danger">
+                <span>ค่าปรับรวม (ชำระที่เคาน์เตอร์)</span>
+                <span className="font-semibold">{baht(b.fineTotal)}</span>
+              </div>
+            )}
           </Panel>
 
           {b.payments.length > 0 && (
@@ -141,7 +148,7 @@ export default function BookingDetail() {
               variant="quiet-danger"
               className="w-full"
               pending={cancel.isPending}
-              onClick={() => window.confirm('ยืนยันการยกเลิกการจองนี้?') && cancel.mutate()}
+              onClick={() => confirm('ยืนยันการยกเลิกการจองนี้?').then((ok) => ok && cancel.mutate())}
             >
               ยกเลิกการจอง
             </Button>
@@ -155,6 +162,7 @@ export default function BookingDetail() {
 
 function StatusPanel({ booking: b, onChange }: { booking: Booking; onChange: (b?: Booking) => void }) {
   const me = useMe().data;
+  const admin = me?.role === 'admin';
   const mine = me?.id === b.userId;
   switch (b.status) {
     case 'pending_payment':
@@ -169,12 +177,7 @@ function StatusPanel({ booking: b, onChange }: { booking: Booking; onChange: (b?
         </Panel>
       );
     case 'checked_in':
-      return (
-        <Panel className="p-5">
-          <h2 className="text-xl font-semibold">เช็คอินแล้ว</h2>
-          <p className="mt-1 text-muted">ขอให้สนุกกับการเล่น อย่าลืมคืนอุปกรณ์ที่เคาน์เตอร์ก่อนกลับ</p>
-        </Panel>
-      );
+      return <CheckedInPanel booking={b} admin={admin} onChange={onChange} />;
     case 'completed':
       return mine ? <ReviewPanel booking={b} onChange={onChange} /> : <Panel className="p-5">ใช้บริการเสร็จสิ้นแล้ว</Panel>;
     case 'expired':
@@ -309,6 +312,36 @@ function ReviewForm({ courtName, pending, onSend }: { courtName: string; pending
         ส่งรีวิว
       </Button>
     </form>
+  );
+}
+
+function CheckedInPanel({ booking: b, admin, onChange }: { booking: Booking; admin: boolean; onChange: (b?: Booking) => void }) {
+  const left = b.equipment.filter((e) => !e.returnedAt);
+  const checkout = useMutation({
+    mutationFn: () => ok(api.POST('/api/v1/bookings/{id}/checkout', { params: { path: { id: b.id } } })),
+    onSuccess: (updated) => {
+      toast.success('เช็คเอาท์เรียบร้อย');
+      onChange(updated);
+    },
+    onError: (e) => toast.error(errorText(e)),
+  });
+  return (
+    <Panel className="space-y-3 p-5">
+      <h2 className="text-xl font-semibold">เช็คอินแล้ว</h2>
+      <p className="text-muted">ขอให้สนุกกับการเล่น อย่าลืมคืนอุปกรณ์ที่เคาน์เตอร์ก่อนกลับ</p>
+      {admin && (
+        <>
+          {left.length > 0 ? (
+            <p className="text-sm text-danger">ยังไม่ได้คืนอุปกรณ์: {left.map((e) => e.name).join(', ')}</p>
+          ) : (
+            <p className="text-sm text-turf">คืนอุปกรณ์ครบแล้ว</p>
+          )}
+          <Button variant="turf" className="w-full" disabled={left.length > 0} pending={checkout.isPending} onClick={() => checkout.mutate()}>
+            เช็คเอาท์
+          </Button>
+        </>
+      )}
+    </Panel>
   );
 }
 

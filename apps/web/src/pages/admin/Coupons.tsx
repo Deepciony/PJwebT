@@ -5,6 +5,7 @@ import { toast } from 'sonner';
 import { api, type Body, errorText, ok } from '../../api';
 import type { components } from '../../api-types';
 import { Badge, Button, Empty, ErrorNote, Field, Input, Loading, Modal, PageHeader, Progress, Select, StatBox } from '../../components/ui';
+import { confirm } from '../../lib/confirm';
 import { baht, bangkokDate, bookingStatus, dateTh, dateTimeTh } from '../../lib/format';
 import { formData } from '../../lib/pick';
 
@@ -264,7 +265,7 @@ export default function Coupons() {
                 <Button size="sm" onClick={() => setEditing(c)}>
                   แก้ไข
                 </Button>
-                <Button size="sm" variant="quiet-danger" className="ml-auto" onClick={() => window.confirm(`ลบคูปอง ${c.code}?`) && remove.mutate(c.id)}>
+                <Button size="sm" variant="quiet-danger" className="ml-auto" onClick={() => confirm(`ลบคูปอง ${c.code}?`).then((ok) => ok && remove.mutate(c.id))}>
                   ลบ
                 </Button>
               </div>

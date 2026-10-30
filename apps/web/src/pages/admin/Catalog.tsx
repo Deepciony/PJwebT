@@ -5,6 +5,7 @@ import { toast } from 'sonner';
 import { api, type Body, type Court, type Equipment, errorText, ok, type Sport, upload } from '../../api';
 import { useSports } from '../../components/Pickers';
 import { Badge, Button, ErrorNote, Field, Input, Loading, Modal, PageHeader, Select, SportArt, Stars, Textarea } from '../../components/ui';
+import { confirm } from '../../lib/confirm';
 import { baht, dateTimeTh, hourLabel } from '../../lib/format';
 import { formData } from '../../lib/pick';
 
@@ -218,7 +219,7 @@ function CatalogTable({ kind }: { kind: Kind }) {
               <Button size="sm" variant="quiet" onClick={() => setParams((p) => (p.set('edit', `${prefix}-${r.id}`), p))}>
                 แก้ไข
               </Button>
-              <Button size="sm" variant="quiet-danger" onClick={() => window.confirm(`ลบ ${r.name}?`) && remove.mutate(r.id)}>
+              <Button size="sm" variant="quiet-danger" onClick={() => confirm(`ลบ ${r.name}?`).then((ok) => ok && remove.mutate(r.id))}>
                 ลบ
               </Button>
             </div>
@@ -297,7 +298,7 @@ function SportsTable() {
                   variant="quiet-danger"
                   disabled={s.courtCount + s.equipmentCount > 0}
                   title={s.courtCount + s.equipmentCount > 0 ? 'ลบได้เมื่อไม่มีสนามหรืออุปกรณ์ของกีฬานี้' : undefined}
-                  onClick={() => window.confirm(`ลบ ${s.name}?`) && remove.mutate(s.id)}
+                  onClick={() => confirm(`ลบ ${s.name}?`).then((ok) => ok && remove.mutate(s.id))}
                 >
                   ลบ
                 </Button>
@@ -374,7 +375,7 @@ function ReviewsTable() {
                   <Stars value={r.rating} /> {r.comment || <span className="text-muted">(ไม่มีความเห็น)</span>}
                 </p>
               </div>
-              <Button size="sm" variant="quiet-danger" onClick={() => window.confirm('ลบรีวิวนี้?') && remove.mutate(r.id)}>
+              <Button size="sm" variant="quiet-danger" onClick={() => confirm('ลบรีวิวนี้?').then((ok) => ok && remove.mutate(r.id))}>
                 ลบ
               </Button>
             </li>

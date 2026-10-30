@@ -1,5 +1,5 @@
 import type { AddressInfo } from 'node:net';
-import { beforeAll, describe, expect, it } from 'vitest';
+import { beforeAll, describe, expect, it, vi } from 'vitest';
 import { app } from '../src/app';
 import { one, query } from '../src/db';
 import { runJobs } from '../src/jobs';
@@ -92,17 +92,28 @@ describe('check-in', () => {
     expect((await api().post('/api/v1/checkin').set(bearer(m.token)).send({ token: booking.code })).status).toBe(403);
   });
 
-  it('refuses check-in earlier than the allowed window', async () => {
+  it('allows check-in starting exactly one hour before the booking', async () => {
     const m = await member();
-    const booking = await pay(m.token, (await book(m.token, at(day(5), 10))).id);
+    const startAt = at(day(5), 10);
+    const booking = await pay(m.token, (await book(m.token, startAt)).id);
     const saved = process.env.CHECKIN_EARLY_MINUTES;
-    process.env.CHECKIN_EARLY_MINUTES = '30';
+    process.env.CHECKIN_EARLY_MINUTES = '60';
+    vi.useFakeTimers({ toFake: ['Date'] });
     try {
-      const res = await api().post('/api/v1/checkin').set(bearer(adminToken)).send({ token: booking.checkinToken });
-      expect(res.status).toBe(409);
-      expect(res.body.error.code).toBe('TOO_EARLY');
+      const checkinOpensAt = Date.parse(startAt) - 60 * 60_000;
+      vi.setSystemTime(checkinOpensAt - 1);
+      const early = await api().post('/api/v1/checkin').set(bearer(adminToken)).send({ token: booking.checkinToken });
+      expect(early.status).toBe(409);
+      expect(early.body.error.code).toBe('TOO_EARLY');
+
+      vi.setSystemTime(checkinOpensAt);
+      const allowed = await api().post('/api/v1/checkin').set(bearer(adminToken)).send({ token: booking.checkinToken });
+      expect(allowed.status).toBe(200);
+      expect(allowed.body.status).toBe('checked_in');
     } finally {
-      process.env.CHECKIN_EARLY_MINUTES = saved;
+      vi.useRealTimers();
+      if (saved === undefined) delete process.env.CHECKIN_EARLY_MINUTES;
+      else process.env.CHECKIN_EARLY_MINUTES = saved;
     }
   });
 });
@@ -119,8 +130,30 @@ describe('equipment return', () => {
       .send({ conditionNote: 'ลูกบอลรั่ว', fine: 150 });
     expect(res.status).toBe(200);
     expect(res.body.equipment[0]).toMatchObject({ conditionNote: 'ลูกบอลรั่ว', fine: 150, returnedAt: expect.any(String) });
+    expect(res.body.fineTotal).toBe(150);
     const twice = await api().post(`/api/v1/bookings/${booking.id}/equipment/${item}/return`).set(bearer(adminToken)).send({});
     expect(twice.body.error.code).toBe('ALREADY_RETURNED');
+    // the member is told about the fine
+    const inbox = (await api().get('/api/v1/users/me/emails').set(bearer(m.token))).body;
+    expect(inbox.items.some((e: { kind: string; subject: string }) => e.kind === 'fine' && e.subject.includes('150'))).toBe(true);
+  });
+
+  it('checkout needs a check-in and every item returned; then the booking is completed and the member is emailed', async () => {
+    const m = await member();
+    const booking = await pay(m.token, (await book(m.token, undefined, true)).id);
+    const early = await api().post(`/api/v1/bookings/${booking.id}/checkout`).set(bearer(adminToken));
+    expect(early.body.error.code).toBe('INVALID_STATUS');
+    await api().post('/api/v1/checkin').set(bearer(adminToken)).send({ token: booking.checkinToken }).expect(200);
+    const blocked = await api().post(`/api/v1/bookings/${booking.id}/checkout`).set(bearer(adminToken));
+    expect(blocked.status).toBe(409);
+    expect(blocked.body.error.code).toBe('UNRETURNED_EQUIPMENT');
+    await api().post(`/api/v1/bookings/${booking.id}/equipment/${booking.equipment[0].id}/return`).set(bearer(adminToken)).send({ fine: 50 }).expect(200);
+    expect((await api().post(`/api/v1/bookings/${booking.id}/checkout`).set(bearer(m.token))).status).toBe(403);
+    const done = await api().post(`/api/v1/bookings/${booking.id}/checkout`).set(bearer(adminToken));
+    expect(done.status).toBe(200);
+    expect(done.body.status).toBe('completed');
+    const inbox = (await api().get('/api/v1/users/me/emails').set(bearer(m.token))).body;
+    expect(inbox.items.some((e: { kind: string }) => e.kind === 'checkout')).toBe(true);
   });
 });
 

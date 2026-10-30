@@ -3,7 +3,8 @@ import { toast } from 'sonner';
 import { errorText, useSettings } from '../api';
 import { Badge, Button, Empty, ErrorNote, Input, LinkButton, Loading, PageHeader, Panel, Steps } from '../components/ui';
 import { useCart, useCartActions } from '../lib/cart';
-import { baht, dateTh, dayLabel, timeRange } from '../lib/format';
+import { confirm as askConfirm } from '../lib/confirm';
+import { baht, bangkokDate, dateTh, dayLabel, timeRange } from '../lib/format';
 import { formData } from '../lib/pick';
 
 export default function Cart() {
@@ -26,8 +27,14 @@ export default function Cart() {
       },
       onError: (e) => toast.error(errorText(e)),
     });
-  const clear = () => {
-    if (window.confirm('ลบทุกรายการในตะกร้า?')) actions.clear.mutate(undefined, { onSuccess: () => toast('ลบตะกร้าแล้ว') });
+  const clear = async () => {
+    if (await askConfirm('ลบทุกรายการในตะกร้า?')) actions.clear.mutate(undefined, { onSuccess: () => toast('ลบตะกร้าแล้ว') });
+  };
+  // edit = go back to where it was added; the slot/equipment picker there shows this item so it can be changed
+  const editSlot = (courtId: number, startAt: string) => navigate(`/courts/${courtId}?date=${bangkokDate(new Date(startAt))}`);
+  const editEquipment = (equipmentId: number, cartItemId: number, startAt: string) => {
+    actions.removeEquipment.mutate(cartItemId);
+    navigate(`/equipment/${equipmentId}?date=${bangkokDate(new Date(startAt))}`);
   };
 
   return (
@@ -74,7 +81,10 @@ export default function Cart() {
                         {dayLabel(s.startAt)} {timeRange(s.startAt, s.endAt)}
                       </td>
                       <td className="num px-2 py-3 text-right">{baht(s.price)}</td>
-                      <td className="px-5 py-3 text-right">
+                      <td className="px-5 py-3 text-right whitespace-nowrap">
+                        <Button size="sm" variant="quiet" onClick={() => editSlot(s.courtId, s.startAt)}>
+                          แก้ไข
+                        </Button>
                         <Button size="sm" variant="quiet" pending={actions.removeSlot.isPending && actions.removeSlot.variables === s.id} onClick={() => actions.removeSlot.mutate(s.id)}>
                           ลบ
                         </Button>
@@ -91,7 +101,10 @@ export default function Cart() {
                         {dayLabel(e.startAt)} {timeRange(e.startAt, e.endAt)}
                       </td>
                       <td className="num px-2 py-3 text-right">{baht(e.price)}</td>
-                      <td className="px-5 py-3 text-right">
+                      <td className="px-5 py-3 text-right whitespace-nowrap">
+                        <Button size="sm" variant="quiet" onClick={() => editEquipment(e.equipmentId, e.id, e.startAt)}>
+                          แก้ไข
+                        </Button>
                         <Button
                           size="sm"
                           variant="quiet"

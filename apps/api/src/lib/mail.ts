@@ -7,7 +7,7 @@ import { getSettings, type SettingsValue } from './settings';
 // Every email is first stored (member inbox + admin mail log in the web app), then delivered by SMTP
 // in the background when SMTP_URL is set. A mail outage never fails the request that triggered it.
 
-type Kind = 'confirmed' | 'approved' | 'rejected' | 'cancelled' | 'reminder';
+type Kind = 'confirmed' | 'approved' | 'rejected' | 'cancelled' | 'reminder' | 'fine' | 'checkout';
 
 const esc = (s: string) => s.replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
 const when = new Intl.DateTimeFormat('th-TH', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'Asia/Bangkok' });
@@ -99,6 +99,20 @@ export const mail = {
   },
   cancelled: async (b: BookingRow, reason: string) =>
     record(b, 'cancelled', `[Arena Hub] การจอง #${b.code} ถูกยกเลิก`, layout(b, 'การจองถูกยกเลิก', `<p>${esc(reason)}</p>`, await getSettings())),
+  fine: async (b: BookingRow, item: string, amount: number, note: string | null) =>
+    record(
+      b,
+      'fine',
+      `[Arena Hub] ค่าปรับ ${baht(amount)} การจอง #${b.code}`,
+      layout(b, 'มีค่าปรับจากการคืนอุปกรณ์', `<p>อุปกรณ์: ${esc(item)}</p><p>สภาพตอนคืน: ${esc(note ?? '-')}</p><p><b>ค่าปรับ ${baht(amount)}</b> ชำระที่เคาน์เตอร์ (รวมค่าปรับทั้งการจอง ${baht(b.fineTotal)})</p>`, await getSettings()),
+    ),
+  checkout: async (b: BookingRow) =>
+    record(
+      b,
+      'checkout',
+      `[Arena Hub] เช็คเอาท์เรียบร้อย #${b.code}`,
+      layout(b, 'เช็คเอาท์เรียบร้อย', `<p>คืนอุปกรณ์ครบแล้ว ขอบคุณที่ใช้บริการ${b.fineTotal > 0 ? `</p><p><b>ค่าปรับรวม ${baht(b.fineTotal)}</b> ชำระที่เคาน์เตอร์` : ''}</p><p>เข้าไปรีวิวสนามได้ที่หน้าการจอง</p>`, await getSettings()),
+    ),
   reminder: async (b: BookingRow) =>
     record(b, 'reminder', `[Arena Hub] อีก 1 ชั่วโมงถึงเวลาจอง #${b.code}`, layout(b, 'ใกล้ถึงเวลาแล้ว', '<p>อย่าลืมแสดง QR เช็คอินที่เคาน์เตอร์</p>', await getSettings())),
 };

@@ -65,8 +65,9 @@ export function EquipmentDetail() {
   const id = Number(useParams().id);
   const me = useMe().data;
   const navigate = useNavigate();
+  const [params] = useSearchParams();
   const { addEquipment } = useCartActions();
-  const [date, setDate] = useState(bangkokDate());
+  const [date, setDate] = useState(params.get('date') ?? bangkokDate());
   // options run 06:00–23:00; default to the next hour inside that range
   const [start, setStart] = useState(() => Math.min(Math.max(new Date().getHours() + 1, 6), 21));
   const [hours, setHours] = useState(2);

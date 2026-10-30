@@ -23,7 +23,7 @@ export const env = {
   promptpayId: process.env.PROMPTPAY_ID ?? '0812345678',
   // how early before the first slot a booking may check in (calibration knob for demos)
   get checkinEarlyMinutes() {
-    return Number(process.env.CHECKIN_EARLY_MINUTES ?? 30);
+    return Number(process.env.CHECKIN_EARLY_MINUTES ?? 60);
   },
   recordExamples: process.env.RECORD_EXAMPLES === '1',
   uploadDir: fileURLToPath(new URL('../uploads/', import.meta.url)),

@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { one } from '../db';
 import { firstStart, getBooking, lastEnd } from '../lib/bookings';
 import { notifyAvailability } from '../lib/events';
+import { mail } from '../lib/mail';
 import { fail, found } from '../lib/http';
 import { route } from '../lib/route';
 import { getSettings } from '../lib/settings';
@@ -12,7 +13,7 @@ route({
   path: '/checkin',
   tag: 'Bookings',
   summary: 'เช็คอินหน้าสนาม',
-  description: `สแกน QR จากหน้าการจองของสมาชิก หรือพิมพ์เลขที่การจอง ใช้ได้กับการจองที่ชำระแล้ว ตั้งแต่ก่อนเวลาเริ่มตามที่ตั้งในระบบ (ค่าเริ่มต้น 30 นาที) จนถึงเวลาจบ`,
+  description: `สแกน QR จากหน้าการจองของสมาชิก หรือพิมพ์เลขที่การจอง ใช้ได้กับการจองที่ชำระแล้ว ตั้งแต่ก่อนเวลาเริ่มตามที่ตั้งในระบบ (ค่าเริ่มต้น 60 นาที) จนถึงเวลาจบ`,
   access: 'admin',
   body: z.object({ token: z.string().trim().min(1).describe('รหัสจาก QR เช็คอิน หรือเลขที่การจอง') }),
   response: Booking,
@@ -57,7 +58,8 @@ route({
   handler: async ({ params, body }) => {
     const item = found(
       await one(
-        `SELECT be.equipment_id, be.returned_at, b.status FROM booking_equipment be JOIN bookings b ON b.id = be.booking_id
+        `SELECT be.equipment_id, be.returned_at, b.status, e.name FROM booking_equipment be JOIN bookings b ON b.id = be.booking_id
+         JOIN equipment e ON e.id = be.equipment_id
          WHERE be.id = $1 AND be.booking_id = $2`,
         [params.itemId, params.id],
       ),
@@ -71,6 +73,34 @@ route({
       body.fine,
     ]);
     notifyAvailability([], [item.equipment_id]);
-    return getBooking(params.id);
+    const booking = await getBooking(params.id);
+    // a fine does nothing unless the member hears about it: an email, and it shows on the booking
+    if (body.fine > 0) await mail.fine(booking, item.name, body.fine, body.conditionNote ?? null);
+    return booking;
+  },
+});
+
+route({
+  method: 'post',
+  path: '/bookings/:id/checkout',
+  tag: 'Bookings',
+  summary: 'เช็คเอาท์',
+  description: 'ปิดการใช้งานของการจองที่เช็คอินแล้ว ต้องรับคืนอุปกรณ์ครบทุกรายการก่อน สถานะเปลี่ยนเป็น completed (สมาชิกรีวิวได้) และส่งอีเมลสรุปพร้อมค่าปรับ (ถ้ามี)',
+  access: 'admin',
+  params: z.object({ id: z.coerce.number().int().positive().describe('รหัสการจอง') }),
+  response: Booking,
+  errors: {
+    404: 'ไม่พบการจอง (NOT_FOUND)',
+    409: 'ยังไม่ได้เช็คอิน (INVALID_STATUS) หรือยังคืนอุปกรณ์ไม่ครบ (UNRETURNED_EQUIPMENT)',
+  },
+  handler: async ({ params }) => {
+    const booking = await getBooking(params.id);
+    if (booking.status !== 'checked_in') fail(409, 'INVALID_STATUS', 'เช็คเอาท์ได้เฉพาะการจองที่เช็คอินแล้ว');
+    const left = booking.equipment.filter((e) => !e.returnedAt);
+    if (left.length) fail(409, 'UNRETURNED_EQUIPMENT', `ยังไม่ได้รับคืนอุปกรณ์: ${left.map((e) => e.name).join(', ')}`);
+    await one(`UPDATE bookings SET status = 'completed' WHERE id = $1 AND status = 'checked_in'`, [booking.id]);
+    const done = await getBooking(booking.id);
+    await mail.checkout(done);
+    return done;
   },
 });
