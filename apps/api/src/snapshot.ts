@@ -16,14 +16,15 @@ const repoRoot = fileURLToPath(new URL('../../../', import.meta.url));
 const snapshotDir = fileURLToPath(new URL('../db/snapshot/', import.meta.url));
 const sqlFile = join(snapshotDir, 'sporthub.sql');
 const filesDir = join(snapshotDir, 'uploads');
-const { username, pathname } = new URL(env.databaseUrl);
+const { username, password, pathname } = new URL(env.databaseUrl);
 const dbArgs = ['-U', decodeURIComponent(username), '-d', pathname.slice(1)];
 
 // Runs pg_dump/psql in the db container, streaming a file into stdin or out of stdout.
 function inDb(args: string[], io: { stdin?: string; stdout?: string }) {
   return new Promise<void>((resolve, reject) => {
-    const child = spawn('docker', ['compose', 'exec', '-T', 'db', ...args, ...dbArgs], {
+    const child = spawn('docker', ['compose', 'exec', '-T', '-e', 'PGPASSWORD', 'db', ...args, ...dbArgs], {
       cwd: repoRoot,
+      env: { ...process.env, PGPASSWORD: decodeURIComponent(password) },
       stdio: [io.stdin ? 'pipe' : 'ignore', io.stdout ? 'pipe' : 'inherit', 'inherit'],
     });
     const written = io.stdout ? new Promise<void>((done) => child.stdout!.pipe(createWriteStream(io.stdout!)).on('finish', () => done())) : Promise.resolve();
