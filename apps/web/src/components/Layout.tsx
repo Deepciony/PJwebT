@@ -6,6 +6,7 @@ import { api, ok, useMe, useSettings } from '../api';
 import { useCart } from '../lib/cart';
 import { ConfirmHost } from '../lib/confirm';
 import { useInbox } from '../pages/Inbox';
+import { UserAvatar } from './UserAvatar';
 import { LinkButton } from './ui';
 
 // Server-Sent Events: whenever any booking holds or frees a slot, refetch what shows availability.
@@ -202,11 +203,7 @@ export function Layout() {
               {me ? (
                 <details className="relative">
                   <summary className="flex cursor-pointer list-none items-center rounded-full" aria-label="เมนูบัญชี">
-                    {me.avatarUrl ? (
-                      <img src={me.avatarUrl} alt="" className="size-9 rounded-full object-cover ring-2 ring-mark" />
-                    ) : (
-                      <span className="grid size-9 place-items-center rounded-full bg-violet font-display text-sm font-bold text-white ring-2 ring-mark">{me.name.slice(0, 1)}</span>
-                    )}
+                    <UserAvatar name={me.name} url={me.avatarUrl} className="size-9 ring-2 ring-mark" fallbackClassName="text-sm" />
                   </summary>
                   <div className="absolute right-0 mt-3 w-52 rounded-xl border-2 border-line-hi bg-panel p-1.5 shadow-[0_0_0_3px_var(--frame),0_12px_30px_rgb(0_0_0/0.5)]">
                     <p className="truncate px-3 pt-1 pb-2 text-sm font-semibold uppercase">{me.name}</p>

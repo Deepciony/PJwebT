@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router';
 import { toast } from 'sonner';
 import { api, errorText, ok, useMe } from '../../api';
+import { UserAvatar } from '../../components/UserAvatar';
 import { Badge, Button, Empty, ErrorNote, Field, InfoChip, Input, Loading, Modal, PageHeader, Panel, Select, StatBox } from '../../components/ui';
 import { baht, dateTh } from '../../lib/format';
 import { formData } from '../../lib/pick';
@@ -196,11 +197,7 @@ export function UserDetail() {
         สมาชิกทั้งหมด
       </Link>
       <Panel className="flex flex-wrap items-center gap-5 p-5">
-        {u.avatarUrl ? (
-          <img src={u.avatarUrl} alt="" className="size-20 rounded-full object-cover ring-4 ring-mark" />
-        ) : (
-          <span className="grid size-20 place-items-center rounded-full bg-violet font-display text-3xl font-bold text-white ring-4 ring-mark">{u.name.slice(0, 1)}</span>
-        )}
+        <UserAvatar name={u.name} url={u.avatarUrl} className="size-20 ring-4 ring-mark" fallbackClassName="text-3xl" />
         <div className="min-w-0 flex-1">
           <h1 className="text-2xl">{u.name}</h1>
           <div className="mt-2 flex flex-wrap gap-2">

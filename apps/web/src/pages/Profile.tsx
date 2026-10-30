@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { api, errorText, ok, type User, upload, useMe } from '../api';
 import { Button, ErrorNote, Field, InfoChip, Input, Loading, PageHeader, Panel } from '../components/ui';
+import { UserAvatar } from '../components/UserAvatar';
 import { dateTh } from '../lib/format';
 import { formData } from '../lib/pick';
 
@@ -34,11 +35,7 @@ export default function Profile() {
     <div className="space-y-5">
       <PageHeader title="ข้อมูลส่วนตัว" sub="แก้ชื่อ เบอร์โทร รูปโปรไฟล์ และรหัสผ่านของคุณ" />
       <Panel className="flex flex-wrap items-center gap-5 p-5">
-        {me.avatarUrl ? (
-          <img src={me.avatarUrl} alt="รูปโปรไฟล์" className="size-24 rounded-full object-cover ring-4 ring-mark" />
-        ) : (
-          <div className="grid size-24 place-items-center rounded-full bg-violet font-display text-4xl font-bold text-white ring-4 ring-mark">{me.name.slice(0, 1)}</div>
-        )}
+        <UserAvatar name={me.name} url={me.avatarUrl} alt="รูปโปรไฟล์" className="size-24 ring-4 ring-mark" fallbackClassName="text-4xl" />
         <div className="min-w-0 flex-1 space-y-2">
           <p className="font-display text-2xl font-extrabold uppercase">{me.name}</p>
           <div className="flex flex-wrap gap-2">
