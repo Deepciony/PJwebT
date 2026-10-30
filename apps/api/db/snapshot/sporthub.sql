@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict boZMBqczu3zAnppmh0oqnBilFJ4c2MIosUva7znE7UhlHtXWq1x5T7YyPmiIHP0
+\restrict R6uFaQopdieEuuOB3BEdpq83chZKH3L8623bkLxrBrdGXIuFgtUMFgkSxMbfUfc
 
 -- Dumped from database version 18.6 (Debian 18.6-1.pgdg13+2)
 -- Dumped by pg_dump version 18.6 (Debian 18.6-1.pgdg13+2)
@@ -694,7 +694,6 @@ COPY public.booking_slots (id, booking_id, court_id, start_at, end_at, price, ac
 65	63	3	2026-10-26 09:00:00+07	2026-10-26 10:00:00+07	150.00	t
 67	64	3	2026-10-26 10:00:00+07	2026-10-26 11:00:00+07	150.00	t
 68	64	3	2026-10-26 11:00:00+07	2026-10-26 12:00:00+07	150.00	t
-91	66	2	2026-10-27 23:00:00+07	2026-10-28 00:00:00+07	1000.00	f
 89	51	1	2026-10-27 23:00:00+07	2026-10-28 00:00:00+07	1500.00	f
 \.
 
@@ -788,37 +787,37 @@ COPY public.coupons (id, code, percent_off, amount_off, min_total, max_uses, use
 --
 
 COPY public.courts (id, sport_id, name, description, price_per_hour, open_hour, close_hour, image_url, is_active, created_at, peak_price_per_hour, peak_from_hour) FROM stdin;
-3	2	คอร์ทแบด 1	พื้นยาง PU มาตรฐาน BWF ไฟไม่แยงตา	150.00	8	22	\N	t	2026-10-07 11:17:35.078638+07	\N	\N
-4	2	คอร์ทแบด 2	พื้นยาง PU มาตรฐาน BWF ไฟไม่แยงตา	150.00	8	22	\N	t	2026-10-07 11:17:35.078638+07	\N	\N
-5	2	คอร์ทแบด 3	คอร์ทริมหน้าต่าง อากาศถ่ายเท	150.00	8	22	\N	t	2026-10-07 11:17:35.078638+07	\N	\N
-6	2	คอร์ทแบด 4 (VIP แอร์)	ห้องแอร์ เหมาะกับการแข่งขัน	250.00	8	22	\N	t	2026-10-07 11:17:35.078638+07	\N	\N
-7	3	สนามบาสในร่ม	พื้นไม้ปาร์เก้ ห่วงปรับระดับได้	500.00	8	22	\N	t	2026-10-07 11:17:35.078638+07	\N	\N
-8	3	สนามบาสกลางแจ้ง	สนามครึ่งคอร์ท เหมาะกับ 3x3	250.00	6	21	\N	t	2026-10-07 11:17:35.078638+07	\N	\N
-11	5	โต๊ะปิงปอง 1	โต๊ะมาตรฐาน ITTF	80.00	8	22	\N	t	2026-10-07 11:17:35.078638+07	\N	\N
-12	5	โต๊ะปิงปอง 2	โต๊ะมาตรฐาน ITTF	80.00	8	22	\N	t	2026-10-07 11:17:35.078638+07	\N	\N
-13	6	สนามวอลเลย์บอลในร่ม	พื้นยางสังเคราะห์ ตาข่ายปรับความสูงได้	600.00	8	22	\N	t	2026-10-07 11:17:35.078638+07	\N	\N
-1	1	สนามหญ้าเทียม A (7 คน)	หญ้าเทียมเกรด FIFA มีไฟส่องสว่างกลางคืน ห้องอาบน้ำในตัว	1200.00	9	24	\N	t	2026-10-07 11:17:35.078638+07	1500.00	17
-2	1	สนามหญ้าเทียม B (5 คน)	สนามฟุตซอลกลางแจ้ง หลังคาโดม เล่นได้แม้ฝนตก	800.00	9	24	\N	t	2026-10-07 11:17:35.078638+07	1000.00	17
-9	4	คอร์ทเทนนิส 1 (Hard court)	พื้นฮาร์ดคอร์ทมาตรฐาน	400.00	6	22	\N	t	2026-10-07 11:17:35.078638+07	500.00	17
-10	4	คอร์ทเทนนิส 2 (Hard court)	พื้นฮาร์ดคอร์ทมาตรฐาน	400.00	6	22	\N	t	2026-10-07 11:17:35.078638+07	500.00	17
-16	13	สนามฟุตซอลในร่ม 1	พื้นยางสังเคราะห์มาตรฐานฟุตซอล ประตูขนาดจริง	700.00	9	24	\N	t	2026-10-26 16:14:46.700052+07	\N	\N
-17	13	สนามฟุตซอลในร่ม 2	พื้นยางสังเคราะห์มาตรฐานฟุตซอล ประตูขนาดจริง	700.00	9	24	\N	t	2026-10-26 16:14:46.700052+07	\N	\N
-18	14	สระว่ายน้ำ เลน 1-2	สระ 25 เมตร ระบบน้ำเกลือ จองครั้งละ 2 เลน	200.00	6	21	\N	t	2026-10-26 16:14:46.700052+07	\N	\N
-19	14	สระว่ายน้ำ เลน 3-4	สระ 25 เมตร ระบบน้ำเกลือ จองครั้งละ 2 เลน	200.00	6	21	\N	t	2026-10-26 16:14:46.700052+07	\N	\N
-20	15	เวทีมวยไทย	เวทีขนาดมาตรฐาน พร้อมกระสอบทราย 6 ลูก	500.00	9	22	\N	t	2026-10-26 16:14:46.700052+07	\N	\N
-21	16	โต๊ะสนุกเกอร์ 1	โต๊ะ 12 ฟุต ผ้าสักหลาดใหม่	150.00	10	24	\N	t	2026-10-26 16:14:46.700052+07	\N	\N
-22	16	โต๊ะสนุกเกอร์ 2	โต๊ะ 12 ฟุต ผ้าสักหลาดใหม่	150.00	10	24	\N	t	2026-10-26 16:14:46.700052+07	\N	\N
-23	17	เลนโบว์ลิ่ง 1-2	เลนมาตรฐาน ระบบนับคะแนนอัตโนมัติ	400.00	10	24	\N	t	2026-10-26 16:14:46.700052+07	\N	\N
-24	17	เลนโบว์ลิ่ง 3-4	เลนมาตรฐาน ระบบนับคะแนนอัตโนมัติ	400.00	10	24	\N	t	2026-10-26 16:14:46.700052+07	\N	\N
-25	18	ไดรฟ์กอล์ฟ ช่อง 1	ช่องตีระยะ 250 หลา รวมลูก 1 ตะกร้า	250.00	7	22	\N	t	2026-10-26 16:14:46.700052+07	\N	\N
-26	18	ไดรฟ์กอล์ฟ ช่อง 2	ช่องตีระยะ 250 หลา รวมลูก 1 ตะกร้า	250.00	7	22	\N	t	2026-10-26 16:14:46.700052+07	\N	\N
-27	19	ลานยิงธนู	ระยะ 18 และ 30 เมตร เป้ามาตรฐาน	300.00	9	20	\N	t	2026-10-26 16:14:46.700052+07	\N	\N
-28	20	ผนังปีนผา	ผนังสูง 12 เมตร 8 เส้นทาง มีเจ้าหน้าที่คุมเชือก	350.00	10	21	\N	t	2026-10-26 16:14:46.700052+07	\N	\N
-29	21	สนามฮอกกี้หญ้าเทียม	หญ้าเทียมสำหรับฮอกกี้ ฉีดน้ำก่อนเล่น	900.00	7	21	\N	t	2026-10-26 16:14:46.700052+07	\N	\N
-30	22	กรงตีเบสบอล	กรงตีพร้อมเครื่องขว้างลูกปรับความเร็วได้	300.00	9	21	\N	t	2026-10-26 16:14:46.700052+07	\N	\N
-31	23	สนามรักบี้	สนามหญ้าจริงขนาดมาตรฐาน มีไฟกลางคืน	1500.00	7	22	\N	t	2026-10-26 16:14:46.700052+07	\N	\N
-32	24	ลานฟันดาบ (2 ลาน)	พื้นลานมาตรฐานพร้อมเครื่องนับแต้ม	300.00	10	21	\N	t	2026-10-26 16:14:46.700052+07	\N	\N
-33	25	ห้องฟิตเนสส่วนตัว	ห้องเวทและคาร์ดิโอสำหรับกลุ่มไม่เกิน 4 คน	200.00	6	22	\N	t	2026-10-26 16:14:46.700052+07	\N	\N
+3	2	คอร์ทแบด 1	พื้นยาง PU มาตรฐาน BWF ไฟไม่แยงตา	150.00	8	22	/photos/courts/03.jpg	t	2026-10-07 11:17:35.078638+07	\N	\N
+4	2	คอร์ทแบด 2	พื้นยาง PU มาตรฐาน BWF ไฟไม่แยงตา	150.00	8	22	/photos/courts/04.jpg	t	2026-10-07 11:17:35.078638+07	\N	\N
+5	2	คอร์ทแบด 3	คอร์ทริมหน้าต่าง อากาศถ่ายเท	150.00	8	22	/photos/courts/05.jpg	t	2026-10-07 11:17:35.078638+07	\N	\N
+6	2	คอร์ทแบด 4 (VIP แอร์)	ห้องแอร์ เหมาะกับการแข่งขัน	250.00	8	22	/photos/courts/06.jpg	t	2026-10-07 11:17:35.078638+07	\N	\N
+7	3	สนามบาสในร่ม	พื้นไม้ปาร์เก้ ห่วงปรับระดับได้	500.00	8	22	/photos/courts/07.jpg	t	2026-10-07 11:17:35.078638+07	\N	\N
+8	3	สนามบาสกลางแจ้ง	สนามครึ่งคอร์ท เหมาะกับ 3x3	250.00	6	21	/photos/courts/08.jpg	t	2026-10-07 11:17:35.078638+07	\N	\N
+11	5	โต๊ะปิงปอง 1	โต๊ะมาตรฐาน ITTF	80.00	8	22	/photos/courts/11.jpg	t	2026-10-07 11:17:35.078638+07	\N	\N
+12	5	โต๊ะปิงปอง 2	โต๊ะมาตรฐาน ITTF	80.00	8	22	/photos/courts/12.jpg	t	2026-10-07 11:17:35.078638+07	\N	\N
+13	6	สนามวอลเลย์บอลในร่ม	พื้นยางสังเคราะห์ ตาข่ายปรับความสูงได้	600.00	8	22	/photos/courts/13.jpg	t	2026-10-07 11:17:35.078638+07	\N	\N
+1	1	สนามหญ้าเทียม A (7 คน)	หญ้าเทียมเกรด FIFA มีไฟส่องสว่างกลางคืน ห้องอาบน้ำในตัว	1200.00	9	24	/photos/courts/01.jpg	t	2026-10-07 11:17:35.078638+07	1500.00	17
+2	1	สนามหญ้าเทียม B (5 คน)	สนามฟุตซอลกลางแจ้ง หลังคาโดม เล่นได้แม้ฝนตก	800.00	9	24	/photos/courts/02.jpg	t	2026-10-07 11:17:35.078638+07	1000.00	17
+9	4	คอร์ทเทนนิส 1 (Hard court)	พื้นฮาร์ดคอร์ทมาตรฐาน	400.00	6	22	/photos/courts/09.jpg	t	2026-10-07 11:17:35.078638+07	500.00	17
+10	4	คอร์ทเทนนิส 2 (Hard court)	พื้นฮาร์ดคอร์ทมาตรฐาน	400.00	6	22	/photos/courts/10.jpg	t	2026-10-07 11:17:35.078638+07	500.00	17
+16	13	สนามฟุตซอลในร่ม 1	พื้นยางสังเคราะห์มาตรฐานฟุตซอล ประตูขนาดจริง	700.00	9	24	/photos/courts/14.jpg	t	2026-10-26 16:14:46.700052+07	\N	\N
+17	13	สนามฟุตซอลในร่ม 2	พื้นยางสังเคราะห์มาตรฐานฟุตซอล ประตูขนาดจริง	700.00	9	24	/photos/courts/15.jpg	t	2026-10-26 16:14:46.700052+07	\N	\N
+18	14	สระว่ายน้ำ เลน 1-2	สระ 25 เมตร ระบบน้ำเกลือ จองครั้งละ 2 เลน	200.00	6	21	/photos/courts/16.jpg	t	2026-10-26 16:14:46.700052+07	\N	\N
+19	14	สระว่ายน้ำ เลน 3-4	สระ 25 เมตร ระบบน้ำเกลือ จองครั้งละ 2 เลน	200.00	6	21	/photos/courts/17.jpg	t	2026-10-26 16:14:46.700052+07	\N	\N
+20	15	เวทีมวยไทย	เวทีขนาดมาตรฐาน พร้อมกระสอบทราย 6 ลูก	500.00	9	22	/photos/courts/18.jpg	t	2026-10-26 16:14:46.700052+07	\N	\N
+21	16	โต๊ะสนุกเกอร์ 1	โต๊ะ 12 ฟุต ผ้าสักหลาดใหม่	150.00	10	24	/photos/courts/19.jpg	t	2026-10-26 16:14:46.700052+07	\N	\N
+22	16	โต๊ะสนุกเกอร์ 2	โต๊ะ 12 ฟุต ผ้าสักหลาดใหม่	150.00	10	24	/photos/courts/20.jpg	t	2026-10-26 16:14:46.700052+07	\N	\N
+23	17	เลนโบว์ลิ่ง 1-2	เลนมาตรฐาน ระบบนับคะแนนอัตโนมัติ	400.00	10	24	/photos/courts/21.jpg	t	2026-10-26 16:14:46.700052+07	\N	\N
+24	17	เลนโบว์ลิ่ง 3-4	เลนมาตรฐาน ระบบนับคะแนนอัตโนมัติ	400.00	10	24	/photos/courts/22.jpg	t	2026-10-26 16:14:46.700052+07	\N	\N
+25	18	ไดรฟ์กอล์ฟ ช่อง 1	ช่องตีระยะ 250 หลา รวมลูก 1 ตะกร้า	250.00	7	22	/photos/courts/23.jpg	t	2026-10-26 16:14:46.700052+07	\N	\N
+26	18	ไดรฟ์กอล์ฟ ช่อง 2	ช่องตีระยะ 250 หลา รวมลูก 1 ตะกร้า	250.00	7	22	/photos/courts/24.jpg	t	2026-10-26 16:14:46.700052+07	\N	\N
+27	19	ลานยิงธนู	ระยะ 18 และ 30 เมตร เป้ามาตรฐาน	300.00	9	20	/photos/courts/25.jpg	t	2026-10-26 16:14:46.700052+07	\N	\N
+28	20	ผนังปีนผา	ผนังสูง 12 เมตร 8 เส้นทาง มีเจ้าหน้าที่คุมเชือก	350.00	10	21	/photos/courts/26.jpg	t	2026-10-26 16:14:46.700052+07	\N	\N
+29	21	สนามฮอกกี้หญ้าเทียม	หญ้าเทียมสำหรับฮอกกี้ ฉีดน้ำก่อนเล่น	900.00	7	21	/photos/courts/27.jpg	t	2026-10-26 16:14:46.700052+07	\N	\N
+30	22	กรงตีเบสบอล	กรงตีพร้อมเครื่องขว้างลูกปรับความเร็วได้	300.00	9	21	/photos/courts/28.jpg	t	2026-10-26 16:14:46.700052+07	\N	\N
+31	23	สนามรักบี้	สนามหญ้าจริงขนาดมาตรฐาน มีไฟกลางคืน	1500.00	7	22	/photos/courts/29.jpg	t	2026-10-26 16:14:46.700052+07	\N	\N
+32	24	ลานฟันดาบ (2 ลาน)	พื้นลานมาตรฐานพร้อมเครื่องนับแต้ม	300.00	10	21	/photos/courts/30.jpg	t	2026-10-26 16:14:46.700052+07	\N	\N
+33	25	ห้องฟิตเนสส่วนตัว	ห้องเวทและคาร์ดิโอสำหรับกลุ่มไม่เกิน 4 คน	200.00	6	22	/photos/courts/31.jpg	t	2026-10-26 16:14:46.700052+07	\N	\N
 \.
 
 
@@ -850,7 +849,7 @@ COPY public.emails (id, user_id, booking_id, kind, to_address, subject, html, st
 21	2	64	approved	member@sporthub.local	[SportHub] ชำระเงินสำเร็จ #202610260064	<div style="font-family:sans-serif;max-width:560px">\n  <h2 style="color:#0f766e">ชำระเงินสำเร็จ</h2>\n  <p>สวัสดีคุณ สมชาย ใจดี</p>\n  <p>แสดง QR นี้ที่เคาน์เตอร์เพื่อเช็คอิน</p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAAAAAklEQVR4AewaftIAAAbKSURBVO3BgY0bSRAEwawG/Xe5XhbMChitqPvOiPQXJK00SFprkLTWIGmtQdJag6S1BklrDZLWGiSt9eE3JGGDttxIwq223EjCSVueJOGkLW9LwklbbiRhg7acDJLWGiStNUhaa5C01iBprUHSWoOktT78AW351yXhbW25lYQ3JeFtSThpy5O2fFtb/nVJuDFIWmuQtNYgaa1B0lqDpLUGSWsNktb68Bck4W1teVsSTtpykoQnbTlJwo22PEnCSRJO2nKShFtt+bYkvK0tbxokrTVIWmuQtNYgaa1B0lqDpLUGSWsNktb6oD8mCSdteZKEk7bcSMLbknCrLXrfIGmtQdJag6S1BklrDZLWGiStNUha64P+mLacJOFJW06ScNKWk7a8LQm3knCjLXo2SFprkLTWIGmtQdJag6S1BklrDZLW+vAXtGWDJNxKwrcl4UZbNmjLTzdIWmuQtNYgaa1B0lqDpLUGSWsNktb68AckQdCWkyQ8actJEm4k4UlbTpJwIwlP2nKShJO23ErC/90gaa1B0lqDpLUGSWsNktYaJK01SFprkLRW+gv6LUn4trbcSMKTtnxbEm60Rc8GSWsNktYaJK01SFprkLTWIGmtQdJaH35DEk7acpKEn6AtJ225kYQnbTlJwklbTtryJAknbTlJwq22nCThRhJ+gra8aZC01iBprUHSWoOktQZJaw2S1hokrfXhD0jCt7XlbUl4WxJO2nKShFttOUnCSVtuJeGkLW9ry0kSTtrytiSctOVkkLTWIGmtQdJag6S1BklrDZLWGiStlf7CgySctOUkCU/acpKEt7XlRhL0rC1vS8JJW54k4UZbbiXhpC03BklrDZLWGiStNUhaa5C01iBprUHSWoOktdJf+AGScKMtT5LwprY8ScJJW06ScNKWJ0k4acuNJNxqy7cl4UZbniThpC03BklrDZLWGiStNUhaa5C01iBprUHSWh9+QxJO2vKvS8Lb2vJtbTlJwq0k3GjL25Jw0pZbbbmRhCdtedMgaa1B0lqDpLUGSWsNktYaJK01SFrrw29oy40k3GrLtyXhp2vLtyXh25LwbW15koQbbTkZJK01SFprkLTWIGmtQdJag6S1BklrffgNSfjpknCrLSdJeFsSTtpyKwknbTlJwq22nCThpC0nSfgJ2vKmQdJag6S1BklrDZLWGiStNUhaa5C01iBprQ9/QFtuJeFGEk7acisJJ225lYQ3JeFtbTlJwre1RTBIWmuQtNYgaa1B0lqDpLUGSWsNktb68BvacpKEk7Z8WxKetOXb2vKmttxKwo22PEnCSVtOknDSlidJOGnLSRLe1pYbg6S1BklrDZLWGiStNUhaa5C01iBprQ+/IQk3kvBtbfk/SMLb2nLSlhtJeFtbTpLwpC0nSThpy9uScNKWk0HSWoOktQZJaw2S1hokrTVIWmuQtFb6Cw+ScNKWkyTcasuNJNxqy40kPGnLjSS8rS2CJNxoy5MknLTlxiBprUHSWoOktQZJaw2S1hokrTVIWmuQtNaHv6AtT5JwIwknbXmShJMknLTlpC3f1pZvS8K3teVJEv7vBklrDZLWGiStNUhaa5C01iBprUHSWukvPEjCSVveloSTtpwk4UlbTpLwbW25kYRbbTlJwq22nCThX9eWkyQ8acubBklrDZLWGiStNUhaa5C01iBprUHSWukv6Lck4aQtGyThpC1vS8JJW96WhJO2vC0JJ205GSStNUhaa5C01iBprUHSWoOktQZJa334DUnYoC0nbXlbEk7a8rYkvCkJ35aEJ215UxJuteXGIGmtQdJag6S1BklrDZLWGiStNUhaa5C01oc/oC3/uiTcSsKNtjxpy0kSTtpykoQnbXlTW54k4U1teVsSTtryJAlvGiStNUhaa5C01iBprUHSWoOktQZJa334C5LwtrZs0JYbbXmShG9ry0kSTpLwbW05ScKTtrxpkLTWIGmtQdJag6S1BklrDZLWGiSt9UF/TFtOkvATtOWna8utJJy05UZbniThRltOBklrDZLWGiStNUhaa5C01iBprUHSWh/017TlSRJO2nIjCU+ScNKWb2vLSRJuteUkCTfacqstNwZJaw2S1hokrTVIWmuQtNYgaa1B0lqDpLU+/AVt+T9oy0/XlltJOGnL25Jw0pZbSbjRln/dIGmtQdJag6S1BklrDZLWGiStNUha68MfkIQNknCjLW9LwklbniThpC0nSThpy5MknLTlJAlva8uNJDxpy5sGSWsNktYaJK01SFprkLTWIGmtQdJa6S9IWmmQtNYgaa1B0lqDpLUGSWsNktYaJK31Hy6HPhP+G3WIAAAAAElFTkSuQmCC" width="200" alt="QR เช็คอิน">\n  <p><b>เลขที่การจอง:</b> 202610260064<br><b>ยอดรวม:</b> 324 บาท</p>\n  <ul><li>คอร์ทแบด 1 — 26 ต.ค. 2569 10:00 - 11:00</li><li>คอร์ทแบด 1 — 26 ต.ค. 2569 11:00 - 12:00</li><li>ไม้แบดมินตัน × 2 — 26 ต.ค. 2569 10:00 - 12:00</li></ul>\n  <p><a href="http://localhost:5173/bookings/64">ดูรายละเอียดการจอง</a></p>\n  <p style="color:#64748b;font-size:12px">SportHub — ระบบจองสนามกีฬาและยืมอุปกรณ์</p></div>	web	\N	2026-10-26 04:25:51.403339+07	2026-10-26 04:25:33.327897+07
 22	2	47	approved	member@sporthub.local	[SportHub] ชำระเงินสำเร็จ #202610070047	<div style="font-family:sans-serif;max-width:560px">\n  <h2 style="color:#0f766e">ชำระเงินสำเร็จ</h2>\n  <p>สวัสดีคุณ สมชาย ใจดี</p>\n  <p>แสดง QR นี้ที่เคาน์เตอร์เพื่อเช็คอิน</p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAAAAAklEQVR4AewaftIAAAbTSURBVO3BgW0cSRAEwazG+e9yvSyYFTBckfzOiPQPJK00SFprkLTWIGmtQdJag6S1BklrDZLWGiSt9eEvJGGDtrwpCbfacpKEk7Y8ScJJW96WhJO23EjCBm05GSStNUhaa5C01iBprUHSWoOktQZJa334Am356ZLwG7TlTUm4lYQbbXnSlpMknLTlVlt+uiTcGCStNUhaa5C01iBprUHSWoOktQZJa334B5Lwtra8LQknbbmVhDe15bsl4UlbTtry3ZLwtra8aZC01iBprUHSWoOktQZJaw2S1hokrTVIWuuDvkwSbrXlTUn4P0jCSVv0bJC01iBprUHSWoOktQZJaw2S1hokrfVBX6Ytb0vCSVtO2vK2JNxKwklbdG+QtNYgaa1B0lqDpLUGSWsNktYaJK314R9oi75GW96WhJO2nLTlbUk4acvb2vLbDZLWGiStNUhaa5C01iBprUHSWoOktT58gSToWRKetOUkCSdtOUnCk7acJOGkLSdJeNKW75aE/7tB0lqDpLUGSWsNktYaJK01SFprkLTWIGmtD3+hLbrXlltt+e3acqstN9oiGCStNUhaa5C01iBprUHSWoOktQZJa6V/8CAJJ205ScJv0JYbSbjVlpMknLTlVhK+W1velITfoC1vGiStNUhaa5C01iBprUHSWoOktQZJa334C215W1tOknDSlrcl4aQtJ0m41ZaTJNxqy3dLwm/XlltJuNGWk0HSWoOktQZJaw2S1hokrTVIWmuQtNaHv5CEG235bkl40pYbSfg/SMJJW97WlhtJOGnLrSScJOGkLU/a8qZB0lqDpLUGSWsNktYaJK01SFprkLTWIGmtD1+gLbeS8Ka2PEnCjbacJOG7teVJEk6ScNKWkyTcastJW75bW366QdJag6S1BklrDZLWGiStNUhaa5C01oe/0JYbSbjVlpMk3GrLjSS8LQknbTlJwq22nCThpC1vS8JJW54k4aQtJ0l4W1tuDJLWGiStNUhaa5C01iBprUHSWoOktdI/uJSEk7a8LQknbXmShDe15f8gCSdtOUnCb9CWkySctOUkCU/acpKEk7acDJLWGiStNUhaa5C01iBprUHSWoOktdI/uJSEDdpykoRbbfluSbjRlrcl4aQtJ0l40pYbSThpy5MknLTlxiBprUHSWoOktQZJaw2S1hokrTVIWmuQtNaHv5CE364tT5JwkoQbbXmShBttOUnCrbb8dm15koQbbfnpBklrDZLWGiStNUhaa5C01iBprUHSWh++QFtOknCrLSdJOEnC29ry07XlSRJOknCjLU+ScNKWkySctOVWW06S8NMNktYaJK01SFprkLTWIGmtQdJag6S1PvwDbXmShJMk3GjL25Lw3ZJwqy1vSsLb2nKShCdtOUnCSVtOkvCkLSdJOGnLySBprUHSWoOktQZJaw2S1hokrTVIWiv9gwdJOGnLSRKetOUkCd+tLTeS8KQtN5LwtracJOGkLbeScNKWW0k4acvbknDSlhuDpLUGSWsNktYaJK01SFprkLTWIGmtQdJa6R88SMJJW96WhBtteZKEG225lYSTtpwk4aQtt5Jw0paTJDxpy40knLTlVhJO2vK2JJy05WSQtNYgaa1B0lqDpLUGSWsNktYaJK2V/sGDJJy05VYSbrTlJAlP2nIjCSdt+W5JuNWWkyTo32jLjUHSWoOktQZJaw2S1hokrTVIWmuQtFb6B/orSXhbW366JJy05VYSbrTlbUk4acutJNxoy8kgaa1B0lqDpLUGSWsNktYaJK01SFrrw19IwgZtOWnLjSQ8ScKNttxKwv9dEp605U1JeNKWNw2S1hokrTVIWmuQtNYgaa1B0lqDpLUGSWt9+AJt+emScCsJv10SvlsSnrTlJAk32vLd2vIkCSdtuTFIWmuQtNYgaa1B0lqDpLUGSWsNktb68A8k4W1t+W5teVsSbrTlSRJuJOG7JeG7JeFWW940SFprkLTWIGmtQdJag6S1BklrDZLW+qBfpS03kvCkLTeScNKW79aWJ0k4acvbknCjLSeDpLUGSWsNktYaJK01SFprkLTWIGmtD/pnkvAbJOGkLSdtOUnCk7actOVGEp605SQJN9pyqy03BklrDZLWGiStNUhaa5C01iBprUHSWoOktT78A235P2jLjbY8ScJ3a8ub2vIkCW9qy5Mk3GjLTzdIWmuQtNYgaa1B0lqDpLUGSWsNktb68AWSsEESTtrytrbcSMKTJJy05SQJJ2150pafri03kvCkLW8aJK01SFprkLTWIGmtQdJag6S1BklrpX8gaaVB0lqDpLUGSWsNktYaJK01SFprkLTWf8qQVug1nqhlAAAAAElFTkSuQmCC" width="200" alt="QR เช็คอิน">\n  <p><b>เลขที่การจอง:</b> 202610070047<br><b>ยอดรวม:</b> 620 บาท</p>\n  <ul><li>สนามบาสในร่ม — 9 ต.ค. 2569 11:00 - 12:00</li><li>ลูกขนไก่ (หลอด 12 ลูก) × 1 — 9 ต.ค. 2569 11:00 - 12:00</li></ul>\n  <p><a href="http://localhost:5173/bookings/47">ดูรายละเอียดการจอง</a></p>\n  <p style="color:#64748b;font-size:12px">SportHub — ระบบจองสนามกีฬาและยืมอุปกรณ์</p></div>	web	\N	\N	2026-10-26 16:11:29.107173+07
 23	1	51	confirmed	admin@sporthub.local	[SportHub] ยืนยันการจอง #202610070051 — กรุณาชำระเงินภายใน 15 นาที	<div style="font-family:sans-serif;max-width:560px">\n  <h2 style="color:#0f766e">ได้รับการจองแล้ว</h2>\n  <p>สวัสดีคุณ ผู้ดูแลระบบ</p>\n  <p>กรุณาสแกน QR PromptPay และแนบสลิปภายใน 15 นาที ไม่เช่นนั้นการจองจะถูกยกเลิกอัตโนมัติ</p>\n  <p><b>เลขที่การจอง:</b> 202610070051<br><b>ยอดรวม:</b> 1,500 บาท</p>\n  <ul><li>สนามหญ้าเทียม A (7 คน) — 27 ต.ค. 2569 23:00 - 00:00</li></ul>\n  <p><a href="http://localhost:5173/bookings/51">ดูรายละเอียดการจอง</a></p>\n  <p style="color:#64748b;font-size:12px">SportHub — ระบบจองสนามกีฬาและยืมอุปกรณ์</p></div>	web	\N	2026-10-27 22:29:34.112829+07	2026-10-27 22:27:49.817279+07
-24	1	51	cancelled	admin@sporthub.local	[SportHub] การจอง #202610070051 ถูกยกเลิก	<div style="font-family:sans-serif;max-width:560px">\n  <h2 style="color:#0f766e">การจองถูกยกเลิก</h2>\n  <p>สวัสดีคุณ ผู้ดูแลระบบ</p>\n  <p>ยกเลิกตามคำขอของคุณ</p>\n  <p><b>เลขที่การจอง:</b> 202610070051<br><b>ยอดรวม:</b> 1,500 บาท</p>\n  <ul><li>สนามหญ้าเทียม A (7 คน) — 27 ต.ค. 2569 23:00 - 00:00</li></ul>\n  <p><a href="http://localhost:5173/bookings/51">ดูรายละเอียดการจอง</a></p>\n  <p style="color:#64748b;font-size:12px">SportHub — ระบบจองสนามกีฬาและยืมอุปกรณ์</p></div>	web	\N	\N	2026-10-27 22:36:25.162691+07
+24	1	51	cancelled	admin@sporthub.local	[SportHub] การจอง #202610070051 ถูกยกเลิก	<div style="font-family:sans-serif;max-width:560px">\n  <h2 style="color:#0f766e">การจองถูกยกเลิก</h2>\n  <p>สวัสดีคุณ ผู้ดูแลระบบ</p>\n  <p>ยกเลิกตามคำขอของคุณ</p>\n  <p><b>เลขที่การจอง:</b> 202610070051<br><b>ยอดรวม:</b> 1,500 บาท</p>\n  <ul><li>สนามหญ้าเทียม A (7 คน) — 27 ต.ค. 2569 23:00 - 00:00</li></ul>\n  <p><a href="http://localhost:5173/bookings/51">ดูรายละเอียดการจอง</a></p>\n  <p style="color:#64748b;font-size:12px">SportHub — ระบบจองสนามกีฬาและยืมอุปกรณ์</p></div>	web	\N	2026-10-27 22:45:34.565573+07	2026-10-27 22:36:25.162691+07
 \.
 
 
@@ -859,32 +858,32 @@ COPY public.emails (id, user_id, booking_id, kind, to_address, subject, html, st
 --
 
 COPY public.equipment (id, sport_id, name, description, total_qty, rent_price, deposit, image_url, is_active, created_at) FROM stdin;
-1	1	ลูกฟุตบอล เบอร์ 5	ลูกหนังเย็บมือ ใช้แข่งขันได้	10	30.00	300.00	\N	t	2026-10-07 11:17:35.078638+07
-2	1	เสื้อเอี๊ยม (ชุด 7 ตัว)	แบ่งทีมสีส้ม/เขียว	6	50.00	200.00	\N	t	2026-10-07 11:17:35.078638+07
-3	2	ไม้แบดมินตัน	ไม้คาร์บอน น้ำหนัก 4U	20	30.00	300.00	\N	t	2026-10-07 11:17:35.078638+07
-4	2	ลูกขนไก่ (หลอด 12 ลูก)	ลูกขนเป็ดเกรดซ้อม	15	120.00	0.00	\N	t	2026-10-07 11:17:35.078638+07
-5	3	ลูกบาสเกตบอล เบอร์ 7	ลูกยางหนังเทียม เกาะมือ	8	30.00	300.00	\N	t	2026-10-07 11:17:35.078638+07
-6	4	ไม้เทนนิส	ไม้กราไฟต์ ขนาดหน้าไม้ 100	10	80.00	1000.00	\N	t	2026-10-07 11:17:35.078638+07
-7	4	ลูกเทนนิส (กระป๋อง 3 ลูก)	ลูกมาตรฐาน ITF	12	60.00	0.00	\N	t	2026-10-07 11:17:35.078638+07
-8	5	ไม้ปิงปอง (คู่)	ไม้พร้อมยางสองหน้า	12	20.00	200.00	\N	t	2026-10-07 11:17:35.078638+07
-9	5	ลูกปิงปอง (แพ็ค 6)	ลูก 3 ดาว 40+	20	20.00	0.00	\N	t	2026-10-07 11:17:35.078638+07
-10	6	ลูกวอลเลย์บอล	ลูกหนังเทียม น้ำหนักมาตรฐาน	8	30.00	300.00	\N	t	2026-10-07 11:17:35.078638+07
-13	13	ลูกฟุตซอล เบอร์ 4	ลูกเด้งต่ำสำหรับพื้นในร่ม	10	30.00	300.00	\N	t	2026-10-26 16:14:46.700052+07
-14	14	แว่นตาว่ายน้ำ	ปรับสายได้ ทำความสะอาดทุกครั้ง	20	20.00	100.00	\N	t	2026-10-26 16:14:46.700052+07
-15	14	โฟมเตะขา	สำหรับฝึกว่าย	15	10.00	0.00	\N	t	2026-10-26 16:14:46.700052+07
-16	15	นวมชกมวย (คู่)	นวม 12 ออนซ์	12	40.00	300.00	\N	t	2026-10-26 16:14:46.700052+07
-17	15	เป้าล่อ (คู่)	เป้ามือสำหรับเทรนเนอร์	6	30.00	200.00	\N	t	2026-10-26 16:14:46.700052+07
-18	16	ไม้คิว	ไม้คิวหัว 9.5 มม.	10	30.00	500.00	\N	t	2026-10-26 16:14:46.700052+07
-19	17	รองเท้าโบว์ลิ่ง (คู่)	มีทุกไซซ์ 36-46	30	30.00	0.00	\N	t	2026-10-26 16:14:46.700052+07
-20	18	ชุดไม้กอล์ฟ	ไดรเวอร์ เหล็ก 7 และพัตเตอร์	8	150.00	2000.00	\N	t	2026-10-26 16:14:46.700052+07
-21	18	ลูกกอล์ฟ (ตะกร้า 50 ลูก)	ลูกซ้อมระยะเพิ่ม	30	60.00	0.00	\N	t	2026-10-26 16:14:46.700052+07
-22	19	ชุดธนู Recurve	คันธนูพร้อมลูกธนู 6 ดอก	8	100.00	1000.00	\N	t	2026-10-26 16:14:46.700052+07
-23	20	ชุดปีนผา	ฮาร์เนส รองเท้าปีน และถุงชอล์ก	12	80.00	500.00	\N	t	2026-10-26 16:14:46.700052+07
-24	21	ไม้ฮอกกี้	ไม้คอมโพสิต 36.5 นิ้ว	22	30.00	300.00	\N	t	2026-10-26 16:14:46.700052+07
-25	22	ไม้เบสบอลและหมวกกันน็อก	ไม้อะลูมิเนียม 32 นิ้ว	8	40.00	500.00	\N	t	2026-10-26 16:14:46.700052+07
-26	23	ลูกรักบี้ เบอร์ 5	ลูกมาตรฐานสำหรับแข่ง	8	30.00	300.00	\N	t	2026-10-26 16:14:46.700052+07
-27	24	ชุดฟันดาบ	หน้ากาก เสื้อเกราะ และดาบฟอยล์	6	150.00	1500.00	\N	t	2026-10-26 16:14:46.700052+07
-28	25	ผ้าเย็นและล็อกเกอร์	ผ้าเย็นพร้อมกุญแจล็อกเกอร์	40	20.00	0.00	\N	t	2026-10-26 16:14:46.700052+07
+1	1	ลูกฟุตบอล เบอร์ 5	ลูกหนังเย็บมือ ใช้แข่งขันได้	10	30.00	300.00	/photos/equipment/01.jpg	t	2026-10-07 11:17:35.078638+07
+2	1	เสื้อเอี๊ยม (ชุด 7 ตัว)	แบ่งทีมสีส้ม/เขียว	6	50.00	200.00	/photos/equipment/02.jpg	t	2026-10-07 11:17:35.078638+07
+3	2	ไม้แบดมินตัน	ไม้คาร์บอน น้ำหนัก 4U	20	30.00	300.00	/photos/equipment/03.jpg	t	2026-10-07 11:17:35.078638+07
+4	2	ลูกขนไก่ (หลอด 12 ลูก)	ลูกขนเป็ดเกรดซ้อม	15	120.00	0.00	/photos/equipment/04.jpg	t	2026-10-07 11:17:35.078638+07
+5	3	ลูกบาสเกตบอล เบอร์ 7	ลูกยางหนังเทียม เกาะมือ	8	30.00	300.00	/photos/equipment/05.jpg	t	2026-10-07 11:17:35.078638+07
+6	4	ไม้เทนนิส	ไม้กราไฟต์ ขนาดหน้าไม้ 100	10	80.00	1000.00	/photos/equipment/06.jpg	t	2026-10-07 11:17:35.078638+07
+7	4	ลูกเทนนิส (กระป๋อง 3 ลูก)	ลูกมาตรฐาน ITF	12	60.00	0.00	/photos/equipment/07.jpg	t	2026-10-07 11:17:35.078638+07
+8	5	ไม้ปิงปอง (คู่)	ไม้พร้อมยางสองหน้า	12	20.00	200.00	/photos/equipment/08.jpg	t	2026-10-07 11:17:35.078638+07
+9	5	ลูกปิงปอง (แพ็ค 6)	ลูก 3 ดาว 40+	20	20.00	0.00	/photos/equipment/09.jpg	t	2026-10-07 11:17:35.078638+07
+10	6	ลูกวอลเลย์บอล	ลูกหนังเทียม น้ำหนักมาตรฐาน	8	30.00	300.00	/photos/equipment/10.jpg	t	2026-10-07 11:17:35.078638+07
+13	13	ลูกฟุตซอล เบอร์ 4	ลูกเด้งต่ำสำหรับพื้นในร่ม	10	30.00	300.00	/photos/equipment/11.jpg	t	2026-10-26 16:14:46.700052+07
+14	14	แว่นตาว่ายน้ำ	ปรับสายได้ ทำความสะอาดทุกครั้ง	20	20.00	100.00	/photos/equipment/12.jpg	t	2026-10-26 16:14:46.700052+07
+15	14	โฟมเตะขา	สำหรับฝึกว่าย	15	10.00	0.00	/photos/equipment/13.jpg	t	2026-10-26 16:14:46.700052+07
+16	15	นวมชกมวย (คู่)	นวม 12 ออนซ์	12	40.00	300.00	/photos/equipment/14.jpg	t	2026-10-26 16:14:46.700052+07
+17	15	เป้าล่อ (คู่)	เป้ามือสำหรับเทรนเนอร์	6	30.00	200.00	/photos/equipment/15.jpg	t	2026-10-26 16:14:46.700052+07
+18	16	ไม้คิว	ไม้คิวหัว 9.5 มม.	10	30.00	500.00	/photos/equipment/16.jpg	t	2026-10-26 16:14:46.700052+07
+19	17	รองเท้าโบว์ลิ่ง (คู่)	มีทุกไซซ์ 36-46	30	30.00	0.00	/photos/equipment/17.jpg	t	2026-10-26 16:14:46.700052+07
+20	18	ชุดไม้กอล์ฟ	ไดรเวอร์ เหล็ก 7 และพัตเตอร์	8	150.00	2000.00	/photos/equipment/18.jpg	t	2026-10-26 16:14:46.700052+07
+21	18	ลูกกอล์ฟ (ตะกร้า 50 ลูก)	ลูกซ้อมระยะเพิ่ม	30	60.00	0.00	/photos/equipment/19.jpg	t	2026-10-26 16:14:46.700052+07
+22	19	ชุดธนู Recurve	คันธนูพร้อมลูกธนู 6 ดอก	8	100.00	1000.00	/photos/equipment/20.jpg	t	2026-10-26 16:14:46.700052+07
+23	20	ชุดปีนผา	ฮาร์เนส รองเท้าปีน และถุงชอล์ก	12	80.00	500.00	/photos/equipment/21.jpg	t	2026-10-26 16:14:46.700052+07
+24	21	ไม้ฮอกกี้	ไม้คอมโพสิต 36.5 นิ้ว	22	30.00	300.00	/photos/equipment/22.jpg	t	2026-10-26 16:14:46.700052+07
+25	22	ไม้เบสบอลและหมวกกันน็อก	ไม้อะลูมิเนียม 32 นิ้ว	8	40.00	500.00	/photos/equipment/23.jpg	t	2026-10-26 16:14:46.700052+07
+26	23	ลูกรักบี้ เบอร์ 5	ลูกมาตรฐานสำหรับแข่ง	8	30.00	300.00	/photos/equipment/24.jpg	t	2026-10-26 16:14:46.700052+07
+27	24	ชุดฟันดาบ	หน้ากาก เสื้อเกราะ และดาบฟอยล์	6	150.00	1500.00	/photos/equipment/25.jpg	t	2026-10-26 16:14:46.700052+07
+28	25	ผ้าเย็นและล็อกเกอร์	ผ้าเย็นพร้อมกุญแจล็อกเกอร์	40	20.00	0.00	/photos/equipment/26.jpg	t	2026-10-26 16:14:46.700052+07
 \.
 
 
@@ -898,6 +897,7 @@ COPY public.migrations (name, run_at) FROM stdin;
 003_coupons.sql	2026-10-07 11:17:34.798892+07
 004_mail_and_settings.sql	2026-10-07 11:17:34.804368+07
 005_coupon_campaigns.sql	2026-10-27 22:40:39.105477+07
+006_catalog_photos.sql	2026-10-28 22:15:36.740739+07
 \.
 
 
@@ -1016,13 +1016,13 @@ COPY public.reviews (id, booking_id, user_id, court_id, rating, comment, created
 COPY public.settings (key, value, updated_by, updated_at) FROM stdin;
 promptpayId	"0842327670"	1	2026-10-27 22:28:48.523267+07
 payWithinMinutes	15	1	2026-10-27 22:28:48.525789+07
-checkinEarlyMinutes	1440	1	2026-10-27 22:28:48.527088+07
 cancelBeforeHours	24	1	2026-10-27 22:28:48.528363+07
 maxDaysAhead	1	1	2026-10-27 22:28:48.529708+07
 announcement	""	1	2026-10-27 22:28:48.53102+07
 contactPhone	""	1	2026-10-27 22:28:48.532389+07
 contactLine	""	1	2026-10-27 22:28:48.538637+07
 address	""	1	2026-10-27 22:28:48.54014+07
+checkinEarlyMinutes	60	1	2026-10-30 22:02:39.175892+07
 \.
 
 
@@ -1080,7 +1080,7 @@ SELECT pg_catalog.setval('public.booking_equipment_id_seq', 35, true);
 -- Name: booking_slots_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.booking_slots_id_seq', 95, true);
+SELECT pg_catalog.setval('public.booking_slots_id_seq', 96, true);
 
 
 --
@@ -1094,7 +1094,7 @@ SELECT pg_catalog.setval('public.bookings_id_seq', 66, true);
 -- Name: coupons_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.coupons_id_seq', 7, true);
+SELECT pg_catalog.setval('public.coupons_id_seq', 8, true);
 
 
 --
@@ -1136,7 +1136,7 @@ SELECT pg_catalog.setval('public.reviews_id_seq', 39, true);
 -- Name: sports_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.sports_id_seq', 44, true);
+SELECT pg_catalog.setval('public.sports_id_seq', 63, true);
 
 
 --
@@ -1459,5 +1459,5 @@ ALTER TABLE ONLY public.settings
 -- PostgreSQL database dump complete
 --
 
-\unrestrict boZMBqczu3zAnppmh0oqnBilFJ4c2MIosUva7znE7UhlHtXWq1x5T7YyPmiIHP0
+\unrestrict R6uFaQopdieEuuOB3BEdpq83chZKH3L8623bkLxrBrdGXIuFgtUMFgkSxMbfUfc
 
