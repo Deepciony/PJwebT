@@ -3,5 +3,6 @@ node_modules/
 dist/
 .env
 apps/api/uploads/
+apps/api/db/private-snapshot/
 *.log
 coverage/

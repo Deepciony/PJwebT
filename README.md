@@ -36,23 +36,25 @@ pnpm dev               # API http://localhost:3000 และเว็บ http://
 
 ค่าที่ตั้งได้ทั้งหมดอยู่ใน [`.env.example`](.env.example) (คัดลอกเป็น `.env`) ไม่มี `.env` ก็รันได้ด้วยค่าเริ่มต้นสำหรับเครื่องพัฒนา
 
-### ใช้ฐานข้อมูลชุดเดียวกันบนเครื่องอื่น
+### คัดลอกข้อมูล production ไปเครื่องอื่น
 
-`apps/api/db/snapshot/` เก็บฐานข้อมูลทั้งก้อน (ทุกตาราง การจอง สมาชิก ค่าตั้งระบบ ประวัติ migration) และไฟล์ที่ข้อมูลอ้างถึง (สลิป รูปโปรไฟล์ รูปสนาม)
+snapshot เก็บ schema, ข้อมูลทุกตาราง และไฟล์ที่อ้างถึงไว้ใน `apps/api/db/private-snapshot/` ซึ่งถูก ignore โดย Git เพราะอาจมีข้อมูลสมาชิกและสลิปชำระเงินจริง
+
+บนเครื่องต้นทาง ตั้ง `SNAPSHOT_SOURCE_DATABASE_URL` ใน `.env` เป็น connection string ของฐาน production (เช่น Neon) โดยเก็บเป็นความลับ แล้วรัน:
 
 ```bash
-# เครื่องต้นทาง: บันทึกสถานะปัจจุบันลง snapshot แล้ว commit + push
+# เครื่องต้นทาง: Docker ต้องทำงาน และ .env มี SNAPSHOT_SOURCE_DATABASE_URL ของ production
 pnpm db:export
 
-# เครื่องปลายทาง: แทนที่ db:migrate และ db:seed ด้วยคำสั่งนี้
+# ส่งโฟลเดอร์ apps/api/db/private-snapshot/ ให้เครื่องปลายทางผ่านช่องทางส่วนตัวที่ปลอดภัย
+# เครื่องปลายทาง: DATABASE_URL ใน .env ต้องชี้ไปยังฐาน local ที่จะรับข้อมูล
 docker compose up -d
 pnpm install
-pnpm db:import         # ได้ฐานข้อมูลเหมือนเครื่องต้นทางทุกแถว
+pnpm db:import --replace
 pnpm dev
 ```
 
-`db:import` จะไม่ทับฐานข้อมูลที่มีการจองอยู่แล้ว ถ้าต้องการแทนที่จริงๆ ใช้ `pnpm db:import --replace`
-snapshot อยู่ใน git: ข้อมูลจริงของลูกค้าอย่า export ลง repo สาธารณะ
+ห้าม commit/push snapshot, `.env` หรือ connection string production ขึ้น GitHub อย่าใช้ `--replace` จนกว่าจะยืนยันว่าต้องการแทนที่ข้อมูลในฐาน local ปลายทาง รูป/ไฟล์อัปโหลดจะถูกคัดลอกเมื่อ `SNAPSHOT_SOURCE_UPLOAD_DIR` ชี้ไปยังโฟลเดอร์ uploads ของ production; หากโฮสต์ไม่ให้ดาวน์โหลดไฟล์เหล่านี้ snapshot จะมีข้อมูลแถวในฐานข้อมูล แต่รูปและสลิปจะไม่ถูกย้ายมาด้วย
 
 ### พอร์ตถูกใช้อยู่
 

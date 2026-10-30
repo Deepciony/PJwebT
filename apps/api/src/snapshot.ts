@@ -1,19 +1,21 @@
-// Copy the whole database to another machine.
-//   pnpm db:export            writes db/snapshot/: a pg_dump of this database (schema, data, migration ledger)
-//                             plus every uploaded file the data points at (slips, avatars, photos)
+// Copy a private database snapshot to another machine.
+//   SNAPSHOT_SOURCE_DATABASE_URL may point at production; otherwise DATABASE_URL is exported.
+//   pnpm db:export            writes db/private-snapshot/: schema, data, migration ledger and available uploads
 //   pnpm db:import            loads that snapshot here, restores the files and runs any newer migrations
 //   pnpm db:import --replace  same, even if this database already has bookings (they are replaced)
-// pg_dump and psql run inside the docker compose "db" container, so nothing else needs installing.
+// PostgreSQL client tools run in Docker, so nothing else needs installing.
 import { spawn } from 'node:child_process';
 import { cpSync, createReadStream, createWriteStream, existsSync, mkdirSync, rmSync, statSync } from 'node:fs';
-import { dirname, join, relative } from 'node:path';
+import { dirname, join, relative, resolve, sep } from 'node:path';
+import { finished } from 'node:stream/promises';
 import { fileURLToPath } from 'node:url';
+import pg from 'pg';
 import { pool, query } from './db';
 import { env } from './env';
 import { migrate } from './migrate';
 
 const repoRoot = fileURLToPath(new URL('../../../', import.meta.url));
-const snapshotDir = fileURLToPath(new URL('../db/snapshot/', import.meta.url));
+const snapshotDir = fileURLToPath(new URL('../db/private-snapshot/', import.meta.url));
 const sqlFile = join(snapshotDir, 'sporthub.sql');
 const filesDir = join(snapshotDir, 'uploads');
 const { username, password, pathname } = new URL(env.databaseUrl);
@@ -21,7 +23,7 @@ const dbUser = decodeURIComponent(username);
 const dbName = pathname.slice(1);
 const dbArgs = ['-U', dbUser, '-d', dbName];
 
-// Runs pg_dump/psql in the db container, streaming a file into stdin or out of stdout.
+// Runs psql against the local Compose database, streaming a file into stdin or out of stdout.
 function inDb(args: string[], io: { stdin?: string; stdout?: string }) {
   return new Promise<void>((resolve, reject) => {
     const child = spawn('docker', ['compose', 'exec', '-T', '-e', 'PGPASSWORD', 'db', ...args, ...dbArgs], {
@@ -39,8 +41,8 @@ function inDb(args: string[], io: { stdin?: string; stdout?: string }) {
 }
 
 // Uploaded files the data refers to, relative to the uploads folder (test runs leave many unreferenced ones).
-async function referencedFiles() {
-  const rows = await query<{ path: string }>(
+async function referencedFiles(db: pg.Pool) {
+  const rows = await db.query<{ path: string }>(
     `SELECT 'private/slips/' || slip_path AS path FROM payments
      UNION
      SELECT 'public/' || substr(url, length('/uploads/') + 1) FROM (
@@ -48,32 +50,79 @@ async function referencedFiles() {
      ) u
      WHERE url LIKE '/uploads/%'`,
   );
-  return rows.map((r) => r.path);
+  return rows.rows.map((r) => r.path);
+}
+
+function dumpRemoteDatabase(connectionString: string) {
+  const url = new URL(connectionString);
+  const sourcePassword = decodeURIComponent(url.password);
+  url.password = '';
+  if (['localhost', '127.0.0.1', '::1'].includes(url.hostname)) url.hostname = 'host.docker.internal';
+
+  return new Promise<void>((resolve, reject) => {
+    const output = createWriteStream(sqlFile);
+    const outputFinished = finished(output);
+    const child = spawn(
+      'docker',
+      ['run', '--rm', '--add-host', 'host.docker.internal:host-gateway', '-e', 'PGPASSWORD', 'postgres:18', 'pg_dump', '--dbname', url.toString(), '--clean', '--if-exists', '--no-owner', '--no-privileges'],
+      {
+        cwd: repoRoot,
+        env: { ...process.env, PGPASSWORD: sourcePassword },
+        stdio: ['ignore', 'pipe', 'inherit'],
+      },
+    );
+    child.stdout!.pipe(output);
+    child.on('error', (err) => reject(new Error(`could not run docker (${err.message}); is Docker Desktop running?`)));
+    child.on('close', (code) => {
+      if (code !== 0) {
+        output.destroy();
+        rmSync(sqlFile, { force: true });
+        reject(new Error(`pg_dump failed (exit ${code}); check the snapshot source database connection`));
+        return;
+      }
+      outputFinished.then(() => resolve(), reject);
+    });
+  });
 }
 
 async function exportSnapshot() {
+  const sourceUrl = process.env.SNAPSHOT_SOURCE_DATABASE_URL || env.databaseUrl;
+  const sourceDb = new pg.Pool({ connectionString: sourceUrl, options: '-c timezone=Asia/Bangkok' });
   mkdirSync(snapshotDir, { recursive: true });
-  await inDb(['pg_dump', '--clean', '--if-exists', '--no-owner', '--no-privileges'], { stdout: sqlFile });
-  rmSync(filesDir, { recursive: true, force: true });
-  let copied = 0;
-  let missing = 0;
-  for (const path of await referencedFiles()) {
-    const from = join(env.uploadDir, path);
-    if (!existsSync(from)) {
-      missing++;
-      continue;
+  try {
+    await dumpRemoteDatabase(sourceUrl);
+    const uploadDir = process.env.SNAPSHOT_SOURCE_UPLOAD_DIR || (sourceUrl === env.databaseUrl ? env.uploadDir : undefined);
+    const referenced = await referencedFiles(sourceDb);
+    rmSync(filesDir, { recursive: true, force: true });
+    let copied = 0;
+    let missing = uploadDir ? 0 : referenced.length;
+    if (uploadDir) {
+      const sourceRoot = resolve(uploadDir);
+      for (const path of referenced) {
+        const from = resolve(sourceRoot, path);
+        if ((from !== sourceRoot && !from.startsWith(`${sourceRoot}${sep}`)) || !existsSync(from)) {
+          missing++;
+          continue;
+        }
+        mkdirSync(dirname(join(filesDir, path)), { recursive: true });
+        cpSync(from, join(filesDir, path));
+        copied++;
+      }
     }
-    mkdirSync(dirname(join(filesDir, path)), { recursive: true });
-    cpSync(from, join(filesDir, path));
-    copied++;
+    console.log(
+      `exported ${relative(repoRoot, sqlFile)} (${Math.round(statSync(sqlFile).size / 1024)} KB) and ${copied} uploaded files` +
+        (missing ? ` (${missing} referenced files were not available; set SNAPSHOT_SOURCE_UPLOAD_DIR to their source folder)` : ''),
+    );
+  } finally {
+    await sourceDb.end();
   }
-  console.log(
-    `exported ${relative(repoRoot, sqlFile)} (${Math.round(statSync(sqlFile).size / 1024)} KB) and ${copied} uploaded files` +
-      (missing ? ` (${missing} files the data points at were already missing)` : ''),
-  );
 }
 
 async function importSnapshot(replace: boolean) {
+  const targetHost = new URL(env.databaseUrl).hostname.replace(/^\[|\]$/g, '');
+  if (!['localhost', '127.0.0.1', '::1'].includes(targetHost)) {
+    throw new Error('refusing to import into a remote database; set DATABASE_URL to the local Docker database first');
+  }
   if (!existsSync(sqlFile)) throw new Error(`no snapshot at ${relative(repoRoot, sqlFile)}; run "pnpm db:export" on the source machine first`);
   // The host-side pool connects before the snapshot is restored. Align the container
   // role password first so that this preflight and the later migrations can connect.
