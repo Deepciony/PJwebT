@@ -17,7 +17,9 @@ const snapshotDir = fileURLToPath(new URL('../db/snapshot/', import.meta.url));
 const sqlFile = join(snapshotDir, 'sporthub.sql');
 const filesDir = join(snapshotDir, 'uploads');
 const { username, password, pathname } = new URL(env.databaseUrl);
-const dbArgs = ['-U', decodeURIComponent(username), '-d', pathname.slice(1)];
+const dbUser = decodeURIComponent(username);
+const dbName = pathname.slice(1);
+const dbArgs = ['-U', dbUser, '-d', dbName];
 
 // Runs pg_dump/psql in the db container, streaming a file into stdin or out of stdout.
 function inDb(args: string[], io: { stdin?: string; stdout?: string }) {
@@ -73,6 +75,11 @@ async function exportSnapshot() {
 
 async function importSnapshot(replace: boolean) {
   if (!existsSync(sqlFile)) throw new Error(`no snapshot at ${relative(repoRoot, sqlFile)}; run "pnpm db:export" on the source machine first`);
+  // The host-side pool connects before the snapshot is restored. Align the container
+  // role password first so that this preflight and the later migrations can connect.
+  const sqlUser = dbUser.replaceAll('"', '""');
+  const sqlPassword = decodeURIComponent(password).replaceAll("'", "''");
+  await inDb(['psql', '-v', 'ON_ERROR_STOP=1', '-c', `ALTER ROLE "${sqlUser}" WITH PASSWORD '${sqlPassword}'`], {});
   // never wipe real bookings by accident
   if (!replace && (await query("SELECT 1 FROM pg_tables WHERE schemaname = 'public' AND tablename = 'bookings'")).length) {
     const [{ n }] = await query<{ n: number }>('SELECT count(*)::int AS n FROM bookings');
