@@ -58,7 +58,7 @@ function Clock() {
 
 function greeting() {
   const h = Number(new Intl.DateTimeFormat('en-GB', { hour: 'numeric', hourCycle: 'h23', timeZone: 'Asia/Bangkok' }).format(new Date()));
-  return h < 5 || h >= 18 ? '☾ สวัสดีตอนเย็น : ' : h < 12 ? '☀ สวัสดีตอนเช้า : ' : '☀ สวัสดีตอนบ่าย : ';
+  return h < 5 || h >= 18 ? '☾ สวัสดีตอนเย็น' : h < 12 ? '☀ สวัสดีตอนเช้า' : '☀ สวัสดีตอนบ่าย';
 }
 
 function Icon({ className = '', children }: { className?: string; children: ReactNode }) {
@@ -173,7 +173,7 @@ export function Layout() {
               </Link>
               <p className="truncate text-xs text-muted">
                 {greeting()}
-                {me && <span className="font-semibold text-ink uppercase">, {me.name}</span>}
+                {me && <span className="font-semibold text-ink uppercase">: {me.name}</span>}
               </p>
             </div>
             <nav className="ml-4 hidden items-center gap-2 xl:flex" aria-label="เมนูหลัก">
